@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  --color-void-black: #000000;
+  --color-pure-white: #ffffff;
+  --color-charcoal: #202020;
+  --color-graphite: #333333;
+  --color-lamp-cream: #f5f5f0;
+  --color-smoke: #999999;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Canela", "Tiempos Headline", Georgia, serif;
+}
+
+:root {
+  --page-max-width: 1200px;
+  --ease-premium: cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+html { background: #000; }
+body {
+  background: #000;
+  color: #fff;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Display headline */
+.display {
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+.narrative { font-weight: 300; line-height: 1.2; }
+.serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+}
+.label-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Cream pill CTA — the only filled button */
+.btn-cream {
+  background: #f5f5f0;
+  color: #000;
+  border-radius: 9999px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 20px 0px;
+  transition: opacity 0.25s var(--ease-premium), transform 0.25s var(--ease-premium);
+}
+.btn-cream:hover { opacity: 0.88; }
+.btn-ghost {
+  background: transparent;
+  border: 1px solid #333;
+  color: #fff;
+  border-radius: 9999px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: border-color 0.25s var(--ease-premium);
+}
+.btn-ghost:hover { border-color: #fff; }
+
+/* Frosted glass badge */
+.badge-glass {
+  background: rgba(200, 200, 200, 0.1);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-radius: 9999px;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 30px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset;
+}
+
+.card { background: #202020; border-radius: 10px; }
+.media-card { border-radius: 10px; overflow: hidden; position: relative; }
+.scrim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 40%);
+  pointer-events: none;
+}
+
+.field {
+  background: #202020;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: #fff;
+  width: 100%;
+}
+.field::placeholder { color: #999; }
+.field:focus { outline: none; border-color: #f5f5f0; }
+select.field option { background: #202020; }
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.animate-marquee { animation: marquee 45s linear infinite; }

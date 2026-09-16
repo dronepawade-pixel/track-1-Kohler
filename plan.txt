@@ -1,0 +1,557 @@
+# KOHLER AI BATHROOM DESIGNER
+
+## MASTER PROJECT DESCRIPTION AND AI DEVELOPMENT PROMPT
+
+You are contributing to a high-end web application called the KOHLER AI Bathroom Designer & Planner.
+
+This is a single-developer project. The developer works across multiple devices using the same GitHub repository. Different AI models, coding harnesses, skills and development tools may be used on different devices.
+
+The GitHub repository is the shared source of truth.
+
+Work must therefore be feature-based and repository-aware. Do not assume that a feature belongs permanently to a particular developer or device.
+
+Before making changes:
+
+1. Pull or inspect the latest repository state.
+2. Read AGENTS.md.
+3. Read DESIGN.md.
+4. Read the relevant section of plan.md.
+5. Inspect existing implementation.
+6. Determine whether another device or branch may already be implementing related work.
+
+Do not overwrite or duplicate existing work.
+
+---
+
+# PROJECT OBJECTIVE
+
+Build a premium AI-powered bathroom design platform that uses REAL KOHLER products and verified product information.
+
+A user should be able to provide:
+
+* Bathroom dimensions
+* Bathroom photographs
+* Floor plans
+* Room elements
+* Budget
+* Preferred style
+* Functional preferences
+* Natural-language requirements
+
+The system should then:
+
+* Understand the user's requirements.
+* Retrieve relevant real KOHLER products.
+* Check physical and functional constraints.
+* Create compatible product combinations.
+* Generate bathroom layouts.
+* Allow interactive editing.
+* Allow conversational design changes.
+* Recalculate budget.
+* Provide product information.
+* Save and share completed designs.
+
+---
+
+# NON-NEGOTIABLE DATA RULE
+
+Never invent factual product information.
+
+Do not invent:
+
+* Products
+* Product names
+* SKUs
+* Prices
+* Dimensions
+* Specifications
+* Features
+* Product availability
+* Product files
+* Product URLs
+* Compatibility
+* KOHLER APIs
+
+Use verified information.
+
+Primary product source:
+
+https://www.studiokohler.com/home
+
+When product information is unavailable, represent it as unavailable or unknown.
+
+Do not guess.
+
+---
+
+# TECHNOLOGY STACK
+
+Core:
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+* Supabase
+* Cloudflare R2 when required
+* Three.js
+
+UI:
+
+* shadcn/ui
+* Konkonut UI
+* React Bits
+* Rive
+* Lottie
+
+Design:
+
+* DESIGN.md
+* Referro
+* Impeccable
+
+Animation:
+
+* Motion / Framer Motion
+* GSAP only when required
+
+Supporting engineering tools may include:
+
+* ESLint
+* Prettier
+* TypeScript checking
+* Unit/integration testing
+* Playwright
+* Supabase CLI
+* Supabase MCP/Agent tooling where actually available and configured
+
+Do not install or use additional dependencies merely because they exist. Check whether the current stack already solves the problem.
+
+---
+
+# DEVELOPMENT MODEL
+
+This is one developer using multiple devices.
+
+The AI models are tools, not additional human developers.
+
+The workflow is:
+
+Device
+→ AI harness/model
+→ Feature branch
+→ GitHub
+→ Pull Request
+→ Review
+→ main
+
+Example branches:
+
+feature/landing
+feature/auth
+feature/product-catalog
+feature/bathroom-input
+feature/2d-planner
+feature/constraint-engine
+feature/ai-engine
+feature/ai-chat
+feature/budget
+feature/3d-viewer
+feature/saved-designs
+feature/security
+feature/qa
+
+Any device can work on any feature.
+
+Never assume ownership based on the device being used.
+
+---
+
+# PROJECT DOCUMENTATION
+
+## plan.md
+
+Treat plan.md as the implementation tracker.
+
+Read the relevant phase before starting work.
+
+Update task status when meaningful progress is made.
+
+## DESIGN.md
+
+Treat DESIGN.md as the visual and UX source of truth.
+
+Frontend changes must comply with it.
+
+---
+
+# AI DEVELOPMENT METHOD
+
+Use a multi-agent verification workflow.
+
+A feature may be:
+
+1. Planned by one model.
+2. Implemented by another.
+3. Reviewed through a different harness/model.
+4. Checked by CodeRabbit.
+5. Security-tested.
+6. Tested automatically.
+7. Merged after validation.
+
+Whenever practical, use a different model or harness to review complex work rather than relying entirely on the same agent that produced it.
+
+---
+
+# DESIGN SYSTEM
+
+The interface must feel premium, modern and coherent.
+
+Do not create isolated visual styles for different screens.
+
+Follow DESIGN.md.
+
+Use Impeccable for frontend review/refinement.
+
+Use Referro as part of the selected design workflow.
+
+Use shadcn/ui and Tailwind as the primary UI foundation.
+
+Use Konkonut UI, React Bits, Rive and Lottie selectively.
+
+Animations must serve interaction, communication or visual hierarchy.
+
+Use Motion by default.
+
+Use GSAP only if Motion is insufficient.
+
+---
+
+# PRODUCT DATA SYSTEM
+
+Build around actual Studio KOHLER products.
+
+Store verified product information in Supabase.
+
+Where appropriate, maintain:
+
+* Product name
+* SKU
+* Category
+* Collection
+* Region
+* Dimensions
+* Finish
+* Specifications
+* Official URL
+* Images
+* Technical resources
+* Available 2D assets
+* Available 3D assets
+* Revit/BIM resources
+
+Keep source metadata.
+
+Do not claim all products have all asset formats.
+
+Availability must be determined product-by-product.
+
+---
+
+# AI ARCHITECTURE
+
+The AI should operate through a controlled application architecture.
+
+User request
+→ Requirement interpretation
+→ Structured constraints
+→ Product retrieval
+→ Product filtering
+→ Compatibility checks
+→ Budget calculation
+→ Layout generation
+→ Deterministic validation
+→ AI explanation/refinement
+
+Use AI for:
+
+* Natural-language understanding
+* Design reasoning
+* Product discovery assistance
+* Concept generation
+* Conversational changes
+* Explanations
+
+Use deterministic code for:
+
+* Dimensions
+* Geometry
+* Budget calculations
+* Hard constraints
+* Collision detection
+* Permissions
+* Database access
+* Product identifiers
+
+---
+
+# AI TOOL INTERFACE
+
+Potential application tools:
+
+searchProducts()
+getProduct()
+getProductSpecifications()
+calculateBudget()
+validateLayout()
+addProduct()
+removeProduct()
+replaceProduct()
+modifyLayout()
+generateRecommendations()
+generateDesignConcept()
+saveDesign()
+createDesignVersion()
+
+AI must use the actual implementation of these tools.
+
+Do not generate fictional tool results.
+
+---
+
+# 2D PLANNER
+
+The 2D planner is a primary product feature.
+
+It should provide:
+
+* Room dimensions
+* Walls
+* Doors
+* Windows
+* Fixtures
+* Product placement
+* Dragging
+* Rotation
+* Snapping
+* Measurements
+* Undo/redo
+* Clearance visualization
+* Constraint warnings
+
+Use deterministic geometry.
+
+---
+
+# 3D
+
+Use Three.js for optional/advanced 3D visualization.
+
+Use actual KOHLER product models where available and permitted.
+
+Do not fabricate an official model.
+
+The 2D planner must remain functional when a 3D asset is unavailable.
+
+---
+
+# SECURITY
+
+Security is part of development rather than a final-stage activity.
+
+Use VibeSec and Promptfoo where appropriate.
+
+Review:
+
+* Authentication
+* Authorization
+* RLS
+* IDOR
+* Privilege escalation
+* XSS
+* CSRF
+* SSRF
+* SQL injection
+* File uploads
+* Secret exposure
+* API security
+* AI prompt injection
+* AI tool authorization
+* Data leakage
+
+Never expose secrets client-side.
+
+Never trust client-supplied authorization information.
+
+---
+
+# PROMPT EVALUATION
+
+Build a project-specific evaluation set containing:
+
+* Normal design requests
+* Complex requests
+* Budget constraints
+* Style constraints
+* Product replacement
+* Ambiguous requirements
+* Invalid inputs
+* Prompt injection attempts
+* Hallucination attempts
+* Tool-use scenarios
+
+Use Promptfoo to compare prompts/models where useful.
+
+---
+
+# OPTIMIZATION
+
+Use:
+
+* Ponytail
+* Caveman
+* RTK
+* Headroom
+* Graphify
+
+for code and context optimization.
+
+Optimization must not compromise:
+
+* Security
+* Accessibility
+* Reliability
+* Data integrity
+* Maintainability
+
+---
+
+# CODE QUALITY
+
+Use:
+
+* ESLint
+* TypeScript checking
+* Prettier
+* Appropriate unit/integration testing
+* Playwright for browser testing where appropriate
+* CodeRabbit for Pull Request review
+
+Do not mark a feature complete simply because it compiles.
+
+---
+
+# BRANCHING AND GIT
+
+Before editing:
+
+Check:
+
+* Current branch
+* Git status
+* Latest remote state
+* Existing work
+
+After completing a meaningful feature/task:
+
+* Run tests.
+* Review changes.
+* Commit.
+* Push the branch.
+* Update plan.md.
+* Create/update Pull Request where appropriate.
+
+Never overwrite uncommitted work from another device.
+
+---
+
+# PROMPT WRITING STANDARD
+
+Major implementation prompts should contain:
+
+CONTEXT
+
+Explain the existing feature.
+
+OBJECTIVE
+
+Explain exactly what must be built.
+
+REQUIREMENTS
+
+List required behavior.
+
+CONSTRAINTS
+
+List architectural, security and data constraints.
+
+EXCLUSIONS
+
+State what must not be changed.
+
+ACCEPTANCE CRITERIA
+
+Define completion.
+
+VERIFICATION
+
+Define tests and checks.
+
+The agent should always inspect the repository before deciding how to implement the feature.
+
+---
+
+# FEATURE COMPLETION STANDARD
+
+A feature is complete only when:
+
+* Functionally implemented
+* Type-safe
+* Linted
+* Tested
+* Visually compliant
+* Responsive
+* Secure where applicable
+* Data verified
+* No unnecessary duplication
+* Acceptance criteria satisfied
+* plan.md updated
+* Changes committed and pushed
+
+---
+
+# IMPORTANT BEHAVIOR
+
+Do not make assumptions when the repository already contains the answer.
+
+Do not rewrite working systems without a reason.
+
+Do not create duplicate utilities.
+
+Do not add dependencies without justification.
+
+Do not fabricate missing data.
+
+Do not silently change architecture.
+
+Do not expose secrets.
+
+Do not treat AI-generated visualizations as exact technical drawings.
+
+Do not treat AI-inferred dimensions as construction-grade measurements.
+
+When uncertain, inspect the actual project state or verify the relevant external source.
+
+The quality standard is:
+
+REAL DATA
++
+CONTROLLED AI
++
+DETERMINISTIC VALIDATION
++
+CONSISTENT DESIGN
++
+SECURE IMPLEMENTATION
++
+VERIFIED CODE
