@@ -33,3 +33,4 @@
 ## Log
 - 2026-09-16: Read design.md + plan.txt. Started Phase 1 scaffold.
 - 2026-09-16: Phase 1 built — `npm run build` clean, all 8 routes 200 on :3000 (dev server running). Supabase migration `20260916000000_phase1_schema.sql` ready (profiles/products/design_projects/versions/items + RLS + placeholder seed). Browser screenshot unavailable (no browser window) — user to review visually at localhost:3000.
+- 2026-09-16: Pushed to GitHub `origin/main` (commit 84641e8, rebased onto remote b5ebeda from other device).
