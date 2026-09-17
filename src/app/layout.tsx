@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { MotionProvider } from "@/components/motion";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,9 +13,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <Nav />
-        <main className="pt-16">{children}</main>
-        <Footer />
+        <MotionProvider>
+          <Nav />
+          <main className="pt-16">{children}</main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

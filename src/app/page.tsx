@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { FadeUp, Lift, Pressable } from "@/components/motion";
 
 const AREAS = [
   { badge: "Showers", title: "Performance Showering", copy: "Rainshower and handshower rituals in marble showering areas.", src: "/images/showers.jpg", filter: "Showers" },
@@ -58,19 +59,17 @@ export default function Home() {
               "radial-gradient(120% 90% at 18% 88%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0) 65%)",
           }}
         />
-        <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16">
-          <p className="label-caps text-white/70 [text-shadow:0_1px_12px_rgba(0,0,0,0.9)]">Kohler Spa at Home — Steam. Soak. Shower.</p>
+        <FadeUp className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16">
           <h1 className="display mt-4 max-w-4xl text-[clamp(54px,7vw,110px)] text-white [text-shadow:0_2px_30px_rgba(0,0,0,0.9),0_1px_8px_rgba(0,0,0,0.8)]">
             The <span className="serif-accent">bold</span> look, made.
           </h1>
           <p className="narrative mt-6 max-w-xl text-[20px] text-white [text-shadow:0_1px_16px_rgba(0,0,0,0.9)]">
-            A spa at home after dark. Tell us your space, budget and rituals — we compose it from real Kohler products.
+            Tell us your space, budget and rituals — we compose it from real Kohler products.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Link href="/design/new" className="btn-cream">Start your design</Link>
-            <Link href="/catalog" className="btn-ghost">Explore collections</Link>
+            <Pressable><Link href="/design/new" className="btn-cream">Start your design</Link></Pressable>
           </div>
-        </div>
+        </FadeUp>
         <button onClick={toggleCraft} className="absolute bottom-8 right-8 z-10 hidden items-center gap-3 md:flex" aria-pressed={paused}>
           <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/80 text-white">{paused ? "▶" : "❚❚"}</span>
           <span className="label-caps !text-[13px] text-white/80">{paused ? "Watch the craft" : "Pause the film"}</span>
@@ -96,7 +95,8 @@ export default function Home() {
         <h2 className="narrative mt-3 max-w-2xl text-[54px]">The spa at home, crafted for daily rituals.</h2>
         <div className="mt-10 grid gap-4 md:grid-cols-2">
           {AREAS.map((a) => (
-            <Link key={a.title} href={`/catalog?category=${encodeURIComponent(a.filter)}`} className="media-card film-warm scrim group relative min-h-[320px] w-full flex flex-col justify-end overflow-hidden p-8 transition-transform duration-300 hover:-translate-y-1">
+            <Lift key={a.title}>
+            <Link href={`/catalog?category=${encodeURIComponent(a.filter)}`} className="media-card film-warm scrim relative min-h-[320px] w-full flex flex-col justify-end overflow-hidden p-8">
               <Image
                 src={a.src}
                 alt={a.title}
@@ -106,20 +106,21 @@ export default function Home() {
               />
               <span className="badge-glass absolute right-6 top-6">{a.badge}</span>
               <div className="relative z-10">
-                <h3 className="text-[21px] font-medium group-hover:underline">{a.title}</h3>
+                <h3 className="text-[21px] font-medium">{a.title}</h3>
                 <p className="mt-2 text-[16px] text-white/70">{a.copy}</p>
               </div>
             </Link>
+            </Lift>
           ))}
         </div>
         <div className="mt-8 flex gap-4">
-          <Link href="/catalog" className="btn-cream">Explore collections</Link>
-          <Link href="/planner" className="btn-ghost">Open 2D planner</Link>
+          <Pressable><Link href="/planner" className="btn-ghost">Open 2D planner</Link></Pressable>
         </div>
       </section>
 
       {/* Bath areas */}
       <section className="mx-auto max-w-[1200px] px-6 py-24">
+        <FadeUp>
         <div className="card grid gap-px overflow-hidden p-8 md:grid-cols-3 md:p-12">
           {[
             { t: "Basin Area", d: "Basins, faucets, mirrors and vanities composed as one." },
@@ -133,10 +134,12 @@ export default function Home() {
             </div>
           ))}
         </div>
+        </FadeUp>
       </section>
 
       {/* Design flow */}
       <section className="mx-auto max-w-[1200px] px-6 pb-24">
+        <FadeUp>
         <p className="label-caps text-[#999]">How it works</p>
         <h2 className="display mt-3 text-[57px]">Steam. Soak. Shower. in <span className="serif-accent">bold</span>.</h2>
         <div className="mt-10 grid gap-4 md:grid-cols-4">
@@ -154,8 +157,9 @@ export default function Home() {
           ))}
         </div>
         <div className="mt-8 flex gap-4">
-          <Link href="/design/new" className="btn-cream">Start your design — set your budget</Link>
+          <Pressable><Link href="/design/new" className="btn-cream">Start your design — set your budget</Link></Pressable>
         </div>
+        </FadeUp>
       </section>
     </>
   );

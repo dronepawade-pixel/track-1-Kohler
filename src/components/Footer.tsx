@@ -1,8 +1,8 @@
 import Link from "next/link";
+import HelpDialog from "./HelpDialog";
 
 const LINKS = [
   { label: "Resources", href: "/catalog" },
-  { label: "Help", href: "/design/new" },
   { label: "About Us", href: "/about" },
   { label: "Saved Designs", href: "/saved" },
 ];
@@ -14,6 +14,7 @@ export default function Footer() {
         {LINKS.map((l) => (
           <Link key={l.label} href={l.href} className="hover:text-white transition-colors">{l.label}</Link>
         ))}
+        <HelpDialog />
       </div>
       <p className="label-caps mt-10 text-[#999]">Gracious living since 1873</p>
     </footer>
