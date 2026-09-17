@@ -37,3 +37,4 @@
 - 2026-09-16: Moved `origin` to `Track1-Kohler-AI-Bathroom-Designer-and-Planner` (fresh repo) — `main` pushed, tracking set.
 - 2026-09-16: Moved `origin` again to `track1-KOHLER-` (fresh repo) — `main` pushed, tracking set.
 - 2026-09-16: Moved `origin` to `track-1-Kohler`. Found other device had pushed 605MB (node_modules + .next + .env.local, no .gitignore). Verified remote sources byte-identical to ours and .env.local had no real secrets → user-approved force-push of clean history. Remote now 28 files, 0 junk. Added `.env.example`.
+- 2026-09-16: Restructured remote to KOHLER-root (no more `Desktop/KOHLER/` prefix) via `git subtree split`, force-pushed as `main`. KOHLER is now its own git repo; added root `.gitignore`. Other device must fresh-clone.
