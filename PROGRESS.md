@@ -36,3 +36,4 @@
 - 2026-09-16: Pushed to GitHub `origin/main` (commit 84641e8, rebased onto remote b5ebeda from other device).
 - 2026-09-16: Moved `origin` to `Track1-Kohler-AI-Bathroom-Designer-and-Planner` (fresh repo) — `main` pushed, tracking set.
 - 2026-09-16: Moved `origin` again to `track1-KOHLER-` (fresh repo) — `main` pushed, tracking set.
+- 2026-09-16: Moved `origin` to `track-1-Kohler`. Found other device had pushed 605MB (node_modules + .next + .env.local, no .gitignore). Verified remote sources byte-identical to ours and .env.local had no real secrets → user-approved force-push of clean history. Remote now 28 files, 0 junk. Added `.env.example`.
