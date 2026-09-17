@@ -1,11 +1,19 @@
 "use client";
-import { useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CATEGORIES, PLACEHOLDER_PRODUCTS, fmtPrice } from "@/lib/products";
 
-export default function CatalogPage() {
+function CatalogInner() {
+  const params = useSearchParams();
+  const initial = params.get("category");
+  const valid = (c: string | null): string =>
+    c && (CATEGORIES as readonly string[]).includes(c) ? c : "All";
   const [q, setQ] = useState("");
-  const [cat, setCat] = useState<string>("All");
+  const [cat, setCat] = useState<string>(() => valid(initial));
+  useEffect(() => {
+    setCat(valid(params.get("category")));
+  }, [params]);
   const items = useMemo(
     () =>
       PLACEHOLDER_PRODUCTS.filter(
@@ -45,5 +53,13 @@ export default function CatalogPage() {
       </div>
       {items.length === 0 && <p className="mt-10 text-[16px] text-[#999]">No products match — try clearing the search.</p>}
     </section>
+  );
+}
+
+export default function CatalogPage() {
+  return (
+    <Suspense fallback={<section className="mx-auto max-w-[1200px] px-6 py-16"><p className="text-[16px] text-[#999]">Loading collections…</p></section>}>
+      <CatalogInner />
+    </Suspense>
   );
 }

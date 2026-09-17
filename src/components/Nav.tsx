@@ -1,9 +1,9 @@
 import Link from "next/link";
+import KohlerLogo from "./KohlerLogo";
 
 const LINKS = [
   { href: "/catalog", label: "Bathroom" },
-  { href: "/catalog", label: "Kitchen" },
-  { href: "/saved", label: "Inspiration" },
+  { href: "/saved", label: "Saved Designs" },
   { href: "/design/new", label: "Design" },
   { href: "/planner", label: "Planner" },
 ];
@@ -12,8 +12,8 @@ export default function Nav() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-black/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6">
-        <Link href="/" className="text-[15px] font-medium tracking-[0.08em]">
-          KOHLER
+        <Link href="/" aria-label="Kohler home" className="text-white transition-opacity hover:opacity-85">
+          <KohlerLogo className="h-9 w-auto" />
         </Link>
         <nav className="hidden md:flex items-center gap-4">
           {LINKS.map((l) => (
@@ -23,7 +23,7 @@ export default function Nav() {
           ))}
         </nav>
         <Link href="/design/new" className="btn-cream !py-2.5 text-[15px]">
-          Shop Best Sellers
+          Start your design
         </Link>
       </div>
     </header>
