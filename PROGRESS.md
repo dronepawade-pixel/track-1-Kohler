@@ -38,3 +38,4 @@
 - 2026-09-16: Moved `origin` again to `track1-KOHLER-` (fresh repo) — `main` pushed, tracking set.
 - 2026-09-16: Moved `origin` to `track-1-Kohler`. Found other device had pushed 605MB (node_modules + .next + .env.local, no .gitignore). Verified remote sources byte-identical to ours and .env.local had no real secrets → user-approved force-push of clean history. Remote now 28 files, 0 junk. Added `.env.example`.
 - 2026-09-16: Restructured remote to KOHLER-root (no more `Desktop/KOHLER/` prefix) via `git subtree split`, force-pushed as `main`. KOHLER is now its own git repo; added root `.gitignore`. Other device must fresh-clone.
+- 2026-09-16: Supabase local validated — remapped host ports to 6432x (cts-clone stack owns 5432x), `supabase start` applied migration `20260916000000_phase1_schema.sql` cleanly (policies + seed in DB log). Stack later torn down by environment contention; no cloud project yet — needs user's access token or dashboard-created project.
