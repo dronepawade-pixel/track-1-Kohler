@@ -13,7 +13,7 @@ export default function Nav() {
     <header className="fixed top-0 inset-x-0 z-50 bg-black/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6">
         <Link href="/" className="text-[15px] font-medium tracking-[0.08em]">
-          KOHLER <span className="text-[#999] font-normal">/ The Bold Look</span>
+          KOHLER
         </Link>
         <nav className="hidden md:flex items-center gap-4">
           {LINKS.map((l) => (

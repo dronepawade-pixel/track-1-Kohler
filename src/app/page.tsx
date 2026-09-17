@@ -1,22 +1,53 @@
+"use client";
+import { useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 const AREAS = [
-  { badge: "Showers", title: "Performance Showering", copy: "Rainshower and handshower rituals in marble showering areas.", grad: "from-[#2a2a28] to-[#101010]" },
-  { badge: "Smart Toilets", title: "The Toilet Area", copy: "Wall-hung forms with bidet seats in minimal spaces.", grad: "from-[#232323] to-[#0c0c0c]" },
-  { badge: "Basins", title: "The Grooming Area", copy: "Vessel basins with single-control faucets on stone vanities.", grad: "from-[#262626] to-[#111]" },
-  { badge: "Best Sellers", title: "Freestanding Bathtubs", copy: "Soaking zones by the window — steam, soak, shower.", grad: "from-[#1f1f1f] to-[#0a0a0a]" },
+  { badge: "Showers", title: "Performance Showering", copy: "Rainshower and handshower rituals in marble showering areas.", src: "/images/showers.jpg" },
+  { badge: "Smart Toilets", title: "The Toilet Area", copy: "Wall-hung forms with bidet seats in minimal spaces.", src: "/images/toilets.jpg" },
+  { badge: "Basins", title: "The Grooming Area", copy: "Vessel basins with single-control faucets on stone vanities.", src: "/images/basins.jpg" },
+  { badge: "Best Sellers", title: "Freestanding Bathtubs", copy: "Soaking zones by the window — steam, soak, shower.", src: "/images/bathtub.jpg" },
 ];
 
 const STRIP = ["Best Sellers", "Showers", "Smart Toilets", "New Launches", "Bathtubs", "Basins", "Faucets", "Mirrors"];
 
 export default function Home() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [paused, setPaused] = useState(false);
+
+  const toggleCraft = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) {
+      v.play().catch(() => {});
+      setPaused(false);
+    } else {
+      v.pause();
+      setPaused(true);
+    }
+  };
+
   return (
     <>
-      {/* HERO — full-viewport cinematic still */}
-      <section className="scrim relative flex min-h-[calc(100vh-4rem)] items-end overflow-hidden bg-gradient-to-b from-[#161614] via-[#0a0a0a] to-black">
+      {/* HERO — full-viewport cinematic video (text-free segment, no audio) */}
+      <section className="film-warm scrim scrim-top relative flex min-h-[calc(100vh-4rem)] items-end overflow-hidden bg-black">
+        <video
+          ref={videoRef}
+          src="/videos/hero-spa.mp4"
+          poster="/images/hero-spa-poster.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          disablePictureInPicture
+          preload="metadata"
+          aria-label="Kohler spa bathroom film"
+          className="film-grade absolute inset-0 h-full w-full object-cover"
+        />
         <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16">
           <p className="label-caps text-[#999]">Kohler Spa at Home — Steam. Soak. Shower.</p>
-          <h1 className="display mt-4 max-w-4xl text-[clamp(57px,9vw,128px)]">
+          <h1 className="display mt-4 max-w-4xl text-[clamp(54px,7vw,110px)]">
             The <span className="serif-accent">bold</span> look, made.
           </h1>
           <p className="narrative mt-6 max-w-xl text-[20px] text-white/80">
@@ -27,10 +58,10 @@ export default function Home() {
             <Link href="/catalog" className="btn-ghost">Explore collections</Link>
           </div>
         </div>
-        <div className="absolute bottom-8 right-8 z-10 hidden items-center gap-3 md:flex">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/80 text-white">▶</span>
-          <span className="label-caps !text-[13px] text-white/80">Watch the craft</span>
-        </div>
+        <button onClick={toggleCraft} className="absolute bottom-8 right-8 z-10 hidden items-center gap-3 md:flex" aria-pressed={paused}>
+          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/80 text-white">{paused ? "▶" : "❚❚"}</span>
+          <span className="label-caps !text-[13px] text-white/80">{paused ? "Watch the craft" : "Pause the film"}</span>
+        </button>
       </section>
 
       {/* Marquee strip */}
@@ -48,7 +79,14 @@ export default function Home() {
         <h2 className="narrative mt-3 max-w-2xl text-[54px]">The spa at home, crafted for daily rituals.</h2>
         <div className="mt-10 grid gap-4 md:grid-cols-2">
           {AREAS.map((a) => (
-            <article key={a.title} className={`media-card scrim min-h-[320px] bg-gradient-to-br ${a.grad} p-8 flex flex-col justify-end`}>
+            <article key={a.title} className="media-card film-warm scrim relative min-h-[320px] w-full flex flex-col justify-end overflow-hidden p-8">
+              <Image
+                src={a.src}
+                alt={a.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="film-grade object-cover object-center"
+              />
               <span className="badge-glass absolute right-6 top-6">{a.badge}</span>
               <div className="relative z-10">
                 <h3 className="text-[21px] font-medium">{a.title}</h3>
