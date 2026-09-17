@@ -43,13 +43,18 @@ export default function NewDesignPage() {
                 className={form.style === s ? "btn-cream !py-2 !text-[14px]" : "btn-ghost !py-2 !text-[14px]"}>{s}</button>
             ))}
           </div>
-          <label className="mt-6 block"><span className="label-caps text-[#999]">Natural-language requirements</span>
+          <label className="mt-6 block"><span className="label-caps text-[#999]">Tell the AI what you want</span>
             <textarea value={form.notes} onChange={set("notes")} rows={5} placeholder="e.g. Walk-in rainshower, wall-hung toilet, room for a freestanding tub, warm minimal finishes…" className="field mt-2" /></label>
           <p className="mt-3 text-[14px] text-[#999]">Photos & floor-plan upload unlock with Supabase storage (wired in this phase&apos;s migration).</p>
         </div>
       </div>
       <div className="mt-8 flex gap-4">
-        <Link href="/planner" className="btn-cream">Continue to 2D planner</Link>
+        <Link
+          href={`/planner?length=${encodeURIComponent(form.length)}&width=${encodeURIComponent(form.width)}&height=${encodeURIComponent(form.height)}&doors=${encodeURIComponent(form.doors)}&windows=${encodeURIComponent(form.windows)}`}
+          className="btn-cream"
+        >
+          Continue to 2D planner
+        </Link>
         <Link href="/budget" className="btn-ghost">Skip to budget</Link>
       </div>
     </section>
