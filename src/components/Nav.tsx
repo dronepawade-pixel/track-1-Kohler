@@ -1,5 +1,6 @@
 import Link from "next/link";
 import KohlerLogo from "./KohlerLogo";
+import { Pressable } from "./motion";
 
 const LINKS = [
   { href: "/catalog", label: "Bathroom" },
@@ -22,9 +23,11 @@ export default function Nav() {
             </Link>
           ))}
         </nav>
-        <Link href="/design/new" className="btn-cream !py-2.5 text-[15px]">
-          Start your design
-        </Link>
+        <Pressable>
+          <Link href="/design/new" className="btn-cream !py-2.5 text-[15px]">
+            Start your design
+          </Link>
+        </Pressable>
       </div>
     </header>
   );

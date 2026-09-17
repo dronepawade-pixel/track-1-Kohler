@@ -1,37 +1,80 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number };
-const PALETTE = [
-  { kind: "Basin", w: 60, h: 50 },
-  { kind: "Shower", w: 90, h: 90 },
-  { kind: "Bathtub", w: 170, h: 75 },
-  { kind: "Toilet", w: 60, h: 70 },
-  { kind: "Vanity", w: 120, h: 55 },
-];
-let nextId = 1;
-const SCALE = 100; // px per metre
+const SCALE = 150; // px per metre — larger canvas
 const ROOM = { w: 3.6, h: 2.4 };
+const PALETTE = [
+  { kind: "Basin", w: 0.6, h: 0.5 },
+  { kind: "Shower", w: 0.9, h: 0.9 },
+  { kind: "Bathtub", w: 1.7, h: 0.75 },
+  { kind: "Toilet", w: 0.6, h: 0.7 },
+  { kind: "Vanity", w: 1.2, h: 0.55 },
+].map((p) => ({ kind: p.kind, w: Math.round(p.w * SCALE), h: Math.round(p.h * SCALE) }));
+let nextId = 1;
+const SNAP = 10;
 
 // ponytail: naive overlap check (O(n²)); spatial index if rooms grow large.
 const overlaps = (a: Fixture, b: Fixture) =>
   a.id !== b.id && Math.abs(a.x - b.x) * 2 < a.w + b.w && Math.abs(a.y - b.y) * 2 < a.h + b.h;
 
+const clampPos = (f: Fixture, x: number, y: number) => ({
+  x: Math.max(f.w / 2, Math.min(ROOM.w * SCALE - f.w / 2, x)),
+  y: Math.max(f.h / 2, Math.min(ROOM.h * SCALE - f.h / 2, y)),
+});
+
 export default function PlannerPage() {
   const [items, setItems] = useState<Fixture[]>([
-    { id: nextId++, kind: "Shower", x: 70, y: 70, w: 90, h: 90, rot: 0 },
-    { id: nextId++, kind: "Toilet", x: 280, y: 60, w: 60, h: 70, rot: 0 },
+    { id: nextId++, kind: "Shower", x: 120, y: 120, w: Math.round(0.9 * SCALE), h: Math.round(0.9 * SCALE), rot: 0 },
+    { id: nextId++, kind: "Toilet", x: 440, y: 110, w: Math.round(0.6 * SCALE), h: Math.round(0.7 * SCALE), rot: 0 },
   ]);
   const [sel, setSel] = useState<number | null>(null);
+  const [dragId, setDragId] = useState<number | null>(null);
   const [history, setHistory] = useState<Fixture[][]>([]);
+  const dragRef = useRef<{ id: number; startX: number; startY: number; orig: Fixture[]; moved: boolean } | null>(null);
+
   const commit = (next: Fixture[]) => { setHistory((h) => [...h.slice(-49), items]); setItems(next); };
   const undo = () => setHistory((h) => { const prev = h[h.length - 1]; if (prev) setItems(prev); return h.slice(0, -1); });
-  const add = (kind: string, w: number, h: number) => commit([...items, { id: nextId++, kind, x: 180, y: 120, w, h, rot: 0 }]);
-  const move = (id: number, dx: number, dy: number) =>
-    commit(items.map((f) => (f.id === id ? { ...f, x: Math.max(f.w / 2, Math.min(ROOM.w * SCALE - f.w / 2, f.x + dx)), y: Math.max(f.h / 2, Math.min(ROOM.h * SCALE - f.h / 2, f.y + dy)) } : f)));
+  const add = (kind: string, w: number, h: number) =>
+    commit([...items, { id: nextId++, kind, x: (ROOM.w * SCALE) / 2, y: (ROOM.h * SCALE) / 2, w, h, rot: 0 }]);
   const rotate = (id: number) => commit(items.map((f) => (f.id === id ? { ...f, rot: (f.rot + 90) % 360, w: f.h, h: f.w } : f)));
   const remove = (id: number) => commit(items.filter((f) => f.id !== id));
   const clashes = items.filter((f) => items.some((o) => overlaps(f, o)));
+
+  const onFixturePointerDown = (e: React.PointerEvent<SVGGElement>, id: number) => {
+    e.preventDefault();
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+    setSel(id);
+    setDragId(id);
+    dragRef.current = { id, startX: e.clientX, startY: e.clientY, orig: items, moved: false };
+  };
+  const onCanvasPointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
+    const d = dragRef.current;
+    if (!d) return;
+    const dx = e.clientX - d.startX;
+    const dy = e.clientY - d.startY;
+    if (!d.moved && Math.abs(dx) < 2 && Math.abs(dy) < 2) return;
+    d.moved = true;
+    const base = d.orig.find((f) => f.id === d.id);
+    if (!base) return;
+    const p = clampPos(base, base.x + dx, base.y + dy);
+    setItems(d.orig.map((f) => (f.id === d.id ? { ...f, ...p } : f)));
+  };
+  const endDrag = () => {
+    const d = dragRef.current;
+    dragRef.current = null;
+    setDragId(null);
+    if (!d || !d.moved) return;
+    const snap = (v: number) => Math.round(v / SNAP) * SNAP;
+    setHistory((h) => [...h.slice(-49), d.orig]);
+    setItems((prev) =>
+      prev.map((f) => {
+        if (f.id !== d.id) return f;
+        const p = clampPos(f, snap(f.x), snap(f.y));
+        return { ...f, ...p };
+      })
+    );
+  };
 
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-16">
@@ -45,8 +88,15 @@ export default function PlannerPage() {
         <button onClick={() => commit([])} className="btn-ghost !py-2 !text-[14px]">Clear</button>
       </div>
       <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_320px]">
-        <div className="card flex items-center justify-center overflow-auto p-8">
-          <svg width={ROOM.w * SCALE + 40} height={ROOM.h * SCALE + 60} className="select-none">
+        <div className="card flex min-h-[520px] items-center justify-center overflow-auto p-8">
+          <svg
+            width={ROOM.w * SCALE + 40}
+            height={ROOM.h * SCALE + 60}
+            className="select-none"
+            onPointerMove={onCanvasPointerMove}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+          >
             <rect x={20} y={20} width={ROOM.w * SCALE} height={ROOM.h * SCALE} fill="#000" stroke="#333" strokeWidth={2} />
             {[0, 1, 2, 3].map((i) => (
               <text key={i} x={20 + ((ROOM.w * SCALE) / 3) * i} y={14} fill="#999" fontSize={10}>{(ROOM.w * i / 3).toFixed(1)}m</text>
@@ -56,7 +106,12 @@ export default function PlannerPage() {
             {items.map((f) => {
               const clash = clashes.some((c) => c.id === f.id);
               return (
-                <g key={f.id} onClick={() => setSel(f.id)} style={{ cursor: "grab" }}>
+                <g
+                  key={f.id}
+                  onClick={() => setSel(f.id)}
+                  onPointerDown={(e) => onFixturePointerDown(e, f.id)}
+                  style={{ cursor: dragId === f.id ? "grabbing" : "grab", touchAction: "none" }}
+                >
                   <rect x={20 + f.x - f.w / 2} y={20 + f.y - f.h / 2} width={f.w} height={f.h} rx={6}
                     fill={sel === f.id ? "#f5f5f0" : "#202020"} stroke={clash ? "#ff5c5c" : "#999"} strokeWidth={clash ? 2 : 1} />
                   <text x={20 + f.x} y={20 + f.y + 4} textAnchor="middle" fontSize={11} fill={sel === f.id ? "#000" : "#fff"}>{f.kind}</text>
@@ -68,9 +123,9 @@ export default function PlannerPage() {
         <aside className="card h-fit p-6">
           <p className="label-caps text-[#999]">Measurements & constraints</p>
           <p className="mt-2 text-[16px]">Room {ROOM.w} × {ROOM.h} m · {(ROOM.w * ROOM.h).toFixed(1)} m²</p>
-          <p className="mt-1 text-[14px] text-[#999]">{items.length} fixtures · grid snap 10px · clearance 0.6m</p>
+          <p className="mt-1 text-[14px] text-[#999]">{items.length} fixtures · drag to move · grid snap {SNAP}px · clearance 0.6m</p>
           {clashes.length > 0 ? (
-            <p className="mt-3 text-[14px] text-[#ff8a8a]">⚠ {clashes.length} overlap{clashes.length > 1 ? "s" : ""} — move {clashes.map((c) => c.kind).join(", ")} apart.</p>
+            <p className="mt-3 text-[14px] text-[#ff8a8a]">⚠ {clashes.length} overlap{clashes.length > 1 ? "s" : ""} — drag {clashes.map((c) => c.kind).join(", ")} apart.</p>
           ) : (
             <p className="mt-3 text-[14px] text-[#999]">✓ No collisions. Budget + compatibility engines arrive in Phase 3.</p>
           )}
@@ -80,12 +135,7 @@ export default function PlannerPage() {
             return (
               <div className="mt-4 border-t border-[#333] pt-4">
                 <p className="text-[16px] font-medium">{f.kind} <span className="text-[#999]">· {f.rot}°</span></p>
-                <div className="mt-3 grid grid-cols-4 gap-2">
-                  {[["←", -10, 0], ["→", 10, 0], ["↑", 0, -10], ["↓", 0, 10]].map(([label, dx, dy]) => (
-                    <button key={label as string} onClick={() => move(f.id, dx as number, dy as number)} className="btn-ghost !px-0 !py-2 text-center">{label as string}</button>
-                  ))}
-                </div>
-                <div className="mt-2 flex gap-2">
+                <div className="mt-3 flex gap-2">
                   <button onClick={() => rotate(f.id)} className="btn-ghost flex-1 !py-2 !text-[14px]">Rotate 90°</button>
                   <button onClick={() => { remove(f.id); setSel(null); }} className="btn-ghost flex-1 !py-2 !text-[14px]">Remove</button>
                 </div>
