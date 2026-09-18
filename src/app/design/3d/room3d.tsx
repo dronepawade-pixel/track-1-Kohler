@@ -150,6 +150,106 @@ function Walls({ room, cutaway, registry }: { room: RoomDims; cutaway: boolean; 
   );
 }
 
+export type LampSpec = { id: string; label: string; color: string };
+export const LAMPS: LampSpec[] = [
+  { id: "warm", label: "Warm Lamp", color: "#ffd9a0" },
+  { id: "cool", label: "Cool Daylight", color: "#dfe8ff" },
+  { id: "teal", label: "Spa Teal", color: "#7de8e0" },
+  { id: "amber", label: "Sunset Amber", color: "#ff9a5c" },
+  { id: "rose", label: "Rose", color: "#ff7d9c" },
+  { id: "violet", label: "Violet Night", color: "#b48cff" },
+];
+export const lampById = (id: string | null): LampSpec | null =>
+  LAMPS.find((l) => l.id === id) ?? null;
+
+// Pendant lamp: monochrome housing, the LIGHT carries the color.
+// Hangs at room centre; bulb is unlit-tone-mapped so the color punches through.
+function PendantLamp({ room, lamp }: { room: RoomDims; lamp: LampSpec }) {
+  const shadeY = room.height - 0.66;
+  const housing = useMemo(() => std("#1a1a1a", 0.6), []);
+  return (
+    <group position={[0, 0, 0]}>
+      <mesh position={[0, (room.height + shadeY + 0.11) / 2, 0]} material={housing}>
+        <cylinderGeometry args={[0.008, 0.008, room.height - shadeY - 0.11, 8]} />
+      </mesh>
+      <mesh position={[0, shadeY, 0]} material={housing} castShadow>
+        <cylinderGeometry args={[0.05, 0.22, 0.22, 28, 1, true]} />
+      </mesh>
+      <mesh position={[0, shadeY - 0.08, 0]}>
+        <sphereGeometry args={[0.05, 20, 16]} />
+        <meshBasicMaterial color={lamp.color} toneMapped={false} />
+      </mesh>
+      <pointLight position={[0, shadeY - 0.12, 0]} color={lamp.color} intensity={20} distance={10} decay={2} />
+    </group>
+  );
+}
+
+// Procedural decor set — no assets needed. Corners/edges only, so it never
+// fights fixtures for floor space. One master toggle in the tray below.
+function Decor({ room }: { room: RoomDims }) {
+  const hx = room.w / 2;
+  const hz = room.h / 2;
+  const pot = useMemo(() => std("#262626", 0.8), []);
+  const leaf = useMemo(() => new THREE.MeshStandardMaterial({ color: "#3f4f43", roughness: 0.8 }), []);
+  const wood = useMemo(() => std("#4a4239", 0.75), []);
+  const paper = useMemo(() => std("#c9c7c0", 0.9), []);
+  const leaves = useMemo(() => {
+    const arr: { p: [number, number, number]; r: [number, number, number]; s: number }[] = [];
+    for (let i = 0; i < 7; i++) {
+      const a = (i / 7) * Math.PI * 2;
+      arr.push({
+        p: [Math.cos(a) * 0.09, 0.62 + (i % 3) * 0.13, Math.sin(a) * 0.09],
+        r: [Math.cos(a) * 0.5, 0, Math.sin(a) * 0.5 + 0.35],
+        s: 0.8 + (i % 2) * 0.35,
+      });
+    }
+    return arr;
+  }, []);
+  return (
+    <group>
+      {/* potted plant, back-left corner */}
+      <group position={[-hx + 0.38, 0, -hz + 0.38]}>
+        <mesh position={[0, 0.16, 0]} material={pot} castShadow receiveShadow>
+          <cylinderGeometry args={[0.13, 0.16, 0.32, 20]} />
+        </mesh>
+        {leaves.map((l, i) => (
+          <mesh key={i} position={[l.p[0], l.p[1], l.p[2]]} rotation={[l.r[0], l.r[1], l.r[2]]} material={leaf} castShadow>
+            <coneGeometry args={[0.055 * l.s, 0.5 * l.s, 8]} />
+          </mesh>
+        ))}
+      </group>
+      {/* framed print on the north wall */}
+      <group position={[Math.min(0.6, hx * 0.4), 1.62, -hz + 0.035]}>
+        <mesh material={wood} castShadow>
+          <boxGeometry args={[0.7, 0.9, 0.04]} />
+        </mesh>
+        <mesh position={[0, 0.05, 0.022]} material={paper}>
+          <boxGeometry args={[0.58, 0.5, 0.005]} />
+        </mesh>
+        <mesh position={[-0.1, -0.28, 0.022]} material={pot}>
+          <boxGeometry args={[0.58, 0.12, 0.005]} />
+        </mesh>
+      </group>
+      {/* candle cluster, front-right corner */}
+      {[
+        { x: 0, h: 0.22, r: 0.05 },
+        { x: 0.13, h: 0.15, r: 0.045 },
+        { x: -0.12, h: 0.11, r: 0.04 },
+      ].map((c, i) => (
+        <group key={i} position={[hx - 0.4 + c.x, 0, hz - 0.35]}>
+          <mesh position={[0, c.h / 2, 0]} material={paper} castShadow>
+            <cylinderGeometry args={[c.r, c.r, c.h, 14]} />
+          </mesh>
+          <mesh position={[0, c.h + 0.015, 0]}>
+            <sphereGeometry args={[0.012, 10, 8]} />
+            <meshBasicMaterial color="#ffca7a" toneMapped={false} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+}
+
 function OpeningModel({
   id, o, room, registry,
 }: {
@@ -419,7 +519,7 @@ function SectionUpdater({ cutaway, registry }: { cutaway: boolean; registry: Reg
 }
 
 function Scene({
-  room, fixtures, openings, cutaway, labels, spin, controlsRef, registry, models,
+  room, fixtures, openings, cutaway, labels, spin, controlsRef, registry, models, lamp, decor,
 }: {
   room: RoomDims;
   fixtures: MetreFixture[];
@@ -430,6 +530,8 @@ function Scene({
   controlsRef: React.RefObject<OrbitControlsImpl | null>;
   registry: Registry;
   models: Record<number, string>;
+  lamp: LampSpec | null;
+  decor: boolean;
 }) {
   const tile = useTileTexture(room.w, room.h);
   const maxR = Math.max(room.w, room.h);
@@ -487,6 +589,8 @@ function Scene({
       {fixtures.map((f) => (
         <FixtureMesh key={f.id} f={f} labels={labels} model={models[f.id] ?? PROCEDURAL} />
       ))}
+      {lamp && <PendantLamp room={room} lamp={lamp} />}
+      {decor && <Decor room={room} />}
 
       <OrbitControls
         ref={controlsRef}
@@ -568,6 +672,8 @@ export default function RoomCanvas({
   const [cutaway, setCutaway] = useState(true);
   const [labels, setLabels] = useState(true);
   const [spin, setSpin] = useState(false);
+  const [lampId, setLampId] = useState<string | null>("warm");
+  const [decor, setDecor] = useState(true);
   const [az, setAz] = useState(Math.PI / 4);
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
   const registry = useMemo<Registry>(() => new Map(), []);
@@ -602,6 +708,8 @@ export default function RoomCanvas({
               controlsRef={controlsRef}
               registry={registry}
               models={models}
+              lamp={lampById(lampId)}
+              decor={decor}
             />
           </Suspense>
         </Canvas>
@@ -621,6 +729,37 @@ export default function RoomCanvas({
         </button>
       </div>
       <p className="mt-3 text-[13px] text-[#999]">Drag to orbit · scroll to zoom · front walls section at {CUT_H} m so you can see inside.</p>
+      <div className="mt-6 border-t border-[#333] pt-6">
+        <p className="label-caps text-[#999]">Ambience — pendant light + decor</p>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setLampId(null)}
+            className={`rounded-[9999px] border px-4 py-2 text-[13px] transition-colors ${lampId === null ? "border-[#f5f5f0] text-white" : "border-[#333] text-[#999] hover:border-[#666]"}`}
+          >
+            Light off
+          </button>
+          {LAMPS.map((l) => (
+            <button
+              key={l.id}
+              onClick={() => setLampId(l.id)}
+              title={l.label}
+              aria-label={l.label}
+              className={`flex h-9 w-9 items-center justify-center rounded-full border transition-colors ${lampId === l.id ? "border-[#f5f5f0]" : "border-[#333] hover:border-[#666]"}`}
+            >
+              <span className="h-5 w-5 rounded-full" style={{ background: l.color, boxShadow: lampId === l.id ? `0 0 12px ${l.color}` : "none" }} />
+            </button>
+          ))}
+          <button
+            onClick={() => setDecor((d) => !d)}
+            className={`rounded-[9999px] border px-4 py-2 text-[13px] transition-colors ${decor ? "border-[#f5f5f0] text-white" : "border-[#333] text-[#999] hover:border-[#666]"}`}
+          >
+            Decor {decor ? "on" : "off"}
+          </button>
+        </div>
+        <p className="mt-2 text-[13px] text-[#999]">
+          {lampId ? `${LAMPS.find((l) => l.id === lampId)?.label} pendant on.` : "Pendant off — key light only."} Plant, print + candles {decor ? "staged." : "hidden."}
+        </p>
+      </div>
       <SwapTray fixtures={fixtures} models={models} onModelChange={onModelChange} />
     </div>
   );

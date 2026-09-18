@@ -2,9 +2,9 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import { getDesign, uid, upsertDesign, sanitizeDesign } from "@/lib/designs";
+import { getDesign, uid, upsertDesign, sanitizeDesign, type SavedDesign } from "@/lib/designs";
 
-type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number };
+type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number; model?: string };
 type RoomSpec = { w: number; h: number; height: number; doors: number; windows: number };
 type Wall = "top" | "bottom" | "left" | "right";
 type Opening = { id: number; kind: "door" | "window"; wall: Wall; offsetM: number; widthM: number };
@@ -70,9 +70,13 @@ function PlannerInner() {
   const params = useSearchParams();
   const designId = params.get("design");
   // Opening a saved design (?design=id) restores its room, fixtures and openings.
-  const stored = useMemo(() => {
-    const raw = designId ? getDesign(designId) : null;
-    return raw ? sanitizeDesign(raw) : null;
+  // Loaded in an effect (never during render): localStorage doesn't exist on the
+  // server, so reading it during render hydrates different HTML (client vs server).
+  const [stored, setStored] = useState<SavedDesign | null>(null);
+  useEffect(() => {
+    if (!designId) return;
+    const raw = getDesign(designId);
+    setStored(raw ? sanitizeDesign(raw) : null);
   }, [designId]);
   // Room geometry comes from /design/new — editing dimensions there reshapes this canvas.
   const room: RoomSpec = useMemo(
@@ -93,29 +97,28 @@ function PlannerInner() {
     [room.w, room.h]
   );
   const px = (m: number) => Math.round(m * s);
-  const [items, setItems] = useState<Fixture[]>(() => {
-    if (stored) {
-      if (stored.items.length > 0) nextId = Math.max(nextId, Math.max(...stored.items.map((f) => f.id)) + 1);
-      return stored.items.map((f) => ({ ...f }));
-    }
-    return [
-      { id: nextId++, kind: "Shower", x: room.w * s * 0.25, y: room.h * s * 0.3, w: px(0.9), h: px(0.9), rot: 0 },
-      { id: nextId++, kind: "Toilet", x: room.w * s * 0.75, y: room.h * s * 0.28, w: px(0.6), h: px(0.7), rot: 0 },
-    ];
-  });
+  const [items, setItems] = useState<Fixture[]>(() => [
+    { id: nextId++, kind: "Shower", x: room.w * s * 0.25, y: room.h * s * 0.3, w: px(0.9), h: px(0.9), rot: 0 },
+    { id: nextId++, kind: "Toilet", x: room.w * s * 0.75, y: room.h * s * 0.28, w: px(0.6), h: px(0.7), rot: 0 },
+  ]);
   // Openings (doors/windows) are first-class canvas objects: drag along their wall,
   // switch wall, and resize — all in real metres, clamped to the wall length.
-  const [openings, setOpenings] = useState<Opening[]>(() => {
-    if (stored) {
-      if (stored.openings.length > 0)
-        nextOpeningId = Math.max(nextOpeningId, Math.max(...stored.openings.map((o) => o.id)) + 1);
-      return stored.openings.map((o) => ({ ...o }));
-    }
-    return [
-      ...spreadOpenings(room, "door", room.doors, "bottom", DEFAULT_DOOR_M),
-      ...spreadOpenings(room, "window", room.windows, "top", DEFAULT_WINDOW_M),
-    ];
-  });
+  const [openings, setOpenings] = useState<Opening[]>(() => [
+    ...spreadOpenings(room, "door", room.doors, "bottom", DEFAULT_DOOR_M),
+    ...spreadOpenings(room, "window", room.windows, "top", DEFAULT_WINDOW_M),
+  ]);
+  // Apply a loaded design once (see stored above): replaces the defaults above.
+  const appliedRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!stored || appliedRef.current === (designId ?? "")) return;
+    appliedRef.current = designId ?? "";
+    if (stored.items.length > 0) nextId = Math.max(nextId, Math.max(...stored.items.map((f) => f.id)) + 1);
+    setItems(stored.items.map((f) => ({ ...f })));
+    if (stored.openings.length > 0)
+      nextOpeningId = Math.max(nextOpeningId, Math.max(...stored.openings.map((o) => o.id)) + 1);
+    setOpenings(stored.openings.map((o) => ({ ...o })));
+    setDesignName(stored.title);
+  }, [stored, designId]);
   const [sel, setSel] = useState<number | null>(null);
   const [selOpening, setSelOpening] = useState<number | null>(null);
   const [dragId, setDragId] = useState<number | null>(null);
