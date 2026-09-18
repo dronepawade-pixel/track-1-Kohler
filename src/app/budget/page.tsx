@@ -19,13 +19,13 @@ export default function BudgetPage() {
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-16">
       <p className="label-caps text-[#999]">Budget — deterministic calculation</p>
-      <h1 className="narrative mt-3 text-[54px]">Every rupee, accounted.</h1>
+      <h1 className="narrative mt-3 text-[clamp(36px,9vw,54px)]">Every rupee, accounted.</h1>
       <div className="mt-10 grid gap-4 md:grid-cols-[1fr_360px]">
         <div className="card divide-y divide-[#333] p-8">
           {lines.map((l, i) => (
             <div key={i} className="flex items-center justify-between gap-4 py-4">
-              <span className="text-[16px]">{l.name}</span>
-              <span className="flex items-center gap-3">
+              <span className="min-w-0 flex-1 text-[16px]">{l.name}</span>
+              <span className="flex shrink-0 items-center gap-3">
                 <span className="text-[16px] text-white/80">{l.amount === null ? "Unknown" : `₹${l.amount.toLocaleString("en-IN")}`}</span>
                 <button onClick={() => setLines((p) => p.filter((_, j) => j !== i))} className="label-caps text-[#999] hover:text-white">Remove</button>
               </span>

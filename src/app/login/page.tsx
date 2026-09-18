@@ -21,9 +21,9 @@ export default function LoginPage() {
   const signOut = async () => { await createClient().auth.signOut(); setUser(null); };
 
   return (
-    <section className="mx-auto max-w-[520px] px-6 py-24">
+    <section className="mx-auto max-w-[520px] px-6 py-16 md:py-24">
       <p className="label-caps text-[#999]">Account</p>
-      <h1 className="narrative mt-3 text-[54px]">Welcome back.</h1>
+      <h1 className="narrative mt-3 text-[clamp(36px,9vw,54px)]">Welcome back.</h1>
       {user ? (
         <div className="card mt-8 p-8">
           <p className="text-[16px]">Signed in as {user}</p>

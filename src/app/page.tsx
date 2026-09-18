@@ -11,7 +11,7 @@ const AREAS = [
   { badge: "Bathtubs", title: "Freestanding Bathtubs", copy: "Soaking zones by the window — steam, soak, shower.", src: "/images/bathtub.jpg", filter: "Bathtubs" },
 ];
 
-const STRIP = ["Showers", "Smart Toilets", "New Launches", "Bathtubs", "Basins", "Faucets", "Mirrors"];
+const STRIP = ["Showers", "Smart Toilets", "New Launches", "Bathtubs", "Basins", "Faucets"];
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -60,7 +60,7 @@ export default function Home() {
           }}
         />
         <FadeUp className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pb-16">
-          <h1 className="display mt-4 max-w-4xl text-[clamp(54px,7vw,110px)] text-white [text-shadow:0_2px_30px_rgba(0,0,0,0.9),0_1px_8px_rgba(0,0,0,0.8)]">
+          <h1 className="display mt-4 max-w-4xl text-[clamp(40px,7vw,110px)] text-white [text-shadow:0_2px_30px_rgba(0,0,0,0.9),0_1px_8px_rgba(0,0,0,0.8)]">
             The <span className="serif-accent">bold</span> look, made.
           </h1>
           <p className="narrative mt-6 max-w-xl text-[20px] text-white [text-shadow:0_1px_16px_rgba(0,0,0,0.9)]">
@@ -92,7 +92,7 @@ export default function Home() {
       {/* Spa at home — 4-card grid */}
       <section className="mx-auto max-w-[1200px] px-6 py-24">
         <p className="label-caps text-[#999]">Bathroom Collections</p>
-        <h2 className="narrative mt-3 max-w-2xl text-[54px]">The spa at home, crafted for daily rituals.</h2>
+        <h2 className="narrative mt-3 max-w-2xl text-[clamp(34px,8vw,54px)]">The spa at home, crafted for daily rituals.</h2>
         <div className="mt-10 grid gap-4 md:grid-cols-2">
           {AREAS.map((a) => (
             <Lift key={a.title}>
@@ -123,7 +123,7 @@ export default function Home() {
         <FadeUp>
         <div className="card grid gap-px overflow-hidden p-8 md:grid-cols-3 md:p-12">
           {[
-            { t: "Basin Area", d: "Basins, faucets, mirrors and vanities composed as one." },
+            { t: "Basin Area", d: "Basins and faucets composed as one." },
             { t: "Showering Area", d: "Showers, diverters, digital showering and bathtubs." },
             { t: "Toilet Area", d: "Toilets, smart toilets, bidet seats and cisterns." },
           ].map((c) => (
@@ -141,7 +141,7 @@ export default function Home() {
       <section className="mx-auto max-w-[1200px] px-6 pb-24">
         <FadeUp>
         <p className="label-caps text-[#999]">How it works</p>
-        <h2 className="display mt-3 text-[57px]">Steam. Soak. Shower. in <span className="serif-accent">bold</span>.</h2>
+        <h2 className="display mt-3 text-[clamp(36px,9vw,57px)]">Steam. Soak. Shower. in <span className="serif-accent">bold</span>.</h2>
         <div className="mt-10 grid gap-4 md:grid-cols-4">
           {[
             { n: "01", t: "Describe", d: "Dimensions, photos, budget, style and rituals." },

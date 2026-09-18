@@ -68,3 +68,13 @@ export function deleteDesign(id: string): SavedDesign[] {
 
 export const designMeta = (d: SavedDesign) =>
   `${d.room.w} × ${d.room.h} m · ${d.items.length} fixture${d.items.length === 1 ? "" : "s"}`;
+
+// Kohler sells no mirrors: silently drop legacy mirror openings/fixtures so
+// old saves still open cleanly after the category was removed.
+export function sanitizeDesign(d: SavedDesign): SavedDesign {
+  return {
+    ...d,
+    items: d.items.filter((f) => f.kind !== "Mirror"),
+    openings: d.openings.filter((o) => (o.kind as string) === "door" || (o.kind as string) === "window"),
+  };
+}
