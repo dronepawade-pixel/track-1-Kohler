@@ -1,8 +1,9 @@
 "use client";
-import { Suspense, useMemo } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import IsoRoom, { type MetreFixture, type MetreOpening } from "./scene";
+import RoomCanvas, { webglAvailable } from "./room3d";
 import { getDesign, sanitizeDesign } from "@/lib/designs";
 
 const BASE_SCALE = 150;
@@ -22,6 +23,10 @@ const num = (v: string | null, fb: number, lo: number, hi: number) => {
 
 function ViewInner() {
   const params = useSearchParams();
+  const [gl, setGl] = useState<boolean | null>(null);
+  useEffect(() => {
+    setGl(webglAvailable());
+  }, []);
   const designId = params.get("design");
   const stored = useMemo(() => {
     const raw = designId ? getDesign(designId) : null;
@@ -91,7 +96,13 @@ function ViewInner() {
         {stored ? ` · “${stored.title}”` : ""}
       </p>
       <div className="card mt-8 p-8">
-        <IsoRoom room={room} fixtures={fixtures} openings={openings} />
+        {gl === null ? (
+          <p className="text-[16px] text-[#999]">Loading 3D view…</p>
+        ) : gl ? (
+          <RoomCanvas room={room} fixtures={fixtures} openings={openings} />
+        ) : (
+          <IsoRoom room={room} fixtures={fixtures} openings={openings} />
+        )}
       </div>
       <div className="mt-6 flex flex-wrap items-center gap-4">
         <Link href="/design/new?mode=3d" className="btn-ghost">← Details</Link>
