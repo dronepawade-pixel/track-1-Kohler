@@ -1,19 +1,48 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const STYLES = ["Modern Minimal", "Spa Retreat", "Heritage Classic", "Bold Statement"];
 
-export default function NewDesignPage() {
+type Track = "3d" | "2d";
+
+function NewDesignInner() {
+  const params = useSearchParams();
+  // Shared step 1 for both tracks: ?mode=2d heads to the 2D planner canvas,
+  // anything else runs the Design track into the 3D view.
+  const [track, setTrack] = useState<Track>(params.get("mode") === "2d" ? "2d" : "3d");
   const [form, setForm] = useState({ length: "3.6", width: "2.4", height: "2.7", budget: "450000", style: STYLES[1], doors: "1", windows: "1", notes: "" });
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
   const area = (parseFloat(form.length) || 0) * (parseFloat(form.width) || 0);
+  const query =
+    `length=${encodeURIComponent(form.length)}&width=${encodeURIComponent(form.width)}` +
+    `&height=${encodeURIComponent(form.height)}&doors=${encodeURIComponent(form.doors)}&windows=${encodeURIComponent(form.windows)}`;
+  const nextHref = track === "2d" ? `/planner?${query}` : `/design/3d?${query}`;
 
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-16">
-      <p className="label-caps text-[#999]">New design — step 1 of 3</p>
+      <p className="label-caps text-[#999]">New design — step 1 of 3 · shared by both tracks</p>
       <h1 className="narrative mt-3 text-[54px]">Tell us about your bathroom.</h1>
+      <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label="Choose your track">
+        {(["3d", "2d"] as const).map((t) => (
+          <button
+            key={t}
+            role="tab"
+            aria-selected={track === t}
+            onClick={() => setTrack(t)}
+            className={track === t ? "btn-cream !py-2 !text-[14px]" : "btn-ghost !py-2 !text-[14px]"}
+          >
+            {t === "3d" ? "Design — 3D view" : "Planner — 2D canvas"}
+          </button>
+        ))}
+      </div>
+      <p className="mt-3 text-[14px] text-[#999]">
+        {track === "3d"
+          ? "Design track: same details, then a walk-around 3D concept of your bathroom."
+          : "Planner track: same details, then the measured 2D canvas — drag, rotate, snap."}
+      </p>
       <div className="mt-10 grid gap-4 md:grid-cols-2">
         <div className="card p-8">
           <p className="label-caps text-[#999]">Room dimensions (metres)</p>
@@ -49,14 +78,19 @@ export default function NewDesignPage() {
         </div>
       </div>
       <div className="mt-8 flex gap-4">
-        <Link
-          href={`/planner?length=${encodeURIComponent(form.length)}&width=${encodeURIComponent(form.width)}&height=${encodeURIComponent(form.height)}&doors=${encodeURIComponent(form.doors)}&windows=${encodeURIComponent(form.windows)}`}
-          className="btn-cream"
-        >
-          Continue to 2D planner
+        <Link href={nextHref} className="btn-cream">
+          {track === "2d" ? "Continue to 2D planner" : "Continue to 3D design"}
         </Link>
         <Link href="/budget" className="btn-ghost">Skip to budget</Link>
       </div>
     </section>
+  );
+}
+
+export default function NewDesignPage() {
+  return (
+    <Suspense fallback={<section className="mx-auto max-w-[1200px] px-6 py-16"><p className="text-[16px] text-[#999]">Loading…</p></section>}>
+      <NewDesignInner />
+    </Suspense>
   );
 }
