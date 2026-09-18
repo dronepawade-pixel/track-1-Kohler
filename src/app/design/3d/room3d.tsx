@@ -3,6 +3,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
+  ContactShadows,
   Environment,
   Html,
   Lightformer,
@@ -55,13 +56,16 @@ function std(color: string, roughness: number) {
 
 function ceramic(color = CERAMIC) {
   return new THREE.MeshPhysicalMaterial({
-    color, roughness: 0.12, metalness: 0.0,
-    clearcoat: 1, clearcoatRoughness: 0.08,
+    color, roughness: 0.1, metalness: 0.0,
+    clearcoat: 1, clearcoatRoughness: 0.06,
+    envMapIntensity: 1.25, specularIntensity: 1,
   });
 }
 
 function chrome() {
-  return new THREE.MeshStandardMaterial({ color: "#d9d9d9", roughness: 0.15, metalness: 1 });
+  // polished nickel tuned for a dark room: mostly dielectric so key/rim
+  // lights model it directly, with enough metal for env streaks
+  return new THREE.MeshStandardMaterial({ color: "#e8e8e8", roughness: 0.3, metalness: 0.7, envMapIntensity: 1.5 });
 }
 
 function glassMat() {
@@ -236,7 +240,11 @@ function ModelPart({ opt, f }: { opt: ModelOption; f: MetreFixture }) {
   const { scene } = useGLTF(opt.glb);
   const mat = useMemo(() => {
     if (opt.fit === "head") return chrome();
-    if (opt.fit === "screen") return std("#2b2b2b", 0.55);
+    if (opt.fit === "screen") {
+      const m = std("#2b2b2b", 0.32);
+      m.envMapIntensity = 1.1;
+      return m;
+    }
     return ceramic();
   }, [opt.fit]);
   const obj = useMemo(() => {
@@ -344,6 +352,18 @@ function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; m
   ) : null;
   return (
     <group position={[f.cx, 0, f.cz]}>
+      {/* soft grounding shadow, re-baked whenever the model swaps */}
+      <ContactShadows
+        key={model}
+        position={[0, 0.008, 0]}
+        scale={[f.w + 1.2, f.d + 1.2]}
+        far={1.4}
+        resolution={256}
+        color="#000000"
+        opacity={0.7}
+        blur={2.2}
+        frames={2}
+      />
       {shower}
       {bathtub}
       {toilet}
@@ -436,6 +456,10 @@ function Scene({
         <Lightformer intensity={3.2} position={[0, 5, 0]} rotation-x={Math.PI / 2} scale={[9, 9, 1]} color="#ffffff" />
         <Lightformer intensity={1.1} position={[-5, 1, -1]} rotation-y={Math.PI / 2} scale={[6, 2, 1]} color={CREAM} />
         <Lightformer intensity={0.8} position={[5, 2, 2]} rotation-y={-Math.PI / 2} scale={[6, 3, 1]} color="#dfe4ee" />
+        {/* dim all-around cards so metals never sample pure black */}
+        <Lightformer intensity={0.35} position={[0, 2, -6]} scale={[10, 4, 1]} color="#cfd4de" />
+        <Lightformer intensity={0.35} position={[0, 2, 6]} rotation-y={Math.PI} scale={[10, 4, 1]} color="#cfd4de" />
+        <Lightformer intensity={0.25} position={[0, -2, 0]} rotation-x={-Math.PI / 2} scale={[8, 8, 1]} color="#8a8f99" />
       </Environment>
 
       {/* floor slab + tile inlay border */}
@@ -564,6 +588,7 @@ export default function RoomCanvas({
           dpr={[1, 2]}
           camera={{ position: [4.6, 3.8, 6.2], fov: 42 }}
           gl={{ antialias: true, localClippingEnabled: true }}
+          onCreated={({ gl }) => { gl.toneMappingExposure = 1.15; }}
         >
           <color attach="background" args={["#000000"]} />
           <Suspense fallback={null}>

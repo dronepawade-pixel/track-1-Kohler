@@ -14,6 +14,7 @@
 <script type="module">
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 const q = new URLSearchParams(location.search);
 const file = q.get("m");
@@ -29,6 +30,12 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color("#111111");
+// studio reflections so metals read (no HDR download — generated locally)
+{
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  pmrem.dispose();
+}
 const camera = new THREE.PerspectiveCamera(38, 480 / 360, 0.01, 100);
 
 scene.add(new THREE.HemisphereLight("#ffffff", "#1a1a1a", 0.9));
@@ -50,7 +57,7 @@ function override(root) {
         color: "#e9e7e1", roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.08,
       });
     } else if (matKind === "chrome") {
-      c.material = new THREE.MeshStandardMaterial({ color: "#d9d9d9", roughness: 0.22, metalness: 1 });
+      c.material = new THREE.MeshStandardMaterial({ color: "#e6e6e6", roughness: 0.28, metalness: 0.85, envMapIntensity: 1.5 });
     } else {
       c.material = new THREE.MeshStandardMaterial({ color: "#2b2b2b", roughness: 0.5, metalness: 0.1 });
     }
