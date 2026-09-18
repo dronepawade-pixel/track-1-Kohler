@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>KOHLER Manual Guide</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">KOHLER Manual Guide</h1>
+</header>
+<h1 id="kohler-ai-bathroom-designer-manual-guide-for-you">KOHLER AI
+Bathroom Designer — Manual Guide (for you)</h1>
+<blockquote>
+<p>Everything YOU do by hand: download → convert → CSV → upload. The
+coding AI does everything else (see <code>AI_IMPLEMENTATION.md</code>).
+Stack: Next.js + Supabase. Data rule: never invent SKUs, prices, dims.
+Unknown = blank.</p>
+</blockquote>
+<hr />
+<h2 id="what-you-will-end-up-with">0. What you will end up with</h2>
+<pre><code>downloads/
+  K-5401/
+    spec.pdf        &lt;- source of truth for price + dims
+    model.obj       &lt;- 3D source
+    plan.dwg        &lt;- CAD source (top view)
+    hero.jpg        &lt;- product photo
+supabase/seed/products_seed.csv   &lt;- you fill this (1 row per SKU)
+Storage (Supabase):
+  models/K-5401.glb   &lt;- converted, served to 3D viewer
+  images/K-5401-hero.jpg
+  cad/K-5401-plan.dwg &lt;- download link only</code></pre>
+<p>Aim for v1: <strong>20–30 SKUs</strong> (4–5 per category). More than
+that slows judging demo, not improves it.</p>
+<p>Categories (must match exactly):
+<code>Showers | Bathtubs | Basins | Smart Toilets | Faucets | Mirrors | Vanities</code></p>
+<hr />
+<h2 id="where-to-download-from">1. Where to download from</h2>
+<h3 id="a.-studio-kohler-primary-official">A. Studio Kohler (primary,
+official)</h3>
+<ol type="1">
+<li>Create free account: https://www.studiokohler.com/home → Sign up
+(Designer/Developer).</li>
+<li>Set Project Location to <strong>India</strong> (prices/availability
+are region-specific).</li>
+<li>Go to Resources → Technical Specifications
+(https://www.studiokohler.com/resources/technical-specifications).</li>
+<li>Search exact model no., e.g. <code>K-5401</code>,
+<code>K-1234</code>.</li>
+<li>Tick and download per product:
+<ul class="task-list">
+<li><label><input type="checkbox" />Specification sheet (PDF) —
+REQUIRED</label></li>
+<li><label><input type="checkbox" />2D Plan DXF/DWG — REQUIRED
+(footprint)</label></li>
+<li><label><input type="checkbox" />3D file (OBJ / FBX / SKP) — REQUIRED
+for 3D viewer</label></li>
+<li><label><input type="checkbox" />Revit (optional, skip for
+prototype)</label></li>
+<li><label><input type="checkbox" />Images (hero PNG/JPG)</label></li>
+</ul></li>
+<li>Save as <code>downloads/K-XXXX/spec.pdf</code>,
+<code>plan.dwg</code>, <code>model.obj</code>,
+<code>hero.jpg</code>.</li>
+</ol>
+<h3 id="b.-fallbacks-if-studio-download-fails">B. Fallbacks (if Studio
+download fails)</h3>
+<ul>
+<li>BIMobject: https://www.bimobject.com/en/kohler → search K-number →
+Download (gives Revit + 3D + images).</li>
+<li>Direct OBJ mirror:
+<code>https://techcomm.kohler.com/techcomm/cad/&lt;MODEL&gt;-fp1.obj</code>
+(e.g. <code>75749-fp1.obj</code>). Try in browser; if 200, save as
+<code>model.obj</code>.</li>
+<li>kohler.com product page → Specs tab → screenshot dims as last resort
+(still cite URL in CSV).</li>
+</ul>
+<h3 id="c.-what-not-to-download">C. What NOT to download</h3>
+<ul>
+<li>Do NOT bulk-scrape kohler.com (fragile, ToS risk, breaks demo if
+layout changes).</li>
+<li>Do NOT wait for <code>api-dev-portal.kohler.com</code> approval —
+partner-gated, takes weeks.</li>
+</ul>
+<hr />
+<h2 id="convert-obj-glb-where-and-how">2. Convert OBJ → GLB (where and
+how)</h2>
+<p>Browsers + Three.js cannot use OBJ well (huge, no materials). Convert
+<strong>once per SKU</strong> to <code>.glb</code> (&lt;5 MB).</p>
+<h3 id="option-1-blender-free-best-quality-macwindows">Option 1 —
+Blender (free, best quality, Mac/Windows)</h3>
+<ol type="1">
+<li>Install Blender (blender.org) → New → delete default cube.</li>
+<li>File → Import → Wavefront OBJ → select
+<code>downloads/K-XXXX/model.obj</code>.</li>
+<li>Fix scale: Properties → Scene → Units = Metric, Millimeter. Select
+model → S to scale until dims match spec PDF (e.g. basin 550 mm
+wide).</li>
+<li>Apply: Ctrl+A → All Transforms. Center: Object → Set Origin → Origin
+to Geometry.</li>
+<li>File → Export → glTF 2.0 (<code>.glb</code>): check
+<code>Apply Modifiers</code>, <code>Draco compression</code>,
+<code>Limit to Selected</code>.</li>
+<li>Save as <code>downloads/K-XXXX/model.glb</code>. Verify size &lt; 5
+MB (else Decimate modifier 0.5 and re-export).</li>
+</ol>
+<h3 id="option-2-cli-fastest-for-20-files-maclinuxwsl">Option 2 — CLI,
+fastest for 20+ files (Mac/Linux/WSL)</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> i <span class="at">-g</span> obj2gltf</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">obj2gltf</span> <span class="at">-i</span> downloads/K-5401/model.obj <span class="at">-o</span> downloads/K-5401/model.glb <span class="at">--draco</span> <span class="at">--checkTransparency</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> downloads/K-<span class="pp">*</span>/model.glb</span></code></pre></div>
+<p>If &gt;5 MB, add <code>--compress</code> or run through Blender
+Decimate once.</p>
+<h3 id="option-3-online-only-if-5-files">Option 3 — Online (only if
+&lt;5 files)</h3>
+<p>AnyConv / Aspose 3D converter: upload OBJ → download GLB. Don’t use
+for full catalog (slow, version drift).</p>
+<p>Preview check: drag <code>model.glb</code> into
+https://gltf-viewer.donmccurdy.com — must render right-side-up, roughly
+correct proportions. If black/no texture, still OK for prototype
+(geometry matters, materials later).</p>
+<hr />
+<h2 id="handle-dwg-do-not-serve-dwg-live">3. Handle DWG (do NOT serve
+DWG live)</h2>
+<p>Browsers cannot render DWG. You only extract 2 numbers + 1
+symbol:</p>
+<ol type="1">
+<li>Open <code>plan.dwg</code> in ODA File Converter (free,
+Autodesk-free) / AutoCAD / DWG TrueView.</li>
+<li>Read top-view bounding box: <strong>Width_mm × Depth_mm</strong>
+(e.g. toilet 700 × 580).</li>
+<li>Export top view → SVG (or screenshot → trace 1 rect/ellipse in 30
+sec). Keep it schematic — the 2D planner draws boxes, not CAD
+hatching.</li>
+<li>Keep original DWG only as “Download CAD” link (upload to
+<code>cad/</code> bucket later).</li>
+</ol>
+<p>Example minimal <code>footprint_svg</code> (rect 70×58 for 700×580
+mm, 1 unit = 10 mm):</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode svg"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">width=</span><span class="st">&quot;70&quot;</span> <span class="ot">height=</span><span class="st">&quot;58&quot;</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 70 58&quot;</span>&gt;&lt;<span class="kw">rect</span> <span class="ot">x=</span><span class="st">&quot;2&quot;</span> <span class="ot">y=</span><span class="st">&quot;2&quot;</span> <span class="ot">width=</span><span class="st">&quot;66&quot;</span> <span class="ot">height=</span><span class="st">&quot;54&quot;</span> <span class="ot">rx=</span><span class="st">&quot;18&quot;</span> /&gt;&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<hr />
+<h2 id="csv-format-the-only-file-the-ai-reads">4. CSV format — the only
+file the AI reads</h2>
+<p>Template: <code>supabase/seed/products_seed.csv</code>. Header (do
+not rename, do not reorder):</p>
+<pre class="csv"><code>sku,name,category,collection,finish,price_inr,width_mm,depth_mm,height_mm,style_tags,official_url,image_urls,model_glb_url,footprint_svg,dwg_url,source,verified_at</code></pre>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Column</th>
+<th>Where to get it</th>
+<th>Rules</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sku</code></td>
+<td>Studio model no. (K-XXXX)</td>
+<td>Exact. Never <code>PENDING-*</code> for real rows.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>Spec PDF title</td>
+<td>e.g. <code>Veil Wall-Hung Smart Toilet</code></td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>One of 7 listed above</td>
+<td>Exact spelling</td>
+</tr>
+<tr>
+<td><code>collection</code></td>
+<td>Product page header</td>
+<td>e.g. <code>Veil</code>, <code>Composed</code>. Unknown →
+<code>Unknown</code></td>
+</tr>
+<tr>
+<td><code>finish</code></td>
+<td>Spec PDF finishes</td>
+<td>e.g. <code>White</code>, <code>Matte Black</code>. Unknown →
+<code>Unknown</code></td>
+</tr>
+<tr>
+<td><code>price_inr</code></td>
+<td>Spec sheet / kohler.com India price</td>
+<td>Integer only, no commas/symbols. Unknown → <strong>blank</strong>
+(not 0)</td>
+</tr>
+<tr>
+<td><code>width_mm,depth_mm,height_mm</code></td>
+<td>Dimension diagram page in spec PDF (takes priority over DWG
+header)</td>
+<td>Integers in mm. Unknown → blank</td>
+</tr>
+<tr>
+<td><code>style_tags</code></td>
+<td>YOU tag per row</td>
+<td>Pipe list from:
+<code>minimalist\|modern\|classic\|luxury\|zen</code>. E.g.
+<code>minimalist\|zen</code>. Max 3</td>
+</tr>
+<tr>
+<td><code>official_url</code></td>
+<td>Canonical studiokohler/ kohler.com URL</td>
+<td>Full https URL</td>
+</tr>
+<tr>
+<td><code>image_urls</code></td>
+<td>After upload</td>
+<td><code>images/K-XXXX-hero.jpg</code> (comma-separate if 2+)</td>
+</tr>
+<tr>
+<td><code>model_glb_url</code></td>
+<td>After upload</td>
+<td><code>models/K-XXXX.glb</code>. Blank if 3D missing (2D still
+works)</td>
+</tr>
+<tr>
+<td><code>footprint_svg</code></td>
+<td>Step 3 above</td>
+<td>Full <code>&lt;svg...&gt;</code> inline, keep &lt;500 chars. Use
+double <code>""</code> escaping inside CSV</td>
+</tr>
+<tr>
+<td><code>dwg_url</code></td>
+<td>After upload</td>
+<td><code>cad/K-XXXX-plan.dwg</code> or blank</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>Fixed</td>
+<td><code>studiokohler.com</code> (or <code>bimobject</code>,
+<code>kohler.com</code>)</td>
+</tr>
+<tr>
+<td><code>verified_at</code></td>
+<td>Today</td>
+<td><code>YYYY-MM-DD</code></td>
+</tr>
+</tbody>
+</table>
+<p>Style cheat-sheet:
+<code>Minimalist Modern → minimalist|modern + White/Matte Black</code>;
+<code>Classic Luxury → classic|luxury + Polished Chrome/Gold</code>;
+<code>Japanese Zen → zen|minimalist + White/Wood tones</code>.</p>
+<p>Full example rows are already in
+<code>supabase/seed/products_seed.csv</code> (2 complete + 1 Unknown
+demo). Copy-paste them.</p>
+<hr />
+<h2 id="upload-validate-15-min">5. Upload + validate (15 min)</h2>
+<ol type="1">
+<li>Supabase Dashboard → Storage → create buckets <code>models</code>,
+<code>images</code>, <code>cad</code> (Public read).</li>
+<li>Upload: <code>downloads/K-*/model.glb → models/</code>,
+<code>hero.jpg → images/</code>, <code>plan.dwg → cad/</code>.</li>
+<li>Fill <code>model_glb_url, image_urls, dwg_url</code> columns with
+those paths.</li>
+<li>Validate CSV before handing to AI:
+<ul class="task-list">
+<li><label><input type="checkbox" />Opens in Excel/Sheets, 17 columns
+every row</label></li>
+<li><label><input type="checkbox" /><code>sku</code> unique, no
+spaces</label></li>
+<li><label><input type="checkbox" /><code>price_inr,width_mm...</code>
+are digits or blank (no <code>₹</code>, no commas)</label></li>
+<li><label><input type="checkbox" /><code>footprint_svg</code> starts
+with <code>&lt;svg</code> (or blank)</label></li>
+<li><label><input type="checkbox" />At least 1 row per category, at
+least 1 style tag per row</label></li>
+</ul></li>
+</ol>
+<p>Hand <code>products_seed.csv</code> to the coding AI next. It will
+migrate the DB, import rows, and wire <code>/api/recommend</code> → 2D
+planner → 3D viewer.</p>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Studio search “No results”</td>
+<td>Search bare number (<code>5401</code> not <code>K-5401</code>), or
+switch Project Location US→IN</td>
+</tr>
+<tr>
+<td>GLB &gt;10 MB</td>
+<td>Blender Decimate 0.5 → re-export with Draco; hero demo doesn’t need
+4K meshes</td>
+</tr>
+<tr>
+<td>GLB renders black</td>
+<td>OK for v1. Materials are Phase 2; geometry + footprint unblock
+layout</td>
+</tr>
+<tr>
+<td>DWG won’t open</td>
+<td>Use ODA File Converter → DXF → open. Dims can come from spec PDF
+alone</td>
+</tr>
+<tr>
+<td>No India price</td>
+<td>Leave <code>price_inr</code> blank (shows “Unknown” per design
+rule). Never convert USD→INR yourself</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
