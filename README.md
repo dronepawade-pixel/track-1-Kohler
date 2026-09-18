@@ -20,6 +20,7 @@ style, get a compatible Kohler product bundle with a 2D plan, 3D preview and bud
 breakdown.<br />
 Built by Devraj Pawade — Track 1, individual project.
 
+[Prerequisites](#prerequisites) •
 [Getting started](#getting-started) •
 [Installation](#installation) •
 [Usage](#usage) •
@@ -27,16 +28,24 @@ Built by Devraj Pawade — Track 1, individual project.
 
 </div>
 
+## Prerequisites
+
+| Software | Version | Download |
+| -------- | ------- | -------- |
+| [Node.js] (includes npm) | 20 LTS or newer | https://nodejs.org/en/download |
+| [Git] | any recent | https://git-scm.com/downloads |
+
+OS-specific install commands are in [Installation](#installation) step 1.
+No accounts, API keys or database setup needed — the app runs with a built-in catalog.
+
 ## Getting started
 
 ```sh
-git clone <YOUR-REPO-URL> KOHLER
+git clone https://github.com/dronepawade-pixel/track-1-Kohler.git KOHLER
 cd KOHLER
 npm install
 npm run dev        # open http://localhost:3000
 ```
-
-No accounts, no API keys, no database setup — the app runs with a built-in catalog.
 Login / saved designs light up automatically if Supabase keys are present (see
 [Configuration](#configuration)).
 
@@ -189,10 +198,12 @@ exact error text + the step above that failed.
 [ai-impl]: ./docs/AI_IMPLEMENTATION.md
 [demo]: https://track-1-kohler.vercel.app
 [demo-badge]: https://img.shields.io/badge/demo-live-brightgreen?logo=vercel&logoColor=white&style=flat-square
+[git]: https://git-scm.com/downloads
 [homebrew]: https://brew.sh/
 [manual]: ./docs/MANUAL_GUIDE.md
 [next]: https://nextjs.org/
 [next-badge]: https://img.shields.io/badge/Next.js-16-black?logo=next.js&logoColor=white&style=flat-square
+[node.js]: https://nodejs.org/en/download
 [supabase]: https://supabase.com/
 [supabase-badge]: https://img.shields.io/badge/Supabase-optional-3fcf8e?logo=supabase&logoColor=white&style=flat-square
 [winget]: https://learn.microsoft.com/en-us/windows/package-manager/winget/
