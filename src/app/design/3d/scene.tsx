@@ -13,6 +13,7 @@ export type MetreFixture = {
   w: number;
   d: number;
   h: number;
+  y0?: number; // base height in metres (wall-mounted pieces float)
   glass?: boolean;
 };
 export type MetreOpening = {
@@ -210,8 +211,8 @@ export default function IsoRoom({
       <svg
         ref={svgRef}
         viewBox={`${minX} ${minY} ${maxX - minX} ${maxY - minY}`}
-        className="w-full select-none"
-        style={{ height: 560, cursor: drag.current ? "grabbing" : "grab", touchAction: "none" }}
+        className="h-[360px] w-full select-none md:h-[560px]"
+        style={{ cursor: drag.current ? "grabbing" : "grab", touchAction: "none" }}
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture?.(e.pointerId);
           drag.current = { x: e.clientX, th };
@@ -262,19 +263,21 @@ export default function IsoRoom({
             )
         )}
         {/* fixtures, far → near */}
-        {sortedFixtures.map((f) => (
+        {sortedFixtures.map((f) => {
+          const y0 = f.y0 ?? 0;
+          return (
           <g key={f.id}>
             {f.glass ? (
               <>
-                <Box box={{ x0: f.cx - f.w / 2, x1: f.cx + f.w / 2, y0: 0, y1: 0.1, z0: f.cz - f.d / 2, z1: f.cz + f.d / 2 }} pal={FIXTURE_PAL} th={th} k={k} />
-                <Box box={{ x0: f.cx - f.w / 2, x1: f.cx + f.w / 2, y0: 0.1, y1: f.h, z0: f.cz - f.d / 2, z1: f.cz + f.d / 2 }} pal={GLASS_PAL} th={th} k={k} />
+                <Box box={{ x0: f.cx - f.w / 2, x1: f.cx + f.w / 2, y0, y1: y0 + 0.1, z0: f.cz - f.d / 2, z1: f.cz + f.d / 2 }} pal={FIXTURE_PAL} th={th} k={k} />
+                <Box box={{ x0: f.cx - f.w / 2, x1: f.cx + f.w / 2, y0: y0 + 0.1, y1: y0 + f.h, z0: f.cz - f.d / 2, z1: f.cz + f.d / 2 }} pal={GLASS_PAL} th={th} k={k} />
               </>
             ) : (
-              <Box box={{ x0: f.cx - f.w / 2, x1: f.cx + f.w / 2, y0: 0, y1: f.h, z0: f.cz - f.d / 2, z1: f.cz + f.d / 2 }} pal={FIXTURE_PAL} th={th} k={k} />
+              <Box box={{ x0: f.cx - f.w / 2, x1: f.cx + f.w / 2, y0, y1: y0 + f.h, z0: f.cz - f.d / 2, z1: f.cz + f.d / 2 }} pal={FIXTURE_PAL} th={th} k={k} />
             )}
             {labels &&
               (() => {
-                const [lx, ly] = proj(f.cx, f.h + 0.18, f.cz);
+                const [lx, ly] = proj(f.cx, y0 + f.h + 0.18, f.cz);
                 return (
                   <text x={lx} y={ly} textAnchor="middle" fontSize={12} fill="#fff" style={{ paintOrder: "stroke", stroke: "#000", strokeWidth: 4 }}>
                     {f.kind}
@@ -282,7 +285,8 @@ export default function IsoRoom({
                 );
               })()}
           </g>
-        ))}
+          );
+        })}
       </svg>
       <div className="mt-4 flex flex-wrap gap-2">
         <button onClick={() => setTh((p) => p - Math.PI / 4)} className="btn-ghost !px-3 !py-2 !text-[13px]">⟲ 45°</button>

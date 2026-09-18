@@ -5,7 +5,7 @@ export default function About() {
     <>
       <section className="mx-auto max-w-[1200px] px-6 py-24">
         <p className="label-caps text-[#999]">About Us</p>
-        <h1 className="display mt-4 max-w-3xl text-[clamp(54px,6vw,96px)]">
+        <h1 className="display mt-4 max-w-3xl text-[clamp(38px,6vw,96px)]">
           The <span className="serif-accent">bold</span> look, made for bathrooms.
         </h1>
         <p className="narrative mt-6 max-w-xl text-[20px] text-white/80">

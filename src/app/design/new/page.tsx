@@ -24,7 +24,7 @@ function NewDesignInner() {
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-16">
       <p className="label-caps text-[#999]">New design — step 1 of 3 · shared by both tracks</p>
-      <h1 className="narrative mt-3 text-[54px]">Tell us about your bathroom.</h1>
+      <h1 className="narrative mt-3 text-[clamp(36px,9vw,54px)]">Tell us about your bathroom.</h1>
       <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label="Choose your track">
         {(["3d", "2d"] as const).map((t) => (
           <button
@@ -77,7 +77,7 @@ function NewDesignInner() {
           <p className="mt-3 text-[14px] text-[#999]">Photos & floor-plan upload unlock with Supabase storage (wired in this phase&apos;s migration).</p>
         </div>
       </div>
-      <div className="mt-8 flex gap-4">
+      <div className="mt-8 flex flex-wrap gap-4">
         <Link href={nextHref} className="btn-cream">
           {track === "2d" ? "Continue to 2D planner" : "Continue to 3D design"}
         </Link>

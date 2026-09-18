@@ -26,7 +26,7 @@ export default function SavedPage() {
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-16">
       <p className="label-caps text-[#999]">Saved designs — kept in this browser</p>
-      <h1 className="narrative mt-3 text-[54px]">Your bathrooms, kept.</h1>
+      <h1 className="narrative mt-3 text-[clamp(36px,9vw,54px)]">Your bathrooms, kept.</h1>
       {designs === null ? (
         <p className="mt-10 text-[16px] text-[#999]">Loading your designs…</p>
       ) : designs.length === 0 ? (

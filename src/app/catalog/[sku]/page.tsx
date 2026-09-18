@@ -33,7 +33,7 @@ export default async function ProductPage({ params }: { params: Promise<{ sku: s
               </div>
             ))}
           </dl>
-          <div className="mt-6 flex gap-4">
+          <div className="mt-6 flex flex-wrap gap-4">
             <Link href="/planner" className="btn-cream">Add to plan</Link>
             <Link href="/budget" className="btn-ghost">Check budget</Link>
           </div>

@@ -1,8 +1,8 @@
 "use client";
-import { Suspense, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import { getDesign, uid, upsertDesign } from "@/lib/designs";
+import { getDesign, uid, upsertDesign, sanitizeDesign } from "@/lib/designs";
 
 type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number };
 type RoomSpec = { w: number; h: number; height: number; doors: number; windows: number };
@@ -24,7 +24,6 @@ const PALETTE_M = [
   { kind: "Shower", w: 0.9, h: 0.9 },
   { kind: "Bathtub", w: 1.7, h: 0.75 },
   { kind: "Toilet", w: 0.6, h: 0.7 },
-  { kind: "Vanity", w: 1.2, h: 0.55 },
 ];
 const WALLS: { id: Wall; label: string }[] = [
   { id: "top", label: "Top" },
@@ -71,7 +70,10 @@ function PlannerInner() {
   const params = useSearchParams();
   const designId = params.get("design");
   // Opening a saved design (?design=id) restores its room, fixtures and openings.
-  const stored = useMemo(() => (designId ? getDesign(designId) : null), [designId]);
+  const stored = useMemo(() => {
+    const raw = designId ? getDesign(designId) : null;
+    return raw ? sanitizeDesign(raw) : null;
+  }, [designId]);
   // Room geometry comes from /design/new — editing dimensions there reshapes this canvas.
   const room: RoomSpec = useMemo(
     () =>
@@ -126,10 +128,31 @@ function PlannerInner() {
   const commitItems = (next: Fixture[]) => { setHistory((h) => [...h.slice(-49), { items, openings }]); setItems(next); };
   const commitOpenings = (next: Opening[]) => { setHistory((h) => [...h.slice(-49), { items, openings }]); setOpenings(next); };
   const undo = () => setHistory((h) => { const prev = h[h.length - 1]; if (prev) { setItems(prev.items); setOpenings(prev.openings); } return h.slice(0, -1); });
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z" && !e.shiftKey) {
+        const t = e.target as HTMLElement | null;
+        if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
+        e.preventDefault();
+        undo();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [undo]);
   const add = (kind: string, wm: number, hm: number) =>
     commitItems([...items, { id: nextId++, kind, x: (room.w * s) / 2, y: (room.h * s) / 2, w: px(wm), h: px(hm), rot: 0 }]);
   const rotate = (id: number) => commitItems(items.map((f) => (f.id === id ? { ...f, rot: (f.rot + 90) % 360, w: f.h, h: f.w } : f)));
   const remove = (id: number) => commitItems(items.filter((f) => f.id !== id));
+  const clearAll = () => {
+    if (items.length === 0 && openings.length === 0) return;
+    if (!window.confirm("Clear the canvas? All fixtures and openings are removed. Saved designs are untouched.")) return;
+    setHistory((h) => [...h.slice(-49), { items, openings }]);
+    setItems([]);
+    setOpenings([]);
+    setSel(null);
+    setSelOpening(null);
+  };
 
   const addOpening = (kind: "door" | "window") => {
     const wall: Wall = kind === "door" ? "bottom" : "top";
@@ -279,20 +302,18 @@ function PlannerInner() {
   };
 
   return (
-    <section className="mx-auto max-w-[1200px] px-6 py-16">
+    <section className="mx-auto max-w-[1200px] px-6 py-10">
       <p className="label-caps text-[#999]">2D planner — deterministic geometry, no AI</p>
-      <h1 className="narrative mt-3 text-[54px]">Arrange your room.</h1>
-      <div className="mt-8 flex flex-wrap gap-2">
+      <h1 className="narrative mt-2 text-[clamp(36px,9vw,54px)]">Arrange your room.</h1>
+      <div className="mt-5 flex flex-wrap gap-2">
         {PALETTE_M.map((p) => (
           <button key={p.kind} onClick={() => add(p.kind, p.w, p.h)} className="btn-ghost !py-2 !text-[14px]">+ {p.kind}</button>
         ))}
         <button onClick={() => addOpening("door")} className="btn-ghost !py-2 !text-[14px]">+ Door</button>
         <button onClick={() => addOpening("window")} className="btn-ghost !py-2 !text-[14px]">+ Window</button>
-        <button onClick={undo} disabled={history.length === 0} className="btn-ghost !py-2 !text-[14px] disabled:opacity-40">Undo</button>
-        <button onClick={() => commitItems([])} className="btn-ghost !py-2 !text-[14px]">Clear</button>
       </div>
-      <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_320px]">
-        <div className="card flex min-h-[520px] items-center justify-center overflow-auto p-8">
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_320px]">
+        <div className="card flex min-h-[440px] items-center justify-center overflow-auto p-4">
           <svg
             width={room.w * s + 40}
             height={room.h * s + 60}
@@ -345,18 +366,26 @@ function PlannerInner() {
             })}
           </svg>
         </div>
-        <aside className="card h-fit p-6">
+        <aside className="card no-scrollbar h-fit p-6 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
           <p className="label-caps text-[#999]">Measurements & constraints</p>
           <p className="mt-2 text-[16px]">Room {room.w} × {room.h} m · {(room.w * room.h).toFixed(1)} m²</p>
           <p className="mt-1 text-[14px] text-[#999]">
             Height {room.height} m · {doorCount} door{doorCount === 1 ? "" : "s"} · {windowCount} window{windowCount === 1 ? "" : "s"}
           </p>
           <p className="mt-1 text-[14px] text-[#999]">
-            {items.length} fixtures · drag to move · grid snap {SNAP}px · clearance 0.6m{s < BASE_SCALE ? ` · view fit ${Math.round(s)}px/m` : ""}
+            {items.length} fixture{items.length === 1 ? "" : "s"} · snap {SNAP}px · clearance 0.6m{s < BASE_SCALE ? ` · fit ${Math.round(s)}px/m` : ""}
           </p>
-          <p className="mt-1 text-[14px] text-[#999]">
-            Tip: drag a door/window along its wall, or click one to move, resize and switch walls.
-          </p>
+          <div className="mt-4 border-t border-[#333] pt-4">
+            <p className="label-caps text-[#999]">Canvas history</p>
+            <div className="mt-2 flex gap-2">
+              <button onClick={undo} disabled={history.length === 0} title="Undo (Ctrl/⌘ + Z)" className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px] disabled:opacity-40">
+                ↩ Undo{history.length > 0 ? ` (${history.length})` : ""}
+              </button>
+              <button onClick={clearAll} disabled={items.length === 0 && openings.length === 0} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px] disabled:opacity-40">
+                Clear canvas
+              </button>
+            </div>
+          </div>
           <div className="mt-4 border-t border-[#333] pt-4">
             <p className="label-caps text-[#999]">{activeId ? "Saved design" : "Save this design"}</p>
             <input
@@ -384,7 +413,7 @@ function PlannerInner() {
           {clashes.length > 0 ? (
             <p className="mt-3 text-[14px] text-[#ff8a8a]">⚠ {clashes.length} overlap{clashes.length > 1 ? "s" : ""} — drag {clashes.map((c) => c.kind).join(", ")} apart.</p>
           ) : (
-            <p className="mt-3 text-[14px] text-[#999]">✓ No collisions. Budget + compatibility engines arrive in Phase 3.</p>
+            <p className="mt-3 text-[14px] text-[#999]">✓ No collisions.</p>
           )}
           {activeOpening && (() => {
             const o = activeOpening;

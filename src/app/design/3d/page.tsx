@@ -3,7 +3,7 @@ import { Suspense, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import IsoRoom, { type MetreFixture, type MetreOpening } from "./scene";
-import { getDesign } from "@/lib/designs";
+import { getDesign, sanitizeDesign } from "@/lib/designs";
 
 const BASE_SCALE = 150;
 const MAX_W = 680;
@@ -13,7 +13,6 @@ const FIXTURE_H: Record<string, number> = {
   Shower: 2.1,
   Bathtub: 0.6,
   Toilet: 0.7,
-  Vanity: 0.9,
 };
 
 const num = (v: string | null, fb: number, lo: number, hi: number) => {
@@ -24,7 +23,10 @@ const num = (v: string | null, fb: number, lo: number, hi: number) => {
 function ViewInner() {
   const params = useSearchParams();
   const designId = params.get("design");
-  const stored = useMemo(() => (designId ? getDesign(designId) : null), [designId]);
+  const stored = useMemo(() => {
+    const raw = designId ? getDesign(designId) : null;
+    return raw ? sanitizeDesign(raw) : null;
+  }, [designId]);
   const room = useMemo(
     () =>
       stored?.room ?? {
@@ -80,7 +82,7 @@ function ViewInner() {
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-16">
       <p className="label-caps text-[#999]">Design track — step 2 of 3 · 3D concept, drag to walk around it</p>
-      <h1 className="narrative mt-3 text-[54px]">
+      <h1 className="narrative mt-3 text-[clamp(36px,9vw,54px)]">
         Your bathroom, in <span className="serif-accent">bold</span>.
       </h1>
       <p className="mt-3 text-[16px] text-[#999]">
