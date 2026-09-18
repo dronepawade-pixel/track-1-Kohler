@@ -584,7 +584,7 @@ export default function RoomCanvas({
     <div>
       <div style={{ height: 560, borderRadius: 10, overflow: "hidden", background: "#000" }}>
         <Canvas
-          shadows
+          shadows="percentage"
           dpr={[1, 2]}
           camera={{ position: [4.6, 3.8, 6.2], fov: 42 }}
           gl={{ antialias: true, localClippingEnabled: true }}
