@@ -12,6 +12,7 @@ import {
 } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import type { MetreFixture, MetreOpening, RoomDims } from "./scene";
+import { PROCEDURAL, optionById, optionsForKind, type ModelOption } from "@/lib/models";
 
 // Glossy monochrome dollhouse — three.js PBR. Same data as the SVG viewer:
 // void-black canvas, satin walls, clearcoat ceramic fixtures, chrome + glass
@@ -229,29 +230,106 @@ function OpeningModel({
   );
 }
 
-function FixtureMesh({ f, labels }: { f: MetreFixture; labels: boolean }) {
+// Real Kohler scan fitted to a fixture footprint. Materials are overridden to
+// the monochrome PBR set (ceramic / chrome / dark) to match the system.
+function ModelPart({ opt, f }: { opt: ModelOption; f: MetreFixture }) {
+  const { scene } = useGLTF(opt.glb);
+  const mat = useMemo(() => {
+    if (opt.fit === "head") return chrome();
+    if (opt.fit === "screen") return std("#2b2b2b", 0.55);
+    return ceramic();
+  }, [opt.fit]);
+  const obj = useMemo(() => {
+    const src = scene.clone(true);
+    src.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.material = mat;
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    return src;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scene, mat]);
+
+  const [w, h, d] = opt.dims;
+  if (opt.fit === "footprint") {
+    const s = Math.min(f.w / w, f.d / d);
+    return <primitive object={obj} scale={s} />;
+  }
+  if (opt.fit === "seat") {
+    // bidet seat rides on the procedural bowl
+    const s = (f.w * 0.8) / w;
+    return <primitive object={obj} position={[0, 0.52, 0.06]} scale={s} />;
+  }
+  if (opt.fit === "head") {
+    // display scale (~0.24 m) so the swap reads clearly; hangs at the top
+    const s = 0.24 / Math.max(w, h, d);
+    return <primitive object={obj} position={[0, f.h - h * s - 0.02, 0]} scale={s} />;
+  }
+  // screen: replace the side glass wall, fit height then width
+  const s = Math.min((f.h - 0.1) / h, f.d / w);
+  return <primitive object={obj} position={[f.w / 2 - 0.02, 0.1, 0]} rotation={[0, Math.PI / 2, 0]} scale={s} />;
+}
+
+function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; model: string }) {
   const body = useMemo(() => ceramic(), []);
   const dark = useMemo(() => ceramic("#3a3a38"), []);
   const charcoal = useMemo(() => std("#232323", 0.7), []);
   const glass = useMemo(() => glassMat(), []);
   const metal = useMemo(() => chrome(), []);
+  const opt = optionById(model === PROCEDURAL ? undefined : model);
   const labelY = f.h + (f.glass ? 0.35 : 0.25);
-  return (
-    <group position={[f.cx, 0, f.cz]}>
-      {f.kind === "Shower" ? (
-        (() => {
-          const gh = f.h - 0.1;
-          return (
+
+  const bathtub = f.kind === "Bathtub" && opt?.fit === "footprint" ? (
+    <ModelPart opt={opt} f={f} />
+  ) : (
+    <>
+      <RoundedBox args={[f.w, 0.58, f.d]} radius={0.09} smoothness={4} position={[0, 0.3, 0]} material={body} castShadow receiveShadow />
+      <mesh position={[0, 0.47, 0]} material={dark} receiveShadow>
+        <boxGeometry args={[f.w - 0.24, 0.1, f.d - 0.24]} />
+      </mesh>
+    </>
+  );
+
+  const toilet = (() => {
+    if (f.kind !== "Toilet") return null;
+    if (opt?.fit === "footprint") return <ModelPart opt={opt} f={f} />;
+    return (
+      <>
+        <RoundedBox args={[f.w, 0.42, f.d]} radius={0.1} smoothness={4} position={[0, 0.28, 0.04]} material={body} castShadow receiveShadow />
+        <mesh position={[0, 0.62, -f.d / 2 + 0.12]} material={body} castShadow>
+          <boxGeometry args={[f.w * 0.9, 0.5, 0.18]} />
+        </mesh>
+        {opt?.fit === "seat" && <ModelPart opt={opt} f={f} />}
+      </>
+    );
+  })();
+
+  const shower = f.kind === "Shower" ? (
+    (() => {
+      const gh = f.h - 0.1;
+      const headOpt = opt?.fit === "head" ? opt : null;
+      const screenOpt = opt?.fit === "screen" ? opt : null;
+      return (
+        <>
+          <mesh position={[0, 0.05, 0]} material={body} castShadow receiveShadow>
+            <boxGeometry args={[f.w, 0.1, f.d]} />
+          </mesh>
+          <mesh position={[0, 0.1 + gh / 2, -f.d / 2 + 0.02]} material={glass}>
+            <boxGeometry args={[f.w, gh, 0.02]} />
+          </mesh>
+          {screenOpt ? (
+            <ModelPart opt={screenOpt} f={f} />
+          ) : (
+            <mesh position={[f.w / 2 - 0.02, 0.1 + gh / 2, 0]} material={glass}>
+              <boxGeometry args={[0.02, gh, f.d]} />
+            </mesh>
+          )}
+          {headOpt ? (
+            <ModelPart opt={headOpt} f={f} />
+          ) : (
             <>
-              <mesh position={[0, 0.05, 0]} material={body} castShadow receiveShadow>
-                <boxGeometry args={[f.w, 0.1, f.d]} />
-              </mesh>
-              <mesh position={[0, 0.1 + gh / 2, -f.d / 2 + 0.02]} material={glass}>
-                <boxGeometry args={[f.w, gh, 0.02]} />
-              </mesh>
-              <mesh position={[f.w / 2 - 0.02, 0.1 + gh / 2, 0]} material={glass}>
-                <boxGeometry args={[0.02, gh, f.d]} />
-              </mesh>
               <mesh position={[0, f.h + 0.02, 0]} material={metal} castShadow>
                 <cylinderGeometry args={[0.16, 0.16, 0.025, 28]} />
               </mesh>
@@ -259,23 +337,17 @@ function FixtureMesh({ f, labels }: { f: MetreFixture; labels: boolean }) {
                 <cylinderGeometry args={[0.015, 0.015, f.h, 10]} />
               </mesh>
             </>
-          );
-        })()
-      ) : f.kind === "Bathtub" ? (
-        <>
-          <RoundedBox args={[f.w, 0.58, f.d]} radius={0.09} smoothness={4} position={[0, 0.3, 0]} material={body} castShadow receiveShadow />
-          <mesh position={[0, 0.47, 0]} material={dark} receiveShadow>
-            <boxGeometry args={[f.w - 0.24, 0.1, f.d - 0.24]} />
-          </mesh>
+          )}
         </>
-      ) : f.kind === "Toilet" ? (
-        <>
-          <RoundedBox args={[f.w, 0.42, f.d]} radius={0.1} smoothness={4} position={[0, 0.28, 0.04]} material={body} castShadow receiveShadow />
-          <mesh position={[0, 0.62, -f.d / 2 + 0.12]} material={body} castShadow>
-            <boxGeometry args={[f.w * 0.9, 0.5, 0.18]} />
-          </mesh>
-        </>
-      ) : f.kind === "Vanity" ? (
+      );
+    })()
+  ) : null;
+  return (
+    <group position={[f.cx, 0, f.cz]}>
+      {shower}
+      {bathtub}
+      {toilet}
+      {f.kind === "Vanity" ? (
         <>
           <mesh position={[0, 0.42, 0]} material={charcoal} castShadow receiveShadow>
             <boxGeometry args={[f.w, 0.8, f.d]} />
@@ -284,14 +356,14 @@ function FixtureMesh({ f, labels }: { f: MetreFixture; labels: boolean }) {
             <boxGeometry args={[f.w + 0.04, 0.05, f.d + 0.04]} />
           </mesh>
         </>
-      ) : (
+      ) : f.kind !== "Shower" && f.kind !== "Bathtub" && f.kind !== "Toilet" ? (
         <>
           <mesh position={[0, 0.4, 0]} material={body} castShadow receiveShadow>
             <boxGeometry args={[f.w * 0.5, 0.8, f.d * 0.6]} />
           </mesh>
           <RoundedBox args={[f.w, 0.16, f.d]} radius={0.06} smoothness={4} position={[0, 0.86, 0]} material={body} castShadow receiveShadow />
         </>
-      )}
+      ) : null}
       {labels && (
         <Html center position={[0, labelY, 0]} style={{ pointerEvents: "none" }}>
           <div style={{ fontSize: 11, color: "#fff", background: "rgba(0,0,0,0.55)", border: "1px solid #333", borderRadius: 9999, padding: "2px 10px", whiteSpace: "nowrap" }}>
@@ -327,7 +399,7 @@ function SectionUpdater({ cutaway, registry }: { cutaway: boolean; registry: Reg
 }
 
 function Scene({
-  room, fixtures, openings, cutaway, labels, spin, controlsRef, registry,
+  room, fixtures, openings, cutaway, labels, spin, controlsRef, registry, models,
 }: {
   room: RoomDims;
   fixtures: MetreFixture[];
@@ -337,6 +409,7 @@ function Scene({
   spin: boolean;
   controlsRef: React.RefObject<OrbitControlsImpl | null>;
   registry: Registry;
+  models: Record<number, string>;
 }) {
   const tile = useTileTexture(room.w, room.h);
   const maxR = Math.max(room.w, room.h);
@@ -388,7 +461,7 @@ function Scene({
         <OpeningModel key={i} id={`opening-${i}`} o={o} room={room} registry={registry} />
       ))}
       {fixtures.map((f) => (
-        <FixtureMesh key={f.id} f={f} labels={labels} />
+        <FixtureMesh key={f.id} f={f} labels={labels} model={models[f.id] ?? PROCEDURAL} />
       ))}
 
       <OrbitControls
@@ -416,12 +489,57 @@ export function webglAvailable() {
   }
 }
 
+function SwapTray({
+  fixtures, models, onModelChange,
+}: {
+  fixtures: MetreFixture[];
+  models: Record<number, string>;
+  onModelChange: (id: number, model: string) => void;
+}) {
+  const swappable = fixtures.filter((f) => optionsForKind(f.kind).length > 0);
+  if (swappable.length === 0) return null;
+  return (
+    <div className="mt-6 border-t border-[#333] pt-6">
+      <p className="label-caps text-[#999]">Swap models — real Kohler scans</p>
+      {swappable.map((f) => {
+        const sel = models[f.id] ?? PROCEDURAL;
+        return (
+          <div key={f.id} className="mt-4">
+            <p className="text-[14px] text-white/80">{f.kind}</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              <button
+                onClick={() => onModelChange(f.id, PROCEDURAL)}
+                className={`overflow-hidden rounded-[10px] border text-left transition-colors ${sel === PROCEDURAL ? "border-[#f5f5f0]" : "border-[#333] hover:border-[#666]"}`}
+              >
+                <span className="flex h-[72px] w-[96px] items-center justify-center bg-gradient-to-br from-[#262626] to-[#0c0c0c] text-[11px] uppercase tracking-[0.08em] text-[#999]">Studio</span>
+                <span className="block px-2 py-1 text-[11px] text-[#999]">Procedural</span>
+              </button>
+              {optionsForKind(f.kind).map((m) => (
+                <button
+                  key={m.id}
+                  onClick={() => onModelChange(f.id, m.id)}
+                  className={`overflow-hidden rounded-[10px] border text-left transition-colors ${sel === m.id ? "border-[#f5f5f0]" : "border-[#333] hover:border-[#666]"}`}
+                >
+                  <img src={m.thumb} alt={m.label} width={96} height={72} className="block h-[72px] w-[96px] object-cover" loading="lazy" />
+                  <span className="block max-w-[96px] truncate px-2 py-1 text-[11px] text-[#999]">{m.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function RoomCanvas({
-  room, fixtures, openings,
+  room, fixtures, openings, models, onModelChange,
 }: {
   room: RoomDims;
   fixtures: MetreFixture[];
   openings: MetreOpening[];
+  models: Record<number, string>;
+  onModelChange: (id: number, model: string) => void;
 }) {
   const [cutaway, setCutaway] = useState(true);
   const [labels, setLabels] = useState(true);
@@ -458,6 +576,7 @@ export default function RoomCanvas({
               spin={spin}
               controlsRef={controlsRef}
               registry={registry}
+              models={models}
             />
           </Suspense>
         </Canvas>
@@ -477,9 +596,17 @@ export default function RoomCanvas({
         </button>
       </div>
       <p className="mt-3 text-[13px] text-[#999]">Drag to orbit · scroll to zoom · front walls section at {CUT_H} m so you can see inside.</p>
+      <SwapTray fixtures={fixtures} models={models} onModelChange={onModelChange} />
     </div>
   );
 }
 
 useGLTF.preload("/models/door-plain.glb");
 useGLTF.preload("/models/window-plain.glb");
+useGLTF.preload("/models/21000-P5-plain.glb");
+useGLTF.preload("/models/75790-plain.glb");
+useGLTF.preload("/models/30754-PA-plain.glb");
+useGLTF.preload("/models/22170-plain.glb");
+useGLTF.preload("/models/13696-G-plain.glb");
+useGLTF.preload("/models/707002-D3-plain.glb");
+useGLTF.preload("/models/706008-L-plain.glb");

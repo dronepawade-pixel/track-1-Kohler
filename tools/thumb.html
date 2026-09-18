@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>html,body{margin:0;background:#111;}canvas{display:block;}</style>
+<script type="importmap">
+{"imports": {
+  "three": "/node_modules/three/build/three.module.js",
+  "three/addons/": "/node_modules/three/examples/jsm/"
+}}
+</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+const q = new URLSearchParams(location.search);
+const file = q.get("m");
+const matKind = q.get("mat") || "ceramic";
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(480, 360);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color("#111111");
+const camera = new THREE.PerspectiveCamera(38, 480 / 360, 0.01, 100);
+
+scene.add(new THREE.HemisphereLight("#ffffff", "#1a1a1a", 0.9));
+const key = new THREE.DirectionalLight("#fff2e2", 3.0);
+key.castShadow = true;
+key.shadow.mapSize.set(1024, 1024);
+scene.add(key);
+const rim = new THREE.DirectionalLight("#cfd8ff", 1.2);
+rim.position.set(-4, 3, -5);
+scene.add(rim);
+
+function override(root) {
+  root.traverse((c) => {
+    if (!(c instanceof THREE.Mesh)) return;
+    c.castShadow = true;
+    c.receiveShadow = true;
+    if (matKind === "ceramic") {
+      c.material = new THREE.MeshPhysicalMaterial({
+        color: "#e9e7e1", roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.08,
+      });
+    } else if (matKind === "chrome") {
+      c.material = new THREE.MeshStandardMaterial({ color: "#d9d9d9", roughness: 0.22, metalness: 1 });
+    } else {
+      c.material = new THREE.MeshStandardMaterial({ color: "#2b2b2b", roughness: 0.5, metalness: 0.1 });
+    }
+  });
+}
+
+new GLTFLoader().load(`/public/models/${file}`, (gltf) => {
+  const root = gltf.scene;
+  override(root);
+  const box = new THREE.Box3().setFromObject(root);
+  const center = box.getCenter(new THREE.Vector3());
+  const size = box.getSize(new THREE.Vector3());
+  root.position.sub(center);
+  root.position.y -= box.min.y - center.y; // sit base on ground
+  scene.add(root);
+
+  // soft contact shadow disc
+  const sc = document.createElement("canvas");
+  sc.width = sc.height = 128;
+  const g2 = sc.getContext("2d");
+  const grad = g2.createRadialGradient(64, 64, 8, 64, 64, 62);
+  grad.addColorStop(0, "rgba(0,0,0,0.55)");
+  grad.addColorStop(1, "rgba(0,0,0,0)");
+  g2.fillStyle = grad;
+  g2.fillRect(0, 0, 128, 128);
+  const shadowTex = new THREE.CanvasTexture(sc);
+  const r = Math.max(size.x, size.z);
+  const disc = new THREE.Mesh(
+    new THREE.PlaneGeometry(r * 2.6, r * 2.6),
+    new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true })
+  );
+  disc.rotation.x = -Math.PI / 2;
+  disc.position.y = 0.002;
+  scene.add(disc);
+
+  const radius = Math.max(size.x, size.y, size.z);
+  const dir = new THREE.Vector3(1, 0.5, 1.25).normalize();
+  const cy = (box.max.y - box.min.y) / 2;
+  camera.position.set(dir.x * radius * 2.4, cy + radius * 1.1, dir.z * radius * 2.4);
+  camera.lookAt(0, cy * 0.9, 0);
+  key.position.set(radius * 2, radius * 3, radius * 1.5);
+
+  renderer.render(scene, camera);
+  setTimeout(() => {
+    renderer.render(scene, camera);
+    document.title = "ready";
+  }, 400);
+}, undefined, (e) => {
+  document.title = "error:" + e.message;
+});
+</script>
+</body>
+</html>

@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import IsoRoom, { type MetreFixture, type MetreOpening } from "./scene";
 import RoomCanvas, { webglAvailable } from "./room3d";
-import { getDesign, sanitizeDesign } from "@/lib/designs";
+import { getDesign, sanitizeDesign, upsertDesign } from "@/lib/designs";
+import { PROCEDURAL } from "@/lib/models";
 
 const BASE_SCALE = 150;
 const MAX_W = 680;
@@ -84,6 +85,25 @@ function ViewInner() {
     `length=${room.w}&width=${room.h}&height=${room.height}&doors=${room.doors}&windows=${room.windows}`;
   const plannerHref = designId ? `/planner?design=${encodeURIComponent(designId)}` : `/planner?${query}`;
 
+  // Per-fixture model swaps (fixture id -> MODEL_OPTIONS id). Seeded from the
+  // saved design so reopening keeps your choices; saved back on demand.
+  const [models, setModels] = useState<Record<number, string>>(() => {
+    const init: Record<number, string> = {};
+    for (const f of stored?.items ?? []) if (f.model && f.model !== PROCEDURAL) init[f.id] = f.model;
+    return init;
+  });
+  const [savedTick, setSavedTick] = useState(false);
+  const saveSwaps = () => {
+    if (!stored) return;
+    upsertDesign({
+      ...stored,
+      updatedAt: new Date().toISOString(),
+      items: stored.items.map((f) => ({ ...f, model: models[f.id] ?? f.model ?? PROCEDURAL })),
+    });
+    setSavedTick(true);
+    setTimeout(() => setSavedTick(false), 2000);
+  };
+
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-16">
       <p className="label-caps text-[#999]">Design track — step 2 of 3 · 3D concept, drag to walk around it</p>
@@ -99,7 +119,13 @@ function ViewInner() {
         {gl === null ? (
           <p className="text-[16px] text-[#999]">Loading 3D view…</p>
         ) : gl ? (
-          <RoomCanvas room={room} fixtures={fixtures} openings={openings} />
+          <RoomCanvas
+            room={room}
+            fixtures={fixtures}
+            openings={openings}
+            models={models}
+            onModelChange={(id, model) => setModels((m) => ({ ...m, [id]: model }))}
+          />
         ) : (
           <IsoRoom room={room} fixtures={fixtures} openings={openings} />
         )}
@@ -108,6 +134,11 @@ function ViewInner() {
         <Link href="/design/new?mode=3d" className="btn-ghost">← Details</Link>
         <Link href={plannerHref} className="btn-ghost">Edit in 2D canvas →</Link>
         <Link href="/saved" className="btn-ghost">Saved designs</Link>
+        {stored && (
+          <button onClick={saveSwaps} className="btn-cream !py-2 !text-[14px]">
+            {savedTick ? "Saved ✓" : "Save model swaps"}
+          </button>
+        )}
       </div>
       {fixtures.length === 0 && (
         <p className="mt-4 text-[14px] text-[#999]">
