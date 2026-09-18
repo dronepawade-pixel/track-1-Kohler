@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import IsoRoom, { type MetreFixture, type MetreOpening } from "./scene";
 import RoomCanvas, { webglAvailable } from "./room3d";
-import { getDesign, sanitizeDesign, upsertDesign } from "@/lib/designs";
+import { getDesign, sanitizeDesign, upsertDesign, type SavedDesign } from "@/lib/designs";
 import { PROCEDURAL } from "@/lib/models";
 
 const BASE_SCALE = 150;
@@ -29,9 +29,13 @@ function ViewInner() {
     setGl(webglAvailable());
   }, []);
   const designId = params.get("design");
-  const stored = useMemo(() => {
-    const raw = designId ? getDesign(designId) : null;
-    return raw ? sanitizeDesign(raw) : null;
+  // Same hydration rule as the planner: localStorage reads happen in an
+  // effect, never during render, so server and client HTML match.
+  const [stored, setStored] = useState<SavedDesign | null>(null);
+  useEffect(() => {
+    if (!designId) return;
+    const raw = getDesign(designId);
+    setStored(raw ? sanitizeDesign(raw) : null);
   }, [designId]);
   const room = useMemo(
     () =>
@@ -86,12 +90,17 @@ function ViewInner() {
   const plannerHref = designId ? `/planner?design=${encodeURIComponent(designId)}` : `/planner?${query}`;
 
   // Per-fixture model swaps (fixture id -> MODEL_OPTIONS id). Seeded from the
-  // saved design so reopening keeps your choices; saved back on demand.
-  const [models, setModels] = useState<Record<number, string>>(() => {
-    const init: Record<number, string> = {};
-    for (const f of stored?.items ?? []) if (f.model && f.model !== PROCEDURAL) init[f.id] = f.model;
-    return init;
-  });
+  // saved design once it loads; user picks always win over the seed.
+  const [models, setModels] = useState<Record<number, string>>({});
+  useEffect(() => {
+    if (!stored) return;
+    setModels((prev) => {
+      const next = { ...prev };
+      for (const f of stored.items)
+        if (f.model && f.model !== PROCEDURAL && !(f.id in next)) next[f.id] = f.model;
+      return next;
+    });
+  }, [stored]);
   const [savedTick, setSavedTick] = useState(false);
   const saveSwaps = () => {
     if (!stored) return;
