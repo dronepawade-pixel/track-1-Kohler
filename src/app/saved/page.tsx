@@ -36,8 +36,8 @@ export default function SavedPage() {
             Arrange a room in the 2D planner, hit “Save design”, and it will live here — ready to reopen, edit and re-save.
           </p>
           <div className="mt-6 flex justify-center gap-4">
-            <Link href="/design/new" className="btn-cream">Start a design</Link>
-            <Link href="/planner" className="btn-ghost">Open planner</Link>
+            <Link href="/design/new?mode=3d" className="btn-cream">Start a design</Link>
+            <Link href="/design/new?mode=2d" className="btn-ghost">Open planner</Link>
           </div>
         </div>
       ) : (
@@ -55,13 +55,16 @@ export default function SavedPage() {
                 <Link href={`/planner?design=${encodeURIComponent(d.id)}`} className="label-caps hover:text-white">
                   Open →
                 </Link>
+                <Link href={`/design/3d?design=${encodeURIComponent(d.id)}`} className="label-caps text-[#999] hover:text-white">
+                  3D
+                </Link>
                 <button onClick={() => remove(d.id)} className="label-caps text-[#999] hover:text-white">
                   Delete
                 </button>
               </div>
             </article>
           ))}
-          <Link href="/design/new" className="flex min-h-[200px] items-center justify-center rounded-[10px] border border-dashed border-[#333] text-[16px] text-[#999] hover:border-white hover:text-white transition-colors">
+          <Link href="/design/new?mode=3d" className="flex min-h-[200px] items-center justify-center rounded-[10px] border border-dashed border-[#333] text-[16px] text-[#999] hover:border-white hover:text-white transition-colors">
             + New design
           </Link>
         </div>

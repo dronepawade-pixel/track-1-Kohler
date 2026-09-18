@@ -1,7 +1,7 @@
 "use client";
 import { Suspense, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { getDesign, uid, upsertDesign } from "@/lib/designs";
 
 type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number };
@@ -150,7 +150,8 @@ function PlannerInner() {
   const [activeId, setActiveId] = useState<string | null>(designId);
   const [designName, setDesignName] = useState(stored?.title ?? "");
   const [savedTick, setSavedTick] = useState<string | null>(null);
-  const saveDesign = () => {
+  const router = useRouter();
+  const persist = (): string => {
     const id = activeId ?? uid();
     const now = new Date().toISOString();
     const prev = activeId ? getDesign(activeId) : null;
@@ -166,7 +167,14 @@ function PlannerInner() {
     });
     setActiveId(id);
     if (!designName.trim()) setDesignName(title);
+    return id;
+  };
+  const saveDesign = () => {
+    persist();
     setSavedTick(new Date().toLocaleTimeString());
+  };
+  const viewIn3D = () => {
+    router.push(`/design/3d?design=${encodeURIComponent(persist())}`);
   };
   // Range sliders update live (no history spam); one undo step is recorded per interaction.
   const beginSlider = () => { sliderBase.current = { items, openings }; };
@@ -362,7 +370,12 @@ function PlannerInner() {
               <button onClick={saveDesign} className="btn-cream flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">
                 {activeId ? "Save changes" : "Save design"}
               </button>
-              <Link href="/saved" className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-center !text-[14px]">View saved</Link>
+              <button onClick={viewIn3D} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">
+                View in 3D
+              </button>
+            </div>
+            <div className="mt-2">
+              <Link href="/saved" className="label-caps text-[#999] hover:text-white">View saved →</Link>
             </div>
             {savedTick && (
               <p className="mt-2 text-[13px] text-[#999]">✓ Saved at {savedTick} — find it under Saved Designs.</p>
