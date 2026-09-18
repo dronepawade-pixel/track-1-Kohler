@@ -24,8 +24,8 @@ export default function Nav() {
           ))}
         </nav>
         <Pressable>
-          <Link href="/design/new" className="btn-cream !py-2.5 text-[15px]">
-            Start your design
+          <Link href="/design/new" className="btn-cream btn-arrow !py-2.5 text-[15px]">
+            Start your design <span aria-hidden className="btn-arrow-glyph">→</span>
           </Link>
         </Pressable>
       </div>

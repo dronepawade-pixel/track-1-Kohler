@@ -55,6 +55,22 @@ body {
   transition: opacity 0.25s var(--ease-premium), transform 0.25s var(--ease-premium);
 }
 .btn-cream:hover { opacity: 0.88; }
+/* Nav CTA micro-interaction — pill geometry untouched per design.md;
+   cool comes from motion (0.25s premium ease): arrow nudges, glow lifts. */
+.btn-cream.btn-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-cream.btn-arrow:hover {
+  opacity: 1;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 20px 0px, rgba(245, 245, 240, 0.25) 0px 8px 32px 0px;
+}
+.btn-cream .btn-arrow-glyph {
+  display: inline-block;
+  transition: transform 0.25s var(--ease-premium);
+}
+.btn-cream.btn-arrow:hover .btn-arrow-glyph { transform: translateX(4px); }
 .btn-ghost {
   background: transparent;
   border: 1px solid #333;
