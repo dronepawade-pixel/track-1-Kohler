@@ -1,6 +1,8 @@
 "use client";
 import { Suspense, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { getDesign, uid, upsertDesign } from "@/lib/designs";
 
 type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number };
 type RoomSpec = { w: number; h: number; height: number; doors: number; windows: number };
@@ -67,16 +69,20 @@ const spreadOpenings = (room: RoomSpec, kind: "door" | "window", count: number, 
 
 function PlannerInner() {
   const params = useSearchParams();
+  const designId = params.get("design");
+  // Opening a saved design (?design=id) restores its room, fixtures and openings.
+  const stored = useMemo(() => (designId ? getDesign(designId) : null), [designId]);
   // Room geometry comes from /design/new — editing dimensions there reshapes this canvas.
   const room: RoomSpec = useMemo(
-    () => ({
-      w: num(params.get("length"), DEFAULT_ROOM.w, 1.2, 12),
-      h: num(params.get("width"), DEFAULT_ROOM.h, 1.2, 12),
-      height: num(params.get("height"), DEFAULT_ROOM.height, 2, 5),
-      doors: Math.round(num(params.get("doors"), DEFAULT_ROOM.doors, 0, 6)),
-      windows: Math.round(num(params.get("windows"), DEFAULT_ROOM.windows, 0, 6)),
-    }),
-    [params]
+    () =>
+      stored?.room ?? {
+        w: num(params.get("length"), DEFAULT_ROOM.w, 1.2, 12),
+        h: num(params.get("width"), DEFAULT_ROOM.h, 1.2, 12),
+        height: num(params.get("height"), DEFAULT_ROOM.height, 2, 5),
+        doors: Math.round(num(params.get("doors"), DEFAULT_ROOM.doors, 0, 6)),
+        windows: Math.round(num(params.get("windows"), DEFAULT_ROOM.windows, 0, 6)),
+      },
+    [params, stored]
   );
   // Display scale: full 150px/m while the room fits; shrink ratio-wise only when it wouldn't.
   // Fixtures derive from the same scale, so proportions never distort.
@@ -85,16 +91,29 @@ function PlannerInner() {
     [room.w, room.h]
   );
   const px = (m: number) => Math.round(m * s);
-  const [items, setItems] = useState<Fixture[]>([
-    { id: nextId++, kind: "Shower", x: room.w * s * 0.25, y: room.h * s * 0.3, w: px(0.9), h: px(0.9), rot: 0 },
-    { id: nextId++, kind: "Toilet", x: room.w * s * 0.75, y: room.h * s * 0.28, w: px(0.6), h: px(0.7), rot: 0 },
-  ]);
+  const [items, setItems] = useState<Fixture[]>(() => {
+    if (stored) {
+      if (stored.items.length > 0) nextId = Math.max(nextId, Math.max(...stored.items.map((f) => f.id)) + 1);
+      return stored.items.map((f) => ({ ...f }));
+    }
+    return [
+      { id: nextId++, kind: "Shower", x: room.w * s * 0.25, y: room.h * s * 0.3, w: px(0.9), h: px(0.9), rot: 0 },
+      { id: nextId++, kind: "Toilet", x: room.w * s * 0.75, y: room.h * s * 0.28, w: px(0.6), h: px(0.7), rot: 0 },
+    ];
+  });
   // Openings (doors/windows) are first-class canvas objects: drag along their wall,
   // switch wall, and resize — all in real metres, clamped to the wall length.
-  const [openings, setOpenings] = useState<Opening[]>(() => [
-    ...spreadOpenings(room, "door", room.doors, "bottom", DEFAULT_DOOR_M),
-    ...spreadOpenings(room, "window", room.windows, "top", DEFAULT_WINDOW_M),
-  ]);
+  const [openings, setOpenings] = useState<Opening[]>(() => {
+    if (stored) {
+      if (stored.openings.length > 0)
+        nextOpeningId = Math.max(nextOpeningId, Math.max(...stored.openings.map((o) => o.id)) + 1);
+      return stored.openings.map((o) => ({ ...o }));
+    }
+    return [
+      ...spreadOpenings(room, "door", room.doors, "bottom", DEFAULT_DOOR_M),
+      ...spreadOpenings(room, "window", room.windows, "top", DEFAULT_WINDOW_M),
+    ];
+  });
   const [sel, setSel] = useState<number | null>(null);
   const [selOpening, setSelOpening] = useState<number | null>(null);
   const [dragId, setDragId] = useState<number | null>(null);
@@ -126,6 +145,28 @@ function PlannerInner() {
   const removeOpening = (id: number) => {
     commitOpenings(openings.filter((o) => o.id !== id));
     setSelOpening(null);
+  };
+  // Design library — snapshot room + fixtures + openings into localStorage.
+  const [activeId, setActiveId] = useState<string | null>(designId);
+  const [designName, setDesignName] = useState(stored?.title ?? "");
+  const [savedTick, setSavedTick] = useState<string | null>(null);
+  const saveDesign = () => {
+    const id = activeId ?? uid();
+    const now = new Date().toISOString();
+    const prev = activeId ? getDesign(activeId) : null;
+    const title = designName.trim() || prev?.title || `Bathroom ${room.w} × ${room.h} m`;
+    upsertDesign({
+      id,
+      title,
+      createdAt: prev?.createdAt ?? now,
+      updatedAt: now,
+      room: { ...room },
+      items: items.map((f) => ({ ...f })),
+      openings: openings.map((o) => ({ ...o })),
+    });
+    setActiveId(id);
+    if (!designName.trim()) setDesignName(title);
+    setSavedTick(new Date().toLocaleTimeString());
   };
   // Range sliders update live (no history spam); one undo step is recorded per interaction.
   const beginSlider = () => { sliderBase.current = { items, openings }; };
@@ -308,6 +349,25 @@ function PlannerInner() {
           <p className="mt-1 text-[14px] text-[#999]">
             Tip: drag a door/window along its wall, or click one to move, resize and switch walls.
           </p>
+          <div className="mt-4 border-t border-[#333] pt-4">
+            <p className="label-caps text-[#999]">{activeId ? "Saved design" : "Save this design"}</p>
+            <input
+              value={designName}
+              onChange={(e) => setDesignName(e.target.value)}
+              placeholder="Name this bathroom…"
+              className="field mt-2"
+              aria-label="Design name"
+            />
+            <div className="mt-2 flex gap-2">
+              <button onClick={saveDesign} className="btn-cream flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">
+                {activeId ? "Save changes" : "Save design"}
+              </button>
+              <Link href="/saved" className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-center !text-[14px]">View saved</Link>
+            </div>
+            {savedTick && (
+              <p className="mt-2 text-[13px] text-[#999]">✓ Saved at {savedTick} — find it under Saved Designs.</p>
+            )}
+          </div>
           {clashes.length > 0 ? (
             <p className="mt-3 text-[14px] text-[#ff8a8a]">⚠ {clashes.length} overlap{clashes.length > 1 ? "s" : ""} — drag {clashes.map((c) => c.kind).join(", ")} apart.</p>
           ) : (
@@ -345,8 +405,8 @@ function PlannerInner() {
                   className="mt-2 w-full" aria-label={`${o.kind} position along wall in metres`}
                 />
                 <div className="mt-2 flex gap-2">
-                  <button onClick={() => updateOpening(o.id, { offsetM: stepDown(o.offsetM) })} className="btn-ghost flex-1 !py-2 !text-[14px]">◀ 5 cm</button>
-                  <button onClick={() => updateOpening(o.id, { offsetM: stepUp(o.offsetM) })} className="btn-ghost flex-1 !py-2 !text-[14px]">5 cm ▶</button>
+                  <button onClick={() => updateOpening(o.id, { offsetM: stepDown(o.offsetM) })} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">◀ 5 cm</button>
+                  <button onClick={() => updateOpening(o.id, { offsetM: stepUp(o.offsetM) })} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">5 cm ▶</button>
                 </div>
                 <div className="mt-4 flex items-center justify-between">
                   <p className="label-caps text-[#999]">Width</p>
@@ -359,17 +419,17 @@ function PlannerInner() {
                   className="mt-2 w-full" aria-label={`${o.kind} width in metres`}
                 />
                 <div className="mt-2 flex gap-2">
-                  <button onClick={() => updateOpening(o.id, { widthM: stepDown(o.widthM) })} className="btn-ghost flex-1 !py-2 !text-[14px]">− Narrower</button>
-                  <button onClick={() => updateOpening(o.id, { widthM: stepUp(o.widthM) })} className="btn-ghost flex-1 !py-2 !text-[14px]">+ Wider</button>
+                  <button onClick={() => updateOpening(o.id, { widthM: stepDown(o.widthM) })} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">− Narrower</button>
+                  <button onClick={() => updateOpening(o.id, { widthM: stepUp(o.widthM) })} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">+ Wider</button>
                 </div>
                 <div className="mt-2 flex gap-2">
                   <button
                     onClick={() => updateOpening(o.id, { kind: o.kind === "door" ? "window" : "door" })}
-                    className="btn-ghost flex-1 !py-2 !text-[14px]"
+                    className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]"
                   >
                     Make {o.kind === "door" ? "window" : "door"}
                   </button>
-                  <button onClick={() => removeOpening(o.id)} className="btn-ghost flex-1 !py-2 !text-[14px]">Remove</button>
+                  <button onClick={() => removeOpening(o.id)} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">Remove</button>
                 </div>
               </div>
             );
@@ -381,8 +441,8 @@ function PlannerInner() {
               <div className="mt-4 border-t border-[#333] pt-4">
                 <p className="text-[16px] font-medium">{f.kind} <span className="text-[#999]">· {f.rot}°</span></p>
                 <div className="mt-3 flex gap-2">
-                  <button onClick={() => rotate(f.id)} className="btn-ghost flex-1 !py-2 !text-[14px]">Rotate 90°</button>
-                  <button onClick={() => { remove(f.id); setSel(null); }} className="btn-ghost flex-1 !py-2 !text-[14px]">Remove</button>
+                  <button onClick={() => rotate(f.id)} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">Rotate 90°</button>
+                  <button onClick={() => { remove(f.id); setSel(null); }} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">Remove</button>
                 </div>
               </div>
             );
