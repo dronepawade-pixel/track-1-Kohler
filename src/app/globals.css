@@ -73,6 +73,34 @@ body {
   transition: transform 0.25s var(--ease-premium);
 }
 .btn-cream.btn-arrow:hover .btn-arrow-glyph { transform: translateX(4px); }
+/* Next-step spotlight — the planner → 3D forward action. Cream geometry
+   untouched per design.md; attention comes from a soft glow pulse + sheen. */
+.btn-spotlight {
+  position: relative;
+  overflow: hidden;
+  animation: spotlight-pulse 2.6s ease-in-out infinite;
+}
+@keyframes spotlight-pulse {
+  0%, 100% { box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 20px 0px, rgba(245, 245, 240, 0.10) 0px 0px 0px 0px; }
+  50% { box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 20px 0px, rgba(245, 245, 240, 0.38) 0px 0px 26px 5px; }
+}
+.btn-spotlight::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  animation: spotlight-sweep 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes spotlight-sweep {
+  0% { left: -50%; }
+  60%, 100% { left: 130%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-spotlight, .btn-spotlight::after { animation: none; }
+}
 .btn-ghost {
   background: transparent;
   border: 1px solid #333;
