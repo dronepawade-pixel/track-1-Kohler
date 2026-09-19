@@ -185,72 +185,6 @@ function PendantLamp({ room, lamp }: { room: RoomDims; lamp: LampSpec }) {
   );
 }
 
-// Procedural decor set — no assets needed. Corners/edges only, so it never
-// fights fixtures for floor space. One master toggle in the tray below.
-function Decor({ room }: { room: RoomDims }) {
-  const hx = room.w / 2;
-  const hz = room.h / 2;
-  const pot = useMemo(() => std("#262626", 0.8), []);
-  const leaf = useMemo(() => new THREE.MeshStandardMaterial({ color: "#3f4f43", roughness: 0.8 }), []);
-  const wood = useMemo(() => std("#4a4239", 0.75), []);
-  const paper = useMemo(() => std("#c9c7c0", 0.9), []);
-  const leaves = useMemo(() => {
-    const arr: { p: [number, number, number]; r: [number, number, number]; s: number }[] = [];
-    for (let i = 0; i < 7; i++) {
-      const a = (i / 7) * Math.PI * 2;
-      arr.push({
-        p: [Math.cos(a) * 0.09, 0.62 + (i % 3) * 0.13, Math.sin(a) * 0.09],
-        r: [Math.cos(a) * 0.5, 0, Math.sin(a) * 0.5 + 0.35],
-        s: 0.8 + (i % 2) * 0.35,
-      });
-    }
-    return arr;
-  }, []);
-  return (
-    <group>
-      {/* potted plant, back-left corner */}
-      <group position={[-hx + 0.38, 0, -hz + 0.38]}>
-        <mesh position={[0, 0.16, 0]} material={pot} castShadow receiveShadow>
-          <cylinderGeometry args={[0.13, 0.16, 0.32, 20]} />
-        </mesh>
-        {leaves.map((l, i) => (
-          <mesh key={i} position={[l.p[0], l.p[1], l.p[2]]} rotation={[l.r[0], l.r[1], l.r[2]]} material={leaf} castShadow>
-            <coneGeometry args={[0.055 * l.s, 0.5 * l.s, 8]} />
-          </mesh>
-        ))}
-      </group>
-      {/* framed print on the north wall */}
-      <group position={[Math.min(0.6, hx * 0.4), 1.62, -hz + 0.035]}>
-        <mesh material={wood} castShadow>
-          <boxGeometry args={[0.7, 0.9, 0.04]} />
-        </mesh>
-        <mesh position={[0, 0.05, 0.022]} material={paper}>
-          <boxGeometry args={[0.58, 0.5, 0.005]} />
-        </mesh>
-        <mesh position={[-0.1, -0.28, 0.022]} material={pot}>
-          <boxGeometry args={[0.58, 0.12, 0.005]} />
-        </mesh>
-      </group>
-      {/* candle cluster, front-right corner */}
-      {[
-        { x: 0, h: 0.22, r: 0.05 },
-        { x: 0.13, h: 0.15, r: 0.045 },
-        { x: -0.12, h: 0.11, r: 0.04 },
-      ].map((c, i) => (
-        <group key={i} position={[hx - 0.4 + c.x, 0, hz - 0.35]}>
-          <mesh position={[0, c.h / 2, 0]} material={paper} castShadow>
-            <cylinderGeometry args={[c.r, c.r, c.h, 14]} />
-          </mesh>
-          <mesh position={[0, c.h + 0.015, 0]}>
-            <sphereGeometry args={[0.012, 10, 8]} />
-            <meshBasicMaterial color="#ffca7a" toneMapped={false} />
-          </mesh>
-        </group>
-      ))}
-    </group>
-  );
-}
-
 function OpeningModel({
   id, o, room, registry,
 }: {
@@ -452,7 +386,7 @@ function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; m
     })()
   ) : null;
   return (
-    <group position={[f.cx, 0, f.cz]}>
+    <group position={[f.cx, 0, f.cz]} rotation={[0, THREE.MathUtils.degToRad(f.rot ?? 0), 0]}>
       {/* soft grounding shadow, re-baked whenever the model swaps */}
       <ContactShadows
         key={model}
@@ -530,7 +464,7 @@ function DecorMesh({ f, labels }: { f: MetreFixture; labels: boolean }) {
   const body = useMemo(() => ceramic("#cfcdc6"), []);
   const y0 = f.y0 ?? 0;
   return (
-    <group position={[f.cx, y0, f.cz]}>
+    <group position={[f.cx, y0, f.cz]} rotation={[0, THREE.MathUtils.degToRad(f.rot ?? 0), 0]}>
       <ContactShadows
         position={[0, 0.008, 0]}
         scale={[f.w + 0.8, f.d + 0.8]}
@@ -596,8 +530,7 @@ function Scene({
 }) {
   const tile = useTileTexture(room.w, room.h);
   const maxR = Math.max(room.w, room.h);
-  // Placed decor renders at its planner position; the procedural staged set
-  // only shows when the user hasn't placed any decor of their own.
+  // Only what the user placed on the 2D canvas renders — no default staging.
   const solids = fixtures.filter((f) => !f.decorId);
   const placedDecor = fixtures.filter((f) => f.decorId);
 
@@ -658,7 +591,6 @@ function Scene({
         <DecorMesh key={f.id} f={f} labels={labels} />
       ))}
       {lamp && <PendantLamp room={room} lamp={lamp} />}
-      {decor && placedDecor.length === 0 && <Decor room={room} />}
 
       <OrbitControls
         ref={controlsRef}
@@ -828,7 +760,7 @@ export default function RoomCanvas({
           {lampId ? `${LAMPS.find((l) => l.id === lampId)?.label} pendant on.` : "Pendant off — key light only."}{" "}
           {fixtures.some((f) => f.decorId)
             ? `${fixtures.filter((f) => f.decorId).length} placed decor piece${fixtures.filter((f) => f.decorId).length === 1 ? "" : "s"} from your 2D plan${decor ? "." : " (hidden)."}`
-            : `Staged set (plant, print + candles) ${decor ? "showing — place your own decor on the 2D canvas to replace it." : "hidden."}`}
+            : `No decor placed yet — add some on the 2D canvas.`}
         </p>
       </div>
       <SwapTray fixtures={fixtures} models={models} onModelChange={onModelChange} />
