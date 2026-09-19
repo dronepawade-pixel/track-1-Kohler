@@ -1,13 +1,14 @@
 "use client";
 import { Suspense, useState } from "react";
 import Link from "next/link";
+import { BUDGET_RANGES, DEFAULT_BUDGET_ID, budgetById } from "@/lib/budget";
 
 const STYLES = ["Modern Minimal", "Spa Retreat", "Heritage Classic", "Bold Statement"];
 
 function NewDesignInner() {
   // Step 1 of the single flow: dimensions + brief here, then the 2D planner
   // canvas. 3D opens only from the planner (saved design), never directly.
-  const [form, setForm] = useState({ length: "3.6", width: "2.4", height: "2.7", budget: "450000", style: STYLES[1], doors: "1", windows: "1", notes: "" });
+  const [form, setForm] = useState({ length: "3.6", width: "2.4", height: "2.7", budgetId: DEFAULT_BUDGET_ID, style: STYLES[1], doors: "1", windows: "1", notes: "" });
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
   const area = (parseFloat(form.length) || 0) * (parseFloat(form.width) || 0);
@@ -41,8 +42,24 @@ function NewDesignInner() {
             <label className="block"><span className="label-caps text-[#999]">Windows</span>
               <input type="number" min="0" value={form.windows} onChange={set("windows")} className="field mt-2" /></label>
           </div>
-          <label className="mt-6 block"><span className="label-caps text-[#999]">Budget (₹)</span>
-            <input type="number" min="0" step="1000" value={form.budget} onChange={set("budget")} className="field mt-2" /></label>
+          <div className="mt-6">
+            <span className="label-caps text-[#999]">Budget range</span>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              {BUDGET_RANGES.map((b) => (
+                <button
+                  key={b.id}
+                  onClick={() => setForm((f) => ({ ...f, budgetId: b.id }))}
+                  className={form.budgetId === b.id ? "btn-cream !px-3 !py-2 !text-[13px]" : "btn-ghost !px-3 !py-2 !text-[13px]"}
+                  aria-pressed={form.budgetId === b.id}
+                >
+                  {b.label} · {b.blurb}
+                </button>
+              ))}
+            </div>
+            <p className="mt-2 text-[14px] text-[#999]">
+              Capped at ₹{budgetById(form.budgetId).cap.toLocaleString("en-IN")} — the AI and budget check plan within it.
+            </p>
+          </div>
         </div>
         <div className="card p-8">
           <p className="label-caps text-[#999]">Style & rituals</p>
@@ -61,7 +78,6 @@ function NewDesignInner() {
         <Link href={nextHref} className="btn-cream">
           Continue to 2D planner
         </Link>
-        <Link href="/budget" className="btn-ghost">Skip to budget</Link>
       </div>
     </section>
   );

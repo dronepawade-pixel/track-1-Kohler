@@ -435,14 +435,13 @@ function PlannerInner() {
               className="field mt-2"
               aria-label="Design name"
             />
-            <div className="mt-2 flex gap-2">
-              <button onClick={saveDesign} className="btn-cream flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">
-                {activeId ? "Save changes" : "Save design"}
-              </button>
-              <button onClick={viewIn3D} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">
-                View in 3D
-              </button>
-            </div>
+            <button onClick={saveDesign} className="btn-cream mt-2 w-full whitespace-nowrap !px-3 !py-2 !text-[14px]">
+              {activeId ? "Save changes" : "Save design"}
+            </button>
+            <p className="label-caps mt-5 text-[#999]">Next step — your layout auto-saves on the way</p>
+            <button onClick={viewIn3D} className="btn-cream btn-arrow btn-spotlight mt-2 w-full whitespace-nowrap !py-3 !text-[15px]">
+              View in 3D <span aria-hidden className="btn-arrow-glyph">→</span>
+            </button>
             <div className="mt-2">
               <Link href="/saved" className="label-caps text-[#999] hover:text-white">View saved →</Link>
             </div>

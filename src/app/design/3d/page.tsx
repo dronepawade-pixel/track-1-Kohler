@@ -185,8 +185,9 @@ function ViewInner() {
         <Link href="/design/new" className="btn-ghost">← Details</Link>
         <Link href={plannerHref} className="btn-ghost">Edit in 2D canvas →</Link>
         <Link href="/saved" className="btn-ghost">Saved designs</Link>
+        <Link href="/budget" className="btn-cream !py-2 !text-[14px]">Continue to budget →</Link>
         {stored && (
-          <button onClick={saveSwaps} className="btn-cream !py-2 !text-[14px]">
+          <button onClick={saveSwaps} className="btn-ghost !py-2 !text-[14px]">
             {savedTick ? "Saved ✓" : "Save model swaps"}
           </button>
         )}
