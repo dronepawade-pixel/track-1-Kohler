@@ -1,0 +1,105 @@
+// CSV → SQL upsert generator for the products catalog.
+// Usage: node tools/import_products.mjs  (writes supabase/seed/products_seed.sql)
+// Re-runnable. No secrets needed — run the emitted SQL in the Supabase
+// dashboard SQL editor (or psql). Blank numerics → NULL, style_tags split
+// on "|", image_urls split on ",", sku unique. Logs skipped rows + reason.
+import { readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const csvPath = join(root, "supabase", "seed", "products_seed.csv");
+const outPath = join(root, "supabase", "seed", "products_seed.sql");
+
+const EXPECTED_HEADER =
+  "sku,name,category,collection,finish,price_inr,width_mm,depth_mm,height_mm,style_tags,official_url,image_urls,model_glb_url,footprint_svg,dwg_url,source,verified_at";
+
+const CATEGORIES = new Set([
+  "Showers", "Bathtubs", "Basins", "Smart Toilets", "Faucets", "Mirrors", "Vanities",
+]);
+
+// Minimal RFC-4180 parse (handles quoted commas + doubled quotes).
+function parseCsv(text) {
+  const rows = [];
+  let row = [], field = "", quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (quoted) {
+      if (c === '"') {
+        if (text[i + 1] === '"') { field += '"'; i++; }
+        else quoted = false;
+      } else field += c;
+    } else if (c === '"') quoted = true;
+    else if (c === ",") { row.push(field); field = ""; }
+    else if (c === "\n") {
+      if (field !== "" || row.length > 0) { row.push(field); rows.push(row); }
+      row = []; field = "";
+    } else if (c === "\r") { /* skip */ }
+    else field += c;
+  }
+  if (field !== "" || row.length > 0) { row.push(field); rows.push(row); }
+  return rows.filter((r) => r.some((f) => f.trim() !== ""));
+}
+
+const esc = (s) => `'${s.replace(/'/g, "''")}'`;
+const intOrNull = (s) => {
+  const t = (s ?? "").trim();
+  if (t === "") return "NULL";
+  const n = Number(t);
+  return Number.isInteger(n) && n >= 0 ? String(n) : "INVALID";
+};
+const textOrNull = (s) => {
+  const t = (s ?? "").trim();
+  return t === "" ? "NULL" : esc(t);
+};
+const arrOrEmpty = (s, sep) => {
+  const parts = (s ?? "").split(sep).map((p) => p.trim()).filter(Boolean);
+  return `'{${parts.map((p) => `"${p.replace(/"/g, '\\"')}"`).join(",")}}'`;
+};
+const dateOrNull = (s) => {
+  const t = (s ?? "").trim();
+  if (t === "") return "NULL";
+  return /^\d{4}-\d{2}-\d{2}$/.test(t) ? esc(t) : "INVALID";
+};
+
+const raw = readFileSync(csvPath, "utf8");
+const rows = parseCsv(raw);
+const header = rows[0].join(",");
+const skipped = [];
+const statements = [];
+
+if (header !== EXPECTED_HEADER) {
+  console.error(`Header mismatch.\n  found:    ${header}\n  expected: ${EXPECTED_HEADER}`);
+  process.exit(1);
+}
+
+const seen = new Set();
+for (const r of rows.slice(1)) {
+  const [sku, name, category, collection, finish, price_inr, width_mm, depth_mm,
+    height_mm, style_tags, official_url, image_urls, model_glb_url,
+    footprint_svg, dwg_url, source, verified_at] = r;
+  const why = [];
+  if (!sku?.trim()) why.push("blank sku");
+  if (seen.has(sku)) why.push("duplicate sku in file");
+  if (!name?.trim()) why.push("blank name");
+  if (!CATEGORIES.has(category?.trim())) why.push(`bad category "${category}"`);
+  for (const [label, v] of [["price_inr", price_inr], ["width_mm", width_mm], ["depth_mm", depth_mm], ["height_mm", height_mm]]) {
+    if (intOrNull(v) === "INVALID") why.push(`bad ${label} "${v}"`);
+  }
+  if (dateOrNull(verified_at) === "INVALID") why.push(`bad verified_at "${verified_at}"`);
+  if (why.length > 0) { skipped.push(`${sku || "(blank)"}: ${why.join("; ")}`); continue; }
+  seen.add(sku);
+  statements.push(
+`insert into products (sku, name, category, collection, finish, price_inr, width_mm, depth_mm, height_mm, style_tags, official_url, image_urls, model_glb_url, footprint_svg, dwg_url, source, verified_at)
+values (${esc(sku.trim())}, ${esc(name.trim())}, ${esc(category.trim())}, ${textOrNull(collection)}, ${textOrNull(finish)}, ${intOrNull(price_inr)}, ${intOrNull(width_mm)}, ${intOrNull(depth_mm)}, ${intOrNull(height_mm)}, ${arrOrEmpty(style_tags, "|")}, ${textOrNull(official_url)}, ${arrOrEmpty(image_urls, ",")}, ${textOrNull(model_glb_url)}, ${textOrNull(footprint_svg)}, ${textOrNull(dwg_url)}, ${textOrNull(source) || "'studiokohler.com'"}, ${dateOrNull(verified_at)})
+on conflict (sku) do update set name = excluded.name, category = excluded.category, collection = excluded.collection, finish = excluded.finish, price_inr = excluded.price_inr, width_mm = excluded.width_mm, depth_mm = excluded.depth_mm, height_mm = excluded.height_mm, style_tags = excluded.style_tags, official_url = excluded.official_url, image_urls = excluded.image_urls, model_glb_url = excluded.model_glb_url, footprint_svg = excluded.footprint_svg, dwg_url = excluded.dwg_url, source = excluded.source, verified_at = excluded.verified_at;`
+  );
+}
+
+const sql = `-- Auto-generated by tools/import_products.mjs. Do not hand-edit.\n-- Run in Supabase dashboard SQL editor (or psql) after migration\n-- 20260919000003_catalog_assets.sql.\n\n${statements.join("\n")}\n`;
+writeFileSync(outPath, sql);
+console.log(`Wrote ${statements.length} upserts → supabase/seed/products_seed.sql`);
+if (skipped.length > 0) {
+  console.log(`Skipped ${skipped.length}:`);
+  for (const s of skipped) console.log(`  - ${s}`);
+} else console.log("Skipped 0 rows.");

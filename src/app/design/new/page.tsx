@@ -1,18 +1,36 @@
 "use client";
 import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { uid, upsertDesign } from "@/lib/designs";
+import { toSavedFixtures, type Placement } from "@/lib/autoLayout";
 
 const STYLES = ["Modern Minimal", "Spa Retreat", "Heritage Classic", "Bold Statement"];
 
 type Track = "3d" | "2d";
 
+type RecommendLayout = Placement & { sku: string; kind: string; modelId: string };
+type RecommendRes = {
+  tags_used?: string[];
+  tag_source?: string;
+  catalog_source?: string;
+  bundle?: { sku: string; name: string; price_inr: number | null }[];
+  totalCost_known?: number;
+  unknownCount?: number;
+  warnings?: string[];
+  layout?: RecommendLayout[];
+  error?: string;
+};
+
 function NewDesignInner() {
   const params = useSearchParams();
+  const router = useRouter();
   // Shared step 1 for both tracks: ?mode=2d heads to the 2D planner canvas,
   // anything else runs the Design track into the 3D view.
   const [track, setTrack] = useState<Track>(params.get("mode") === "2d" ? "2d" : "3d");
   const [form, setForm] = useState({ length: "3.6", width: "2.4", height: "2.7", budget: "450000", style: STYLES[1], doors: "1", windows: "1", notes: "" });
+  const [aiState, setAiState] = useState<"idle" | "working" | "error">("idle");
+  const [aiMsg, setAiMsg] = useState<string | null>(null);
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
   const area = (parseFloat(form.length) || 0) * (parseFloat(form.width) || 0);
@@ -20,6 +38,79 @@ function NewDesignInner() {
     `length=${encodeURIComponent(form.length)}&width=${encodeURIComponent(form.width)}` +
     `&height=${encodeURIComponent(form.height)}&doors=${encodeURIComponent(form.doors)}&windows=${encodeURIComponent(form.windows)}`;
   const nextHref = track === "2d" ? `/planner?${query}` : `/design/3d?${query}`;
+
+  // AI concept (3D track only): plain-text style + budget → Gemini tags →
+  // strict-budget catalogue bundle → deterministic auto-layout → saved design.
+  const generateConcept = async () => {
+    setAiState("working");
+    setAiMsg(null);
+    try {
+      const res = await fetch("/api/recommend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          room: {
+            l_m: parseFloat(form.length) || 3.6,
+            w_m: parseFloat(form.width) || 2.4,
+            h_m: parseFloat(form.height) || 2.7,
+          },
+          budget_inr: parseFloat(form.budget) || 0,
+          style: form.style,
+          notes: form.notes,
+        }),
+      });
+      const data = (await res.json()) as RecommendRes;
+      if (!res.ok) throw new Error(data.error ?? `Request failed (${res.status}).`);
+      const room = {
+        w: parseFloat(form.length) || 3.6,
+        h: parseFloat(form.width) || 2.4,
+        height: parseFloat(form.height) || 2.7,
+        doors: Math.max(0, parseInt(form.doors) || 0),
+        windows: Math.max(0, parseInt(form.windows) || 0),
+      };
+      const layout = data.layout ?? [];
+      const items = toSavedFixtures(room, layout);
+      let oid = 1;
+      const spread = (kind: "door" | "window", count: number, wall: "top" | "bottom", widthM: number) => {
+        const len = wall === "top" || wall === "bottom" ? room.w : room.h;
+        const wM = Math.min(widthM, len);
+        return Array.from({ length: count }).map((_, i) => ({
+          id: oid++,
+          kind,
+          wall,
+          widthM: wM,
+          offsetM: Math.min(Math.max(((i + 1) / (count + 1)) * len - wM / 2, 0), Math.max(0, len - wM)),
+        }));
+      };
+      const id = uid();
+      const now = new Date().toISOString();
+      upsertDesign({
+        id,
+        title: `AI concept — ${form.style}`,
+        createdAt: now,
+        updatedAt: now,
+        room,
+        items,
+        openings: [
+          ...spread("door", room.doors, "bottom", 0.9),
+          ...spread("window", room.windows, "top", 1.2),
+        ],
+      });
+      const bits = [
+        `${data.bundle?.length ?? 0} items`,
+        `₹${(data.totalCost_known ?? 0).toLocaleString("en-IN")} of ₹${(parseFloat(form.budget) || 0).toLocaleString("en-IN")}`,
+        `tags: ${(data.tags_used ?? []).join(", ")}`,
+      ];
+      if ((data.unknownCount ?? 0) > 0) bits.push(`${data.unknownCount} price Unknown`);
+      if (data.warnings?.length) bits.push(data.warnings.join(" · "));
+      setAiMsg(`${bits.join(" · ")} (${data.tag_source}; ${data.catalog_source}). Opening 3D…`);
+      setAiState("idle");
+      router.push(`/design/3d?design=${encodeURIComponent(id)}`);
+    } catch (err) {
+      setAiState("error");
+      setAiMsg(err instanceof Error ? err.message : "Generation failed. Continue manually below.");
+    }
+  };
 
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-16">
@@ -78,11 +169,28 @@ function NewDesignInner() {
         </div>
       </div>
       <div className="mt-8 flex flex-wrap gap-4">
-        <Link href={nextHref} className="btn-cream">
+        {track === "3d" && (
+          <button
+            onClick={generateConcept}
+            disabled={aiState === "working"}
+            className="btn-cream disabled:cursor-wait disabled:opacity-60"
+          >
+            {aiState === "working" ? "Generating concept…" : "✨ Generate 3D concept"}
+          </button>
+        )}
+        <Link href={nextHref} className="btn-ghost">
           {track === "2d" ? "Continue to 2D planner" : "Continue to 3D design"}
         </Link>
         <Link href="/budget" className="btn-ghost">Skip to budget</Link>
       </div>
+      {track === "3d" && (
+        <p className="mt-3 max-w-2xl text-[14px] text-[#999]">
+          {aiMsg ?? "AI reads your style text + budget, picks catalogue 3D models that match, and auto-places them in the 3D view. Strict budget — the bundle never exceeds ₹. Works without a Gemini key (keyword fallback); add one for smarter tag matching."}
+        </p>
+      )}
+      {aiState === "error" && aiMsg && (
+        <p className="mt-2 max-w-2xl text-[14px] text-[#ff8a8a]">{aiMsg}</p>
+      )}
     </section>
   );
 }
