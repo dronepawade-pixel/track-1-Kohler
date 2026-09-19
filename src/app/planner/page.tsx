@@ -3,8 +3,9 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getDesign, uid, upsertDesign, sanitizeDesign, type SavedDesign } from "@/lib/designs";
+import { DECOR_OPTIONS, decorById } from "@/lib/decor";
 
-type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number; model?: string };
+type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number; model?: string; decorId?: string };
 type RoomSpec = { w: number; h: number; height: number; doors: number; windows: number };
 type Wall = "top" | "bottom" | "left" | "right";
 type Opening = { id: number; kind: "door" | "window"; wall: Wall; offsetM: number; widthM: number };
@@ -43,7 +44,7 @@ const clampPos = (room: RoomSpec, s: number, f: Fixture, x: number, y: number) =
   y: Math.max(f.h / 2, Math.min(room.h * s - f.h / 2, y)),
 });
 
-const num = (v: string | null, fb: number, lo: number, hi: number) => {
+const num = (v: string | null | undefined, fb: number, lo: number, hi: number) => {
   const n = parseFloat(v ?? "");
   return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : fb;
 };
@@ -68,7 +69,7 @@ const spreadOpenings = (room: RoomSpec, kind: "door" | "window", count: number, 
 
 function PlannerInner() {
   const params = useSearchParams();
-  const designId = params.get("design");
+  const designId = params?.get("design");
   // Opening a saved design (?design=id) restores its room, fixtures and openings.
   // Loaded in an effect (never during render): localStorage doesn't exist on the
   // server, so reading it during render hydrates different HTML (client vs server).
@@ -82,11 +83,11 @@ function PlannerInner() {
   const room: RoomSpec = useMemo(
     () =>
       stored?.room ?? {
-        w: num(params.get("length"), DEFAULT_ROOM.w, 1.2, 12),
-        h: num(params.get("width"), DEFAULT_ROOM.h, 1.2, 12),
-        height: num(params.get("height"), DEFAULT_ROOM.height, 2, 5),
-        doors: Math.round(num(params.get("doors"), DEFAULT_ROOM.doors, 0, 6)),
-        windows: Math.round(num(params.get("windows"), DEFAULT_ROOM.windows, 0, 6)),
+        w: num(params?.get("length"), DEFAULT_ROOM.w, 1.2, 12),
+        h: num(params?.get("width"), DEFAULT_ROOM.h, 1.2, 12),
+        height: num(params?.get("height"), DEFAULT_ROOM.height, 2, 5),
+        doors: Math.round(num(params?.get("doors"), DEFAULT_ROOM.doors, 0, 6)),
+        windows: Math.round(num(params?.get("windows"), DEFAULT_ROOM.windows, 0, 6)),
       },
     [params, stored]
   );
@@ -121,6 +122,7 @@ function PlannerInner() {
   }, [stored, designId]);
   const [sel, setSel] = useState<number | null>(null);
   const [selOpening, setSelOpening] = useState<number | null>(null);
+  const [showDecor, setShowDecor] = useState(true);
   const [dragId, setDragId] = useState<number | null>(null);
   const [dragOpeningId, setDragOpeningId] = useState<number | null>(null);
   const [history, setHistory] = useState<Snapshot[]>([]);
@@ -145,11 +147,17 @@ function PlannerInner() {
   }, [undo]);
   const add = (kind: string, wm: number, hm: number) =>
     commitItems([...items, { id: nextId++, kind, x: (room.w * s) / 2, y: (room.h * s) / 2, w: px(wm), h: px(hm), rot: 0 }]);
+  // Decor: free placement, sits on the top layer, never clashes, never costed.
+  const addDecor = (decorId: string) => {
+    const d = decorById(decorId);
+    if (!d) return;
+    commitItems([...items, { id: nextId++, kind: "Decor", decorId: d.id, x: (room.w * s) / 2, y: (room.h * s) / 2, w: px(d.w), h: px(d.h), rot: 0 }]);
+  };
   const rotate = (id: number) => commitItems(items.map((f) => (f.id === id ? { ...f, rot: (f.rot + 90) % 360, w: f.h, h: f.w } : f)));
   const remove = (id: number) => commitItems(items.filter((f) => f.id !== id));
   const clearAll = () => {
     if (items.length === 0 && openings.length === 0) return;
-    if (!window.confirm("Clear the canvas? All fixtures and openings are removed. Saved designs are untouched.")) return;
+    if (!window.confirm("Clear the canvas? All fixtures, decor and openings are removed. Saved designs are untouched.")) return;
     setHistory((h) => [...h.slice(-49), { items, openings }]);
     setItems([]);
     setOpenings([]);
@@ -211,7 +219,11 @@ function PlannerInner() {
       setHistory((h) => [...h.slice(-49), b]);
   };
 
-  const clashes = items.filter((f) => items.some((o) => overlaps(f, o)));
+  // Decor never clashes: clash checks run fixture-vs-fixture only, so decor
+  // can sit on top of basins, tubs and floors without warnings.
+  const clashes = items.filter((f) => !f.decorId && items.some((o) => !o.decorId && overlaps(f, o)));
+  const fixtureCount = items.filter((f) => !f.decorId).length;
+  const decorCount = items.filter((f) => f.decorId).length;
   const doorCount = openings.filter((o) => o.kind === "door").length;
   const windowCount = openings.filter((o) => o.kind === "window").length;
   const activeOpening = selOpening !== null ? openings.find((o) => o.id === selOpening) ?? null : null;
@@ -315,6 +327,15 @@ function PlannerInner() {
         <button onClick={() => addOpening("door")} className="btn-ghost !py-2 !text-[14px]">+ Door</button>
         <button onClick={() => addOpening("window")} className="btn-ghost !py-2 !text-[14px]">+ Window</button>
       </div>
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <span className="label-caps text-[#999]">Decor — free placement, sits on top, not costed</span>
+        {DECOR_OPTIONS.map((d) => (
+          <button key={d.id} onClick={() => addDecor(d.id)} className="btn-ghost !py-2 !text-[14px]">+ {d.label}</button>
+        ))}
+        <button onClick={() => setShowDecor((v) => !v)} className="btn-ghost !py-2 !text-[14px]">
+          Decor {showDecor ? "shown" : "hidden"}
+        </button>
+      </div>
       <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_320px]">
         <div className="card flex min-h-[440px] items-center justify-center overflow-auto p-4">
           <svg
@@ -352,7 +373,7 @@ function PlannerInner() {
                 </g>
               );
             })}
-            {items.map((f) => {
+            {items.filter((f) => !f.decorId).map((f) => {
               const clash = clashes.some((c) => c.id === f.id);
               return (
                 <g
@@ -367,6 +388,22 @@ function PlannerInner() {
                 </g>
               );
             })}
+            {showDecor && items.filter((f) => f.decorId).map((f) => {
+              const d = decorById(f.decorId);
+              const active = sel === f.id;
+              return (
+                <g
+                  key={f.id}
+                  onClick={() => setSel(f.id)}
+                  onPointerDown={(e) => onFixturePointerDown(e, f.id)}
+                  style={{ cursor: dragId === f.id ? "grabbing" : "grab", touchAction: "none" }}
+                >
+                  <rect x={20 + f.x - f.w / 2} y={20 + f.y - f.h / 2} width={f.w} height={f.h} rx={6}
+                    fill={active ? "#f5f5f0" : "#141414"} stroke="#999" strokeWidth={1} strokeDasharray="5 3" />
+                  <text x={20 + f.x} y={20 + f.y + 4} textAnchor="middle" fontSize={11} fill={active ? "#000" : "#fff"}>{d?.glyph ?? "Decor"}</text>
+                </g>
+              );
+            })}
           </svg>
         </div>
         <aside className="card no-scrollbar h-fit p-6 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
@@ -376,7 +413,7 @@ function PlannerInner() {
             Height {room.height} m · {doorCount} door{doorCount === 1 ? "" : "s"} · {windowCount} window{windowCount === 1 ? "" : "s"}
           </p>
           <p className="mt-1 text-[14px] text-[#999]">
-            {items.length} fixture{items.length === 1 ? "" : "s"} · snap {SNAP}px · clearance 0.6m{s < BASE_SCALE ? ` · fit ${Math.round(s)}px/m` : ""}
+            {fixtureCount} fixture{fixtureCount === 1 ? "" : "s"}{decorCount > 0 ? ` + ${decorCount} decor` : ""} · snap {SNAP}px · clearance 0.6m{s < BASE_SCALE ? ` · fit ${Math.round(s)}px/m` : ""}
           </p>
           <div className="mt-4 border-t border-[#333] pt-4">
             <p className="label-caps text-[#999]">Canvas history</p>
@@ -482,9 +519,10 @@ function PlannerInner() {
           {sel !== null && !activeOpening && (() => {
             const f = items.find((i) => i.id === sel);
             if (!f) return null;
+            const d = decorById(f.decorId);
             return (
               <div className="mt-4 border-t border-[#333] pt-4">
-                <p className="text-[16px] font-medium">{f.kind} <span className="text-[#999]">· {f.rot}°</span></p>
+                <p className="text-[16px] font-medium">{d ? d.label : f.kind} <span className="text-[#999]">· {d ? "decor" : `${f.rot}°`}</span></p>
                 <div className="mt-3 flex gap-2">
                   <button onClick={() => rotate(f.id)} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">Rotate 90°</button>
                   <button onClick={() => { remove(f.id); setSel(null); }} className="btn-ghost flex-1 whitespace-nowrap !px-3 !py-2 !text-[14px]">Remove</button>

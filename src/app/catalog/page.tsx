@@ -56,17 +56,18 @@ function TypeList({
 
 function CatalogInner() {
   const params = useSearchParams();
+  const qp = (k: string): string | null => params?.get(k) ?? null;
   const validCat = (c: string | null): string =>
     c && (CATEGORIES as readonly string[]).includes(c) ? c : "All";
   const validSub = (c: string, s: string | null): string | null =>
     s && (SUBCATEGORIES[c] ?? []).includes(s) ? s : null;
   const [q, setQ] = useState("");
-  const [cat, setCat] = useState<string>(() => validCat(params.get("category")));
-  const [sub, setSub] = useState<string | null>(() => validSub(validCat(params.get("category")), params.get("sub")));
+  const [cat, setCat] = useState<string>(() => validCat(qp("category")));
+  const [sub, setSub] = useState<string | null>(() => validSub(validCat(qp("category")), qp("sub")));
   useEffect(() => {
-    const c = validCat(params.get("category"));
+    const c = validCat(qp("category"));
     setCat(c);
-    setSub(validSub(c, params.get("sub")));
+    setSub(validSub(c, qp("sub")));
   }, [params]);
   const pickCat = (c: string) => { setCat(c); setSub(null); };
   const pickSub = (c: string, s: string | null) => { setCat(c); setSub(s); };

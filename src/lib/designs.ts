@@ -2,7 +2,7 @@
 // Works with zero backend (no Supabase keys needed). When the Supabase
 // tables (design_projects + design_versions) are wired up, swap these
 // helpers for DB calls — the SavedDesign shape already mirrors that schema.
-export type SavedFixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number; model?: string };
+export type SavedFixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number; model?: string; decorId?: string };
 export type SavedOpening = {
   id: number;
   kind: "door" | "window";
