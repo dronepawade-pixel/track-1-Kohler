@@ -67,7 +67,7 @@ export default function Home() {
             Tell us your space, budget and rituals — we compose it from real Kohler products.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Pressable><Link href="/design/new?mode=3d" className="btn-cream">Start your design</Link></Pressable>
+            <Pressable><Link href="/design/new" className="btn-cream">Start your design</Link></Pressable>
           </div>
         </FadeUp>
         <button onClick={toggleCraft} className="absolute bottom-8 right-8 z-10 hidden items-center gap-3 md:flex" aria-pressed={paused}>
@@ -114,7 +114,7 @@ export default function Home() {
           ))}
         </div>
         <div className="mt-8 flex gap-4">
-          <Pressable><Link href="/design/new?mode=2d" className="btn-ghost">Open 2D planner</Link></Pressable>
+          <Pressable><Link href="/planner" className="btn-ghost">Open 2D planner</Link></Pressable>
         </div>
       </section>
 
@@ -157,7 +157,7 @@ export default function Home() {
           ))}
         </div>
         <div className="mt-8 flex gap-4">
-          <Pressable><Link href="/design/new?mode=3d" className="btn-cream">Start your design — set your budget</Link></Pressable>
+          <Pressable><Link href="/design/new" className="btn-cream">Start your design — set your budget</Link></Pressable>
         </div>
         </FadeUp>
       </section>

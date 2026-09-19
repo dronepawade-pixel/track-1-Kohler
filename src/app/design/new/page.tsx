@@ -1,17 +1,12 @@
 "use client";
 import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
 const STYLES = ["Modern Minimal", "Spa Retreat", "Heritage Classic", "Bold Statement"];
 
-type Track = "3d" | "2d";
-
 function NewDesignInner() {
-  const params = useSearchParams();
-  // Shared step 1 for both tracks: ?mode=2d heads to the 2D planner canvas,
-  // anything else runs the Design track into the 3D view.
-  const [track, setTrack] = useState<Track>(params?.get("mode") === "2d" ? "2d" : "3d");
+  // Step 1 of the single flow: dimensions + brief here, then the 2D planner
+  // canvas. 3D opens only from the planner (saved design), never directly.
   const [form, setForm] = useState({ length: "3.6", width: "2.4", height: "2.7", budget: "450000", style: STYLES[1], doors: "1", windows: "1", notes: "" });
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -19,29 +14,14 @@ function NewDesignInner() {
   const query =
     `length=${encodeURIComponent(form.length)}&width=${encodeURIComponent(form.width)}` +
     `&height=${encodeURIComponent(form.height)}&doors=${encodeURIComponent(form.doors)}&windows=${encodeURIComponent(form.windows)}`;
-  const nextHref = track === "2d" ? `/planner?${query}` : `/design/3d?${query}`;
+  const nextHref = `/planner?${query}`;
 
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-16">
-      <p className="label-caps text-[#999]">New design — step 1 of 3 · shared by both tracks</p>
+      <p className="label-caps text-[#999]">New design — step 1 of 3</p>
       <h1 className="narrative mt-3 text-[clamp(36px,9vw,54px)]">Tell us about your bathroom.</h1>
-      <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label="Choose your track">
-        {(["3d", "2d"] as const).map((t) => (
-          <button
-            key={t}
-            role="tab"
-            aria-selected={track === t}
-            onClick={() => setTrack(t)}
-            className={track === t ? "btn-cream !py-2 !text-[14px]" : "btn-ghost !py-2 !text-[14px]"}
-          >
-            {t === "3d" ? "Design — 3D view" : "Planner — 2D canvas"}
-          </button>
-        ))}
-      </div>
       <p className="mt-3 text-[14px] text-[#999]">
-        {track === "3d"
-          ? "Design track: same details, then a walk-around 3D concept of your bathroom."
-          : "Planner track: same details, then the measured 2D canvas — drag, rotate, snap."}
+        Next: the measured 2D canvas — drag, rotate, snap. 3D opens from the planner once your layout is saved.
       </p>
       <div className="mt-10 grid gap-4 md:grid-cols-2">
         <div className="card p-8">
@@ -79,7 +59,7 @@ function NewDesignInner() {
       </div>
       <div className="mt-8 flex flex-wrap gap-4">
         <Link href={nextHref} className="btn-cream">
-          {track === "2d" ? "Continue to 2D planner" : "Continue to 3D design"}
+          Continue to 2D planner
         </Link>
         <Link href="/budget" className="btn-ghost">Skip to budget</Link>
       </div>

@@ -7,7 +7,7 @@ import { Pressable } from "./motion";
 const LINKS = [
   { href: "/catalog", label: "Bathroom" },
   { href: "/saved", label: "Saved Designs" },
-  { href: "/design/new?mode=3d", label: "Design" },
+  { href: "/design/new", label: "Design" },
 ];
 
 export default function Nav() {
@@ -27,7 +27,7 @@ export default function Nav() {
         </nav>
         <div className="flex items-center gap-2">
           <Pressable>
-            <Link href="/design/new?mode=3d" className="btn-cream btn-arrow !px-4 !py-2 text-[13px] md:!px-6 md:!py-2.5 md:text-[15px]">
+            <Link href="/design/new" className="btn-cream btn-arrow !px-4 !py-2 text-[13px] md:!px-6 md:!py-2.5 md:text-[15px]">
               Start your design <span aria-hidden className="btn-arrow-glyph">→</span>
             </Link>
           </Pressable>
