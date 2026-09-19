@@ -93,6 +93,7 @@ function ViewInner() {
         y0,
         glass: f.kind === "Shower",
         decorId: f.decorId,
+        rot: f.rot ?? 0,
       };
     });
   }, [stored, room, s]);

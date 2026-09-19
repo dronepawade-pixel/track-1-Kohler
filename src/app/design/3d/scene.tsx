@@ -17,6 +17,7 @@ export type MetreFixture = {
   y0?: number; // base height in metres (wall-mounted pieces float)
   glass?: boolean;
   decorId?: string; // set for movable decor placed on the 2D canvas
+  rot?: number; // yaw degrees from the 2D canvas Rotate (0/90/180/270)
 };
 export type MetreOpening = {
   kind: "door" | "window";
