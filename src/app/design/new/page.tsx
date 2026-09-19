@@ -11,7 +11,7 @@ function NewDesignInner() {
   const params = useSearchParams();
   // Shared step 1 for both tracks: ?mode=2d heads to the 2D planner canvas,
   // anything else runs the Design track into the 3D view.
-  const [track, setTrack] = useState<Track>(params.get("mode") === "2d" ? "2d" : "3d");
+  const [track, setTrack] = useState<Track>(params?.get("mode") === "2d" ? "2d" : "3d");
   const [form, setForm] = useState({ length: "3.6", width: "2.4", height: "2.7", budget: "450000", style: STYLES[1], doors: "1", windows: "1", notes: "" });
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));

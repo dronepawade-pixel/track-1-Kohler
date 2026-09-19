@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { decorById } from "@/lib/decor";
 
 // Dollhouse isometric renderer — dependency-free SVG, monochrome per design.md.
 // Camera orbits when you drag; front-facing walls drop to cutaway height so the
@@ -15,6 +16,7 @@ export type MetreFixture = {
   h: number;
   y0?: number; // base height in metres (wall-mounted pieces float)
   glass?: boolean;
+  decorId?: string; // set for movable decor placed on the 2D canvas
 };
 export type MetreOpening = {
   kind: "door" | "window";
@@ -385,7 +387,7 @@ export default function IsoRoom({
                 const [lx, ly] = proj(f.cx, y0 + f.h + 0.18, f.cz);
                 return (
                   <text x={lx} y={ly} textAnchor="middle" fontSize={12} fill="#fff" style={{ paintOrder: "stroke", stroke: "#000", strokeWidth: 4 }}>
-                    {f.kind}
+                    {decorById(f.decorId)?.glyph ?? f.kind}
                   </text>
                 );
               })()}

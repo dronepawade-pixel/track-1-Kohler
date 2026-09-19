@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KOHLER AI Bathroom Designer — Presentation</title>
+<style>
+  :root{
+    --void:#0a0a0b; --ink:#141414; --white:#ffffff; --cream:#f5f1e8; --paper:#efe9dc;
+    --gold:#d8a94c; --gold-soft:#f0d9a8; --sage:#7fb069; --amber:#e09543;
+    --smoke:#a8a29e; --line:rgba(255,255,255,.12); --dline:rgba(20,20,20,.14);
+    --ease:cubic-bezier(.22,.9,.28,1); --slow:cubic-bezier(0.625,0.05,0,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--void);color:var(--white);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .serif{font-family:Canela,"Tiempos Headline",Georgia,serif;font-style:italic;font-weight:500}
+  .progress{position:fixed;top:0;left:0;height:3px;width:0%;z-index:80;background:linear-gradient(90deg,var(--gold),var(--gold-soft));transition:width .35s var(--ease)}
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;align-items:center;gap:14px;padding:16px 34px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .topbar .mark{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#8a5a1d);display:grid;place-items:center;color:#000;font-weight:800;font-size:14px}
+  .topbar .r{margin-left:auto;display:flex;gap:8px;align-items:center}
+  .topbar.light{color:#141414}
+  .topbar.light .pillbtn{color:#141414;border-color:rgba(20,20,20,.3);background:rgba(20,20,20,.05)}
+  .topbar.light .pillbtn.solid{background:#141414;color:#f5f1e8;border-color:#141414}
+  .pillbtn{font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:8px 16px;color:#fff;background:rgba(255,255,255,.06);backdrop-filter:blur(8px);cursor:pointer;transition:all .2s var(--ease)}
+  .pillbtn:hover{background:var(--cream);color:#000;border-color:var(--cream)}
+  .pillbtn.solid{background:var(--cream);color:#000;border-color:var(--cream)}
+  .deck{height:100dvh;position:relative}
+  .slide{position:absolute;inset:0;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;padding:100px 64px 110px;opacity:0;transform:scale(.985) translateY(18px);pointer-events:none;transition:opacity .45s var(--slow),transform .45s var(--slow)}
+  .slide.active{opacity:1;transform:none;pointer-events:auto}
+  .slide.light{background:var(--cream);color:var(--ink)}
+  .slide.light .kicker{color:#8a7a5c}
+  /* reveal children */
+  .rv{opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  .active .rv{opacity:1;transform:none}
+  .active .rv.d1{transition-delay:.08s}.active .rv.d2{transition-delay:.16s}.active .rv.d3{transition-delay:.24s}.active .rv.d4{transition-delay:.32s}.active .rv.d5{transition-delay:.4s}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+  h1{font-weight:300;font-size:clamp(40px,5.2vw,76px);line-height:1.0;letter-spacing:-.03em;margin-top:14px}
+  h1 .serif,h2 .serif{color:var(--gold);font-weight:500}
+  .light h1 .serif,.light h2 .serif{color:#a5761f}
+  h2{font-weight:300;font-size:clamp(32px,3.8vw,56px);line-height:1.05;letter-spacing:-.025em;margin-top:12px}
+  .sub{font-size:clamp(15px,1.4vw,18px);line-height:1.6;color:var(--smoke);margin-top:16px;max-width:520px}
+  .light .sub{color:#6b6357}
+  .ctarow{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+  .cta{display:inline-block;background:var(--gold);color:#14100a;border-radius:999px;padding:13px 30px;font-size:15px;font-weight:600;text-decoration:none;transition:transform .2s var(--ease),box-shadow .2s}
+  .cta:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 12px 30px rgba(216,169,76,.35)}
+  .ghostbtn{display:inline-block;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:999px;padding:13px 26px;font-size:14px;text-decoration:none;transition:all .2s}
+  .ghostbtn:hover{background:rgba(255,255,255,.12)}
+  .light .ghostbtn{border-color:rgba(20,20,20,.25);color:var(--ink)}
+  .stats{display:flex;gap:28px;margin-top:30px}
+  .stat b{display:block;font-size:30px;font-weight:600;letter-spacing:-.02em}
+  .stat span{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--smoke)}
+  .light .stat span{color:#8a7a5c}
+  /* visual collage */
+  .visual{position:relative;height:min(62vh,560px)}
+  .glow{position:absolute;inset:-40px;background:radial-gradient(closest-side,rgba(216,169,76,.28),transparent 70%);filter:blur(10px);pointer-events:none}
+  .photo{position:absolute;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.15)}
+  .photo img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.06);transition:transform 1.2s var(--slow)}
+  .active .photo img{transform:scale(1)}
+  .p1{width:62%;height:78%;left:0;top:4%;transform:rotate(-2deg)}
+  .p2{width:44%;height:52%;right:0;top:0;transform:rotate(2deg)}
+  .p3{width:48%;height:44%;right:6%;bottom:0;transform:rotate(-1deg)}
+  .float{position:absolute;background:rgba(15,15,15,.72);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:12px 16px;font-size:13px;box-shadow:0 16px 40px rgba(0,0,0,.45);animation:bob 5s ease-in-out infinite}
+  .float b{color:var(--gold-soft)}
+  .f1{left:6%;bottom:8%}.f2{right:2%;top:46%;animation-delay:1.4s}
+  @keyframes bob{50%{transform:translateY(-8px)}}
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+  .step{background:#fff;border:1px solid var(--dline);border-radius:16px;overflow:hidden;text-align:left;transition:transform .25s var(--ease),box-shadow .25s}
+  .step:hover{transform:translateY(-5px);box-shadow:0 20px 45px rgba(60,45,15,.16)}
+  .step img{width:100%;height:110px;object-fit:cover;display:block}
+  .step .tx{padding:16px 16px 18px}
+  .step .n{font-size:11px;font-weight:700;letter-spacing:.16em;color:#a5761f}
+  .step h3{font-size:18px;margin:6px 0}
+  .step p{font-size:13px;line-height:1.55;color:#6b6357}
+  .step p b{color:var(--ink)}
+  /* pipeline + mock */
+  .pipe{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:22px;font-size:13px}
+  .node{padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);white-space:nowrap}
+  .node.hot{background:var(--gold);border-color:var(--gold);color:#1a1206;font-weight:700}
+  .arr{color:var(--gold)}
+  .mockrow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+  .mock{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:18px;text-align:left}
+  .mock h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:12px}
+  .room{height:130px;border-radius:10px;background:linear-gradient(180deg,#1c1c1e,#101012);border:1px solid rgba(255,255,255,.12);position:relative;overflow:hidden}
+  .room:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:22px 22px}
+  .fx{position:absolute;border-radius:6px;font-size:10px;display:grid;place-items:center;font-weight:700}
+  .bar{height:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:10px}
+  .bar i{display:block;height:100%;width:68%;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:99px;transition:width 1s var(--ease)}
+  .active .bar i{animation:fill 1.2s var(--ease)}
+  @keyframes fill{from{width:10%}}
+  .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .tag{font-size:12px;padding:7px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.16)}
+  /* AI panel */
+  .aipanel{background:#141414;color:#f5f1e8;border-radius:20px;padding:22px;text-align:left;border:1px solid rgba(216,169,76,.25);box-shadow:0 30px 80px rgba(0,0,0,.35);position:relative;overflow:hidden}
+  .aipanel:before{content:"";position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(closest-side,rgba(216,169,76,.35),transparent);pointer-events:none}
+  .msg{border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.6;margin-top:10px;color:#ece7db}
+  .msg.user{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#d8d3c6}
+  .msg.ok{background:rgba(127,176,105,.16);border:1px solid rgba(127,176,105,.45);color:#eef3e8}
+  .msg.stretch{background:rgba(224,149,67,.15);border:1px solid rgba(224,149,67,.5);color:#f3e9d8}
+  .msg b{color:var(--gold-soft)}
+  .addbtn{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;background:var(--cream);color:#000;border-radius:999px;padding:7px 16px}
+  /* nav */
+  .dots{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:70}
+  .dot{width:26px;height:6px;border-radius:99px;background:rgba(255,255,255,.2);border:none;cursor:pointer;transition:all .25s var(--ease)}
+  .dot.active{background:var(--gold);width:44px}
+  .count{position:fixed;bottom:26px;left:32px;font-size:12px;letter-spacing:.2em;color:var(--smoke);z-index:70}
+  .arrows{position:fixed;bottom:18px;right:30px;display:flex;gap:10px;z-index:70}
+  .abtn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-size:18px;cursor:pointer;transition:all .2s}
+  .abtn:hover{background:var(--gold);border-color:var(--gold);color:#000;transform:scale(1.06)}
+  @media (max-width:900px){.slide{grid-template-columns:1fr;padding:90px 22px 110px;overflow-y:auto}.visual{height:340px}.steps{grid-template-columns:1fr 1fr}.mockrow{grid-template-columns:1fr}.arrows{display:none}}
+  @media (max-width:600px){.steps{grid-template-columns:1fr}}
+  @media print{body{overflow:visible}.topbar,.dots,.arrows,.count,.progress{display:none}.deck{height:auto}.slide{position:relative;opacity:1 !important;transform:none !important;pointer-events:auto;break-inside:avoid;min-height:90vh}.card,.rv{opacity:1 !important;transform:none !important}.bar i{width:68% !important;animation:none !important}.photo img{transform:none !important}}
+  @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="topbar"><span class="mark">K</span><span>Kohler · Track 1</span><span class="r"><button class="pillbtn" onclick="go(0)">Intro</button><button class="pillbtn solid" onclick="go(3)">The AI →</button></span></div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 · HERO -->
+  <section class="slide active">
+    <div>
+      <p class="kicker rv">Problem · Track 1 — Devraj Pawade</p>
+      <h1 class="rv d1">A bathroom that fits the room, the budget, <span class="serif">and you.</span></h1>
+      <p class="sub rv d2">Type dimensions, budget and style — get a compatible Kohler bundle with a 2D plan, 3D view and honest pricing.</p>
+      <div class="ctarow rv d3"><span class="cta">2D planner · 3D viewer · Budget</span></div>
+      <div class="stats rv d4">
+        <div class="stat"><b>4-step</b><span>describe → compose → arrange → keep</span></div>
+        <div class="stat"><b>₹-aware</b><span>totals computed</span></div>
+        <div class="stat"><b>0 fakes</b><span>unknown stays unknown</span></div>
+      </div>
+    </div>
+    <div class="visual rv d2">
+      <div class="glow"></div>
+      <div class="photo p1"><img src="../public/images/hero-spa.jpg" alt="Spa bathroom" onerror="this.parentNode.style.background='linear-gradient(135deg,#2a2a2e,#0e0e10)'"></div>
+      <div class="photo p2"><img src="../public/images/showers.jpg" alt="Showers" onerror="this.parentNode.style.background='linear-gradient(135deg,#3a3a3e,#151517)'"></div>
+      <div class="photo p3"><img src="../public/images/bathtub.jpg" alt="Bathtub" onerror="this.parentNode.style.background='linear-gradient(135deg,#33322e,#141310)'"></div>
+      <div class="float f1">Wall-hung smart toilet · <b>₹1,45,000</b></div>
+      <div class="float f2">✔ Fits 3.6 × 2.4 m · <b>within budget</b></div>
+    </div>
+  </section>
+
+  <!-- 2 · HOW (light) -->
+  <section class="slide light" style="grid-template-columns:1fr;justify-items:center;text-align:center">
+    <div style="max-width:1060px;width:100%">
+      <p class="kicker rv">How it works — live prototype</p>
+      <h2 class="rv d1">Describe. Compose. <span class="serif">Arrange. Keep.</span></h2>
+      <div class="steps">
+        <div class="step rv d1"><img src="../public/images/basins.jpg" alt=""><div class="tx"><p class="n">01 · Describe</p><h3>Brief in.</h3><p>Dimensions, photos, <b>budget</b>, style and rituals.</p></div></div>
+        <div class="step rv d2"><img src="../public/images/hero-spa.jpg" alt=""><div class="tx"><p class="n">02 · Compose</p><h3>Matched set.</h3><p><b>Real Kohler products</b> matched to your constraints.</p></div></div>
+        <div class="step rv d3"><img src="../public/images/showers.jpg" alt=""><div class="tx"><p class="n">03 · Arrange</p><h3>Plan it.</h3><p><b>Drag, rotate and snap</b> on the 2D planner with clearances.</p></div></div>
+        <div class="step rv d4"><img src="../public/images/toilets.jpg" alt=""><div class="tx"><p class="n">04 · Keep</p><h3>Own it.</h3><p>Budget <b>recalculated</b>, versions saved and shared.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · SYSTEM -->
+  <section class="slide">
+    <div>
+      <p class="kicker rv">System — under the hood</p>
+      <h2 class="rv d1">One flow, <span class="serif">checked each step.</span></h2>
+      <div class="pipe rv d2"><span class="node">design/new</span><span class="arr">→</span><span class="node">2D planner</span><span class="arr">→</span><span class="node">3D viewer</span><span class="arr">→</span><span class="node hot">budget / saved</span></div>
+      <div class="mockrow rv d3">
+        <div class="mock"><h4>Next.js 16 · Supabase + RLS · Three.js</h4><div class="tagrow"><span class="tag">TypeScript</span><span class="tag">Tailwind v4</span><span class="tag">Framer Motion</span><span class="tag">Vercel</span></div></div>
+        <div class="mock"><h4>Data rule — no fakes</h4><div style="font-size:13px;color:var(--smoke);line-height:1.6">Placeholders today → <b style="color:#fff">real-SKU ingestion next</b>. Missing price / dims stay <b style="color:#fff">Unknown</b>.</div><div class="bar"><i></i></div></div>
+      </div>
+    </div>
+    <div class="visual rv d2">
+      <div class="glow"></div>
+      <div class="mock" style="position:absolute;inset:8% 4%;display:flex;flex-direction:column;justify-content:center">
+        <h4>Live planner mock — 3.6 × 2.4 m</h4>
+        <div class="room"><span class="fx" style="left:8%;top:18%;width:34%;height:30%;background:rgba(216,169,76,.85);color:#000">TUB</span><span class="fx" style="right:10%;top:14%;width:26%;height:26%;background:rgba(255,255,255,.9);color:#000">BASIN</span><span class="fx" style="right:12%;bottom:12%;width:24%;height:24%;background:rgba(127,176,105,.9);color:#06210f">WC ✓</span></div>
+        <div class="bar"><i></i></div>
+        <div style="font-size:12px;color:var(--smoke);margin-top:8px">₹3,06,000 of ₹4,50,000 · <b style="color:var(--gold-soft)">68% · no overlaps</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · AI NEXT -->
+  <section class="slide light" style="background:linear-gradient(135deg,#f5f1e8 60%,#e9dcc3)">
+    <div>
+      <p class="kicker rv">Coming next — budget AI in /planner</p>
+      <h2 class="rv d1">Your words → keywords → <span class="serif">the right products.</span></h2>
+      <p class="sub rv d2">Gemini reads the brief, Zod validates keywords, deterministic code matches tagged products — in-budget first, stretch options flagged.</p>
+      <div class="pipe rv d3" style="justify-content:flex-start"><span class="node" style="background:#141414;color:#fff;border-color:#141414">notes + ₹</span><span class="arr" style="color:#a5761f">→</span><span class="node" style="background:#fff;border-color:rgba(20,20,20,.15)">Gemini</span><span class="arr" style="color:#a5761f">→</span><span class="node" style="background:#fff;border-color:rgba(20,20,20,.15)">Zod keywords</span><span class="arr" style="color:#a5761f">→</span><span class="node hot">in-budget + stretch</span></div>
+    </div>
+    <div class="aipanel rv d2">
+      <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)">AI suggestions · ₹4,50,000</div>
+      <div class="msg user">“Walk-in rainshower, wall-hung toilet, warm minimal…”</div>
+      <div class="msg ok"><b>✓ Within budget — ₹4,12,000</b><br>Rainhead K-22170 · Veil WC K-5401 · Composed basin <br><span class="addbtn">+ Add bundle to plan</span></div>
+      <div class="msg stretch"><b>Stretch +12% — ₹5,04,000</b><br>Swap to freestanding tub 21000 · flagged, never forced</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="count" id="count">01 / 04</div>
+<div class="dots" id="dots"></div>
+<div class="arrows"><button class="abtn" id="prev">←</button><button class="abtn" id="next">→</button></div>
+
+<script>
+var cur=0,slides=null,dotsEl=null,bar=null,count=null;
+function go(n){
+  slides=document.querySelectorAll('.slide');dotsEl=document.getElementById('dots');bar=document.getElementById('progress');count=document.getElementById('count');
+  n=Math.max(0,Math.min(slides.length-1,n));
+  slides[cur].classList.remove('active');cur=n;slides[cur].classList.add('active');
+  document.querySelector('.topbar').classList.toggle('light',slides[cur].classList.contains('light'));
+  Array.prototype.forEach.call(dotsEl.children,function(d,i){d.classList.toggle('active',i===cur)});
+  bar.style.width=((cur+1)/slides.length*100)+'%';
+  count.textContent=('0'+(cur+1)).slice(-2)+' / 0'+slides.length;
+}
+(function init(){
+  slides=document.querySelectorAll('.slide');dotsEl=document.getElementById('dots');
+  slides.forEach(function(_,i){var d=document.createElement('button');d.className='dot'+(i===0?' active':'');d.setAttribute('aria-label','Slide '+(i+1));d.onclick=function(e){e.stopPropagation();go(i)};dotsEl.appendChild(d)});
+  document.getElementById('prev').onclick=function(e){e.stopPropagation();go(cur-1)};
+  document.getElementById('next').onclick=function(e){e.stopPropagation();go(cur+1)};
+  document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' ')go(cur+1);if(e.key==='ArrowLeft')go(cur-1);if(e.key==='Home')go(0);if(e.key==='End')go(slides.length-1)});
+  document.getElementById('deck').addEventListener('click',function(e){if(e.target.closest('button,a'))return;go(cur+1>slides.length-1?0:cur+1)});
+  var tx=null;
+  document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+  document.addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(cur+(dx<0?1:-1));tx=null},{passive:true});
+  go(0);
+})();
+</script>
+</body>
+</html>

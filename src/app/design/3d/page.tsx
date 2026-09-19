@@ -6,6 +6,7 @@ import IsoRoom, { type MetreFixture, type MetreOpening } from "./scene";
 import RoomCanvas, { webglAvailable } from "./room3d";
 import { getDesign, sanitizeDesign, upsertDesign, type SavedDesign } from "@/lib/designs";
 import { PROCEDURAL } from "@/lib/models";
+import { decorById, SURFACE_TOP } from "@/lib/decor";
 
 const BASE_SCALE = 150;
 const MAX_W = 680;
@@ -17,7 +18,7 @@ const FIXTURE_H: Record<string, number> = {
   Toilet: 0.7,
 };
 
-const num = (v: string | null, fb: number, lo: number, hi: number) => {
+const num = (v: string | null | undefined, fb: number, lo: number, hi: number) => {
   const n = parseFloat(v ?? "");
   return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : fb;
 };
@@ -28,7 +29,7 @@ function ViewInner() {
   useEffect(() => {
     setGl(webglAvailable());
   }, []);
-  const designId = params.get("design");
+  const designId = params?.get("design");
   // Same hydration rule as the planner: localStorage reads happen in an
   // effect, never during render, so server and client HTML match.
   const [stored, setStored] = useState<SavedDesign | null>(null);
@@ -40,11 +41,11 @@ function ViewInner() {
   const room = useMemo(
     () =>
       stored?.room ?? {
-        w: num(params.get("length"), 3.6, 1.2, 12),
-        h: num(params.get("width"), 2.4, 1.2, 12),
-        height: num(params.get("height"), 2.7, 2, 5),
-        doors: Math.round(num(params.get("doors"), 1, 0, 6)),
-        windows: Math.round(num(params.get("windows"), 1, 0, 6)),
+        w: num(params?.get("length"), 3.6, 1.2, 12),
+        h: num(params?.get("width"), 2.4, 1.2, 12),
+        height: num(params?.get("height"), 2.7, 2, 5),
+        doors: Math.round(num(params?.get("doors"), 1, 0, 6)),
+        windows: Math.round(num(params?.get("windows"), 1, 0, 6)),
       },
     [params, stored]
   );
@@ -58,16 +59,42 @@ function ViewInner() {
         { id: 1, kind: "Shower", x: room.w * s * 0.25, y: room.h * s * 0.3, w: 0.9 * s, h: 0.9 * s, rot: 0 },
         { id: 2, kind: "Toilet", x: room.w * s * 0.75, y: room.h * s * 0.28, w: 0.6 * s, h: 0.7 * s, rot: 0 },
       ];
-    return px.map((f) => ({
-      id: f.id,
-      kind: f.kind,
-      cx: f.x / s - room.w / 2,
-      cz: f.y / s - room.h / 2,
-      w: f.w / s,
-      d: f.h / s,
-      h: FIXTURE_H[f.kind] ?? 0.8,
-      glass: f.kind === "Shower",
-    }));
+    return px.map((f) => {
+      // Decor dropped over a fixture in 2D rests on that fixture's surface
+      // in 3D (tray on basin rim, caddy on tub edge); otherwise it sits on
+      // the floor. Same rule drives the WebGL view and the SVG fallback.
+      // Stacking needs substantial coverage (≥40% of the decor footprint):
+      // a mere corner graze must not launch a plant to toilet-top height.
+      // With several fixtures under it, the largest overlap wins.
+      let y0 = 0;
+      if (f.decorId) {
+        let best: { top: number; area: number } | null = null;
+        for (const o of px) {
+          if (o.decorId || o.id === f.id) continue;
+          const ox =
+            Math.min(f.x + f.w / 2, o.x + o.w / 2) - Math.max(f.x - f.w / 2, o.x - o.w / 2);
+          const oy =
+            Math.min(f.y + f.h / 2, o.y + o.h / 2) - Math.max(f.y - f.h / 2, o.y - o.h / 2);
+          const area = Math.max(0, ox) * Math.max(0, oy);
+          if (area > 0 && area / (f.w * f.h) >= 0.4 && (!best || area > best.area)) {
+            best = { top: SURFACE_TOP[o.kind] ?? 0, area };
+          }
+        }
+        if (best) y0 = best.top;
+      }
+      return {
+        id: f.id,
+        kind: f.kind,
+        cx: f.x / s - room.w / 2,
+        cz: f.y / s - room.h / 2,
+        w: f.w / s,
+        d: f.h / s,
+        h: f.decorId ? decorById(f.decorId)?.tall ?? 0.5 : FIXTURE_H[f.kind] ?? 0.8,
+        y0,
+        glass: f.kind === "Shower",
+        decorId: f.decorId,
+      };
+    });
   }, [stored, room, s]);
 
   const openings: MetreOpening[] = useMemo(() => {
@@ -121,7 +148,8 @@ function ViewInner() {
       </h1>
       <p className="mt-3 text-[16px] text-[#999]">
         Room {room.w} × {room.h} m · {(room.w * room.h).toFixed(1)} m² · height {room.height} m ·{" "}
-        {fixtures.length} fixture{fixtures.length === 1 ? "" : "s"}
+        {fixtures.filter((f) => !f.decorId).length} fixture{fixtures.filter((f) => !f.decorId).length === 1 ? "" : "s"}
+        {fixtures.some((f) => f.decorId) ? ` + ${fixtures.filter((f) => f.decorId).length} decor` : ""}
         {stored ? ` · “${stored.title}”` : ""}
       </p>
       <div className="card mt-8 p-8">

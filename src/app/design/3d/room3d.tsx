@@ -14,6 +14,7 @@ import {
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import type { MetreFixture, MetreOpening, RoomDims } from "./scene";
 import { PROCEDURAL, optionById, optionsForKind, type ModelOption } from "@/lib/models";
+import { decorById } from "@/lib/decor";
 
 // Glossy monochrome dollhouse — three.js PBR. Same data as the SVG viewer:
 // void-black canvas, satin walls, clearcoat ceramic fixtures, chrome + glass
@@ -495,8 +496,68 @@ function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; m
   );
 }
 
-function SectionUpdater({ cutaway, registry }: { cutaway: boolean; registry: Registry }) {
-  const { camera, controls } = useThree();
+// Movable decor placed on the 2D canvas. Renders the scanned GLB (monochrome
+// override, footprint-fitted) once assets arrive; until then a satin fallback
+// box at the planner position — stacked on y0 when dropped over a fixture.
+function DecorGlb({ glb, f }: { glb: string; f: MetreFixture }) {
+  const { scene } = useGLTF(glb);
+  const mat = useMemo(() => ceramic(), []);
+  const obj = useMemo(() => {
+    const src = scene.clone(true);
+    src.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.material = mat;
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    return src;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scene, mat]);
+  const s = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(obj);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    return Math.min(f.w / (size.x || 1), f.d / (size.z || 1));
+  }, [obj, f.w, f.d]);
+  // Group already sits at y0 — the primitive stays at local origin so
+  // stacked decor lands exactly on the fixture surface, not double height.
+  return <primitive object={obj} scale={s} position={[0, 0, 0]} />;
+}
+
+function DecorMesh({ f, labels }: { f: MetreFixture; labels: boolean }) {
+  const opt = decorById(f.decorId);
+  const body = useMemo(() => ceramic("#cfcdc6"), []);
+  const y0 = f.y0 ?? 0;
+  return (
+    <group position={[f.cx, y0, f.cz]}>
+      <ContactShadows
+        position={[0, 0.008, 0]}
+        scale={[f.w + 0.8, f.d + 0.8]}
+        far={1.2}
+        resolution={256}
+        color="#000000"
+        opacity={0.6}
+        blur={2.2}
+        frames={2}
+      />
+      {opt?.glb ? (
+        <DecorGlb glb={opt.glb} f={f} />
+      ) : (
+        <RoundedBox args={[f.w, f.h, f.d]} radius={0.03} smoothness={4} position={[0, f.h / 2, 0]} material={body} castShadow receiveShadow />
+      )}
+      {labels && (
+        <Html center position={[0, f.h + 0.2, 0]} style={{ pointerEvents: "none" }}>
+          <div style={{ fontSize: 11, color: "#fff", background: "rgba(0,0,0,0.55)", border: "1px dashed #999", borderRadius: 9999, padding: "2px 10px", whiteSpace: "nowrap" }}>
+            {opt?.glyph ?? "Decor"}
+          </div>
+        </Html>
+      )}
+    </group>
+  );
+}
+
+function SectionUpdater({ cutaway, registry }: { cutaway: boolean; registry: Registry }) {  const { camera, controls } = useThree();
   const plane = useMemo(() => new THREE.Plane(new THREE.Vector3(0, -1, 0), CUT_H), []);
   useFrame(() => {
     const ctl = controls as OrbitControlsImpl | null;
@@ -535,6 +596,10 @@ function Scene({
 }) {
   const tile = useTileTexture(room.w, room.h);
   const maxR = Math.max(room.w, room.h);
+  // Placed decor renders at its planner position; the procedural staged set
+  // only shows when the user hasn't placed any decor of their own.
+  const solids = fixtures.filter((f) => !f.decorId);
+  const placedDecor = fixtures.filter((f) => f.decorId);
 
   return (
     <>
@@ -586,11 +651,14 @@ function Scene({
       {openings.map((o, i) => (
         <OpeningModel key={i} id={`opening-${i}`} o={o} room={room} registry={registry} />
       ))}
-      {fixtures.map((f) => (
+      {solids.map((f) => (
         <FixtureMesh key={f.id} f={f} labels={labels} model={models[f.id] ?? PROCEDURAL} />
       ))}
+      {decor && placedDecor.map((f) => (
+        <DecorMesh key={f.id} f={f} labels={labels} />
+      ))}
       {lamp && <PendantLamp room={room} lamp={lamp} />}
-      {decor && <Decor room={room} />}
+      {decor && placedDecor.length === 0 && <Decor room={room} />}
 
       <OrbitControls
         ref={controlsRef}
@@ -757,7 +825,10 @@ export default function RoomCanvas({
           </button>
         </div>
         <p className="mt-2 text-[13px] text-[#999]">
-          {lampId ? `${LAMPS.find((l) => l.id === lampId)?.label} pendant on.` : "Pendant off — key light only."} Plant, print + candles {decor ? "staged." : "hidden."}
+          {lampId ? `${LAMPS.find((l) => l.id === lampId)?.label} pendant on.` : "Pendant off — key light only."}{" "}
+          {fixtures.some((f) => f.decorId)
+            ? `${fixtures.filter((f) => f.decorId).length} placed decor piece${fixtures.filter((f) => f.decorId).length === 1 ? "" : "s"} from your 2D plan${decor ? "." : " (hidden)."}`
+            : `Staged set (plant, print + candles) ${decor ? "showing — place your own decor on the 2D canvas to replace it." : "hidden."}`}
         </p>
       </div>
       <SwapTray fixtures={fixtures} models={models} onModelChange={onModelChange} />
@@ -774,3 +845,7 @@ useGLTF.preload("/models/22170-plain.glb");
 useGLTF.preload("/models/13696-G-plain.glb");
 useGLTF.preload("/models/707002-D3-plain.glb");
 useGLTF.preload("/models/706008-L-plain.glb");
+useGLTF.preload("/models/decor-plant-plain.glb");
+useGLTF.preload("/models/decor-plant-pot-plain.glb");
+useGLTF.preload("/models/decor-stool-plain.glb");
+useGLTF.preload("/models/decor-towels-plain.glb");
