@@ -1,7 +1,7 @@
 "use client";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import IsoRoom, { type MetreFixture, type MetreOpening } from "./scene";
 import RoomCanvas, { webglAvailable } from "./room3d";
 import { getDesign, sanitizeDesign, upsertDesign, type SavedDesign } from "@/lib/designs";
@@ -117,6 +117,20 @@ function ViewInner() {
     `length=${room.w}&width=${room.h}&height=${room.height}&doors=${room.doors}&windows=${room.windows}`;
   const plannerHref = designId ? `/planner?design=${encodeURIComponent(designId)}` : `/planner?${query}`;
 
+  // 3D opens only from the 2D planner (saved design): a bare visit with room
+  // dims but no design is sent to the canvas instead.
+  const router = useRouter();
+  useEffect(() => {
+    if (!designId) router.replace(`/planner?${query}`);
+  }, [designId, query, router]);
+  if (!designId) {
+    return (
+      <section className="mx-auto max-w-[1200px] px-6 py-16">
+        <p className="text-[16px] text-[#999]">Arrange your room on the 2D canvas first — taking you there…</p>
+      </section>
+    );
+  }
+
   // Per-fixture model swaps (fixture id -> MODEL_OPTIONS id). Seeded from the
   // saved design once it loads; user picks always win over the seed.
   const [models, setModels] = useState<Record<number, string>>({});
@@ -143,8 +157,7 @@ function ViewInner() {
 
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-16">
-      <p className="label-caps text-[#999]">Design track — step 2 of 3 · 3D concept, drag to walk around it</p>
-      <h1 className="narrative mt-3 text-[clamp(36px,9vw,54px)]">
+      <p className="label-caps text-[#999]">Design track — step 3 of 3 · 3D concept, drag to walk around it</p>      <h1 className="narrative mt-3 text-[clamp(36px,9vw,54px)]">
         Your bathroom, in <span className="serif-accent">bold</span>.
       </h1>
       <p className="mt-3 text-[16px] text-[#999]">
@@ -169,7 +182,7 @@ function ViewInner() {
         )}
       </div>
       <div className="mt-6 flex flex-wrap items-center gap-4">
-        <Link href="/design/new?mode=3d" className="btn-ghost">← Details</Link>
+        <Link href="/design/new" className="btn-ghost">← Details</Link>
         <Link href={plannerHref} className="btn-ghost">Edit in 2D canvas →</Link>
         <Link href="/saved" className="btn-ghost">Saved designs</Link>
         {stored && (
