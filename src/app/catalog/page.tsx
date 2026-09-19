@@ -1,8 +1,14 @@
 "use client";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { CATEGORIES, SUBCATEGORIES, PLACEHOLDER_PRODUCTS, fmtPrice } from "@/lib/products";
+
+// Shown wherever no verified Kohler image exists yet — empty results and
+// placeholder product cards. Real images replace it as verification lands.
+const PLACEHOLDER_IMG = "/images/kohler-placeholder.png";
+const PLACEHOLDER_ALT = "The Bold Look of Kohler — images display when imported from Kohler database";
 
 function TypeList({
   cat,
@@ -117,6 +123,17 @@ function CatalogInner() {
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {items.map((p) => (
               <Link key={p.sku} href={`/catalog/${p.sku}`} className="card group p-6 transition-transform duration-300 hover:-translate-y-1">
+                {(!p.image_urls || p.image_urls.length === 0) && (
+                  <span className="mb-4 block overflow-hidden rounded-xl">
+                    <Image
+                      src={PLACEHOLDER_IMG}
+                      alt={PLACEHOLDER_ALT}
+                      width={800}
+                      height={800}
+                      className="h-auto w-full object-cover"
+                    />
+                  </span>
+                )}
                 <span className="badge-glass">{p.subtype ?? p.category}</span>
                 <h3 className="mt-4 text-[20px] font-medium">{p.name}</h3>
                 <p className="label-caps mt-2 text-[#999]">{p.sku} · {p.finish}</p>
@@ -126,16 +143,14 @@ function CatalogInner() {
             ))}
           </div>
           {items.length === 0 && (
-            <div className="card p-8 text-center">
-              <p className="text-[18px] font-medium">No verified {sub ?? (cat === "All" ? "products" : cat)} yet.</p>
-              <p className="mt-2 text-[14px] text-[#999]">
-                {sub
-                  ? `Nothing verified as “${sub}” so far — try “All ${cat}” or clear the search. Types link up as verification lands.`
-                  : "Try clearing the search — types link up as verification lands."}
-              </p>
-              <button onClick={() => { setCat("All"); setSub(null); setQ(""); }} className="btn-ghost mt-5 !py-2 !text-[14px]">
-                Show everything
-              </button>
+            <div className="card overflow-hidden p-0">
+              <Image
+                src={PLACEHOLDER_IMG}
+                alt={PLACEHOLDER_ALT}
+                width={1200}
+                height={1200}
+                className="h-auto w-full object-cover"
+              />
             </div>
           )}
         </div>

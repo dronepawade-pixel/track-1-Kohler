@@ -25,18 +25,12 @@ export type Product = {
 
 export const CATEGORIES = ["Showers", "Bathtubs", "Basins", "Smart Toilets", "Faucets"] as const;
 
-// Fixed style taxonomy for AI tag normalization. Gemini must map free text
-// onto these only — see POST /api/recommend.
-export const STYLE_TAXONOMY = [
-  "minimalist",
-  "modern",
-  "zen",
-  "classic",
-  "luxury",
-  "heritage",
-  "bold",
-] as const;
-export type StyleTag = (typeof STYLE_TAXONOMY)[number];
+// Fixed tag taxonomy for AI normalization — single source of truth in
+// src/lib/tags.ts (style + colour + material). Gemini must map free text
+// onto these only — see POST /api/tags and /api/recommend.
+export { ALL_TAGS as STYLE_TAXONOMY } from "./tags";
+import type { Tag } from "./tags";
+export type StyleTag = Tag;
 
 // Sub-types mirror Kohler's own shop taxonomy (category landing pages).
 // Products link to these only after verification — never assumed.
@@ -135,7 +129,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
     finish: "Unknown", price: null, dimensions: "36.1 × 83.1 cm (measured from scan)",
     url: null, kind: "Toilet", modelId: "toilet-75790", w_m: 0.361, d_m: 0.831,
     bundleable: true, width_mm: 361, depth_mm: 831, height_mm: 712,
-    style_tags: ["modern", "minimalist"],
+    style_tags: ["modern", "minimal"],
     model_glb_url: "/models/75790-plain.glb", image_urls: [],
   },
   {
@@ -144,7 +138,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
     finish: "Unknown", price: null, dimensions: "151.4 × 12.7 cm (measured from scan)",
     url: null, kind: "Shower", modelId: "screen-707002", w_m: 1.514, d_m: 0.6,
     bundleable: true, width_mm: 1514, depth_mm: 600, height_mm: 1573,
-    style_tags: ["modern", "minimalist"],
+    style_tags: ["modern", "minimal"],
     model_glb_url: "/models/707002-D3-plain.glb", image_urls: [],
   },
   {
@@ -153,7 +147,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
     finish: "Unknown", price: null, dimensions: "44.6 × 3.5 cm (measured from scan)",
     url: null, kind: "Shower", modelId: "screen-706008", w_m: 0.446, d_m: 0.4,
     bundleable: false, width_mm: 446, depth_mm: 400, height_mm: 736,
-    style_tags: ["modern", "minimalist"],
+    style_tags: ["modern", "minimal"],
     model_glb_url: "/models/706008-L-plain.glb", image_urls: [],
   },
   {
@@ -163,7 +157,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
     url: "https://www.studiokohler.com/home/products/composed-k-1234",
     kind: "Basin", modelId: "procedural", w_m: 0.55, d_m: 0.42,
     bundleable: true, width_mm: 550, depth_mm: 420, height_mm: 160,
-    style_tags: ["minimalist", "modern"],
+    style_tags: ["minimal", "modern"],
     model_glb_url: null, image_urls: ["images/K-1234-hero.jpg"],
   },
   {
@@ -173,7 +167,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
     url: "https://www.studiokohler.com/home/products/veil-k-5401",
     kind: "Toilet", modelId: "procedural", w_m: 0.7, d_m: 0.58,
     bundleable: true, width_mm: 700, depth_mm: 580, height_mm: 450,
-    style_tags: ["minimalist", "modern", "zen"],
+    style_tags: ["minimal", "modern", "zen"],
     model_glb_url: "models/K-5401.glb", image_urls: ["images/K-5401-hero.jpg"],
   },
   {
@@ -183,7 +177,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
     url: "https://www.kohler.com/products/bathroom/toilets/77795",
     kind: "Toilet", modelId: "procedural", w_m: 0.418, d_m: 0.7,
     bundleable: true, width_mm: 418, depth_mm: 700, height_mm: 416,
-    style_tags: ["minimalist", "modern"],
+    style_tags: ["minimal", "modern"],
     model_glb_url: "models/K-77795.glb", image_urls: ["images/K-77795-hero.jpg"],
   },
 ];

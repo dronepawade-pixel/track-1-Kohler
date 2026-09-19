@@ -1,0 +1,56 @@
+{
+  "category": "showers",
+  "fixtureKind": "Shower",
+  "variants": [
+    {
+      "id": "head-22170",
+      "name": "Rainhead 22170",
+      "fit": "head",
+      "tags": ["modern", "minimal", "chrome"],
+      "price_inr": 28000,
+      "dims_m": [0.139, 0.135, 0.128],
+      "glb": "/models/22170-plain.glb",
+      "thumb": "/images/products/head-22170.jpg"
+    },
+    {
+      "id": "trim-13696",
+      "name": "Shower Trim 13696-G",
+      "fit": "head",
+      "tags": ["minimal", "chrome", "nickel"],
+      "price_inr": 18000,
+      "dims_m": [0.1, 0.028, 0.1],
+      "glb": "/models/13696-G-plain.glb",
+      "thumb": "/images/products/trim-13696.jpg"
+    },
+    {
+      "id": "screen-707002",
+      "name": "Shower Door 707002-D3",
+      "fit": "screen",
+      "tags": ["modern", "glass", "chrome", "minimal"],
+      "price_inr": 85000,
+      "dims_m": [1.514, 1.573, 0.127],
+      "glb": "/models/707002-D3-plain.glb",
+      "thumb": "/images/products/door-707002.jpg"
+    },
+    {
+      "id": "screen-706008",
+      "name": "Shower Panel 706008-L",
+      "fit": "screen",
+      "tags": ["bold", "black", "chrome"],
+      "price_inr": 62000,
+      "dims_m": [0.446, 0.736, 0.035],
+      "glb": "/models/706008-L-plain.glb",
+      "thumb": "/images/products/panel-706008.jpg"
+    },
+    {
+      "id": "steam-pod-zen",
+      "name": "Zen Steam Pod",
+      "fit": "screen",
+      "tags": ["zen", "glass", "white"],
+      "price_inr": 120000,
+      "dims_m": [0.9, 2.1, 0.9],
+      "glb": "",
+      "thumb": ""
+    }
+  ]
+}

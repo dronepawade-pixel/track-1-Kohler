@@ -13,7 +13,7 @@ import {
 } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import type { MetreFixture, MetreOpening, RoomDims } from "./scene";
-import { PROCEDURAL, optionById, optionsForKind, type ModelOption } from "@/lib/models";
+import { PROCEDURAL, optionById, optionsForKind, faucetForBasin, type ModelOption } from "@/lib/models";
 import { decorById } from "@/lib/decor";
 
 // Glossy monochrome dollhouse — three.js PBR. Same data as the SVG viewer:
@@ -75,6 +75,33 @@ function glassMat() {
     transmission: 0.92, thickness: 0.02, ior: 1.5,
     transparent: true, opacity: 0.5, side: THREE.DoubleSide,
   });
+}
+
+// AI-matched variant tags → material. Colour/material tags from the
+// taxonomy (black, marble, gold…) tint procedural bodies so a pick reads
+// on screen even before a real GLB lands for that variant.
+const FINISH_BY_TAG: [string, { color: string; metal: boolean }][] = [
+  ["black", { color: "#2a2a2c", metal: false }],
+  ["marble", { color: "#efece6", metal: false }],
+  ["stone", { color: "#8f8d88", metal: false }],
+  ["wood", { color: "#8a6a4f", metal: false }],
+  ["gold", { color: "#d9a441", metal: true }],
+  ["brass", { color: "#c8a24e", metal: true }],
+  ["nickel", { color: "#cfcfcf", metal: true }],
+  ["chrome", { color: "#e8e8e8", metal: true }],
+  ["white", { color: CERAMIC, metal: false }],
+];
+
+function finishForTags(tags: string[] | undefined): { color: string; metal: boolean } | null {
+  if (!tags) return null;
+  for (const [tag, f] of FINISH_BY_TAG) if (tags.includes(tag)) return f;
+  return null;
+}
+
+function finishMat(color: string, metal: boolean) {
+  if (metal)
+    return new THREE.MeshStandardMaterial({ color, roughness: 0.28, metalness: 0.85, envMapIntensity: 1.5 });
+  return ceramic(color);
 }
 
 function Walls({ room, cutaway, registry }: { room: RoomDims; cutaway: boolean; registry: Registry }) {
@@ -274,7 +301,7 @@ function OpeningModel({
 function ModelPart({ opt, f }: { opt: ModelOption; f: MetreFixture }) {
   const { scene } = useGLTF(opt.glb);
   const mat = useMemo(() => {
-    if (opt.fit === "head") return chrome();
+    if (opt.fit === "head" || opt.fit === "faucet") return chrome();
     if (opt.fit === "screen") {
       const m = std("#2b2b2b", 0.32);
       m.envMapIntensity = 1.1;
@@ -310,22 +337,40 @@ function ModelPart({ opt, f }: { opt: ModelOption; f: MetreFixture }) {
     const s = 0.24 / Math.max(w, h, d);
     return <primitive object={obj} position={[0, f.h - h * s - 0.02, 0]} scale={s} />;
   }
+  if (opt.fit === "basinTop") {
+    // sink bowl sits on the procedural basin counter (~0.86 m)
+    const s = Math.min((f.w * 0.55) / w, (f.d * 0.55) / d);
+    return <primitive object={obj} position={[0, 0.86, 0]} scale={s} />;
+  }
+  if (opt.fit === "faucet") {
+    // tap mounts at the back edge of the counter
+    const s = 0.26 / Math.max(w, h, d);
+    return <primitive object={obj} position={[0, 0.86, -f.d / 2 + 0.1]} scale={s} />;
+  }
   // screen: replace the side glass wall, fit height then width
   const s = Math.min((f.h - 0.1) / h, f.d / w);
   return <primitive object={obj} position={[f.w / 2 - 0.02, 0.1, 0]} rotation={[0, Math.PI / 2, 0]} scale={s} />;
 }
 
 function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; model: string }) {
-  const body = useMemo(() => ceramic(), []);
+  const opt = optionById(model === PROCEDURAL ? undefined : model);
+  // AI-picked variant tags tint the procedural body when the variant has no
+  // GLB yet; a GLB-backed variant renders via ModelPart instead.
+  const finish = useMemo(() => finishForTags(opt?.variant.tags), [opt]);
+  const body = useMemo(
+    () => (finish ? finishMat(finish.color, finish.metal) : ceramic()),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [finish?.color, finish?.metal]
+  );
   const dark = useMemo(() => ceramic("#3a3a38"), []);
   const charcoal = useMemo(() => std("#232323", 0.7), []);
   const glass = useMemo(() => glassMat(), []);
   const metal = useMemo(() => chrome(), []);
-  const opt = optionById(model === PROCEDURAL ? undefined : model);
   const labelY = f.h + (f.glass ? 0.35 : 0.25);
+  const glbOpt = opt && opt.glb ? opt : null;
 
-  const bathtub = f.kind === "Bathtub" && opt?.fit === "footprint" ? (
-    <ModelPart opt={opt} f={f} />
+  const bathtub = f.kind === "Bathtub" && glbOpt?.fit === "footprint" ? (
+    <ModelPart opt={glbOpt} f={f} />
   ) : (
     <>
       <RoundedBox args={[f.w, 0.58, f.d]} radius={0.09} smoothness={4} position={[0, 0.3, 0]} material={body} castShadow receiveShadow />
@@ -337,14 +382,14 @@ function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; m
 
   const toilet = (() => {
     if (f.kind !== "Toilet") return null;
-    if (opt?.fit === "footprint") return <ModelPart opt={opt} f={f} />;
+    if (glbOpt?.fit === "footprint") return <ModelPart opt={glbOpt} f={f} />;
     return (
       <>
         <RoundedBox args={[f.w, 0.42, f.d]} radius={0.1} smoothness={4} position={[0, 0.28, 0.04]} material={body} castShadow receiveShadow />
         <mesh position={[0, 0.62, -f.d / 2 + 0.12]} material={body} castShadow>
           <boxGeometry args={[f.w * 0.9, 0.5, 0.18]} />
         </mesh>
-        {opt?.fit === "seat" && <ModelPart opt={opt} f={f} />}
+        {glbOpt?.fit === "seat" && <ModelPart opt={glbOpt} f={f} />}
       </>
     );
   })();
@@ -352,8 +397,8 @@ function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; m
   const shower = f.kind === "Shower" ? (
     (() => {
       const gh = f.h - 0.1;
-      const headOpt = opt?.fit === "head" ? opt : null;
-      const screenOpt = opt?.fit === "screen" ? opt : null;
+      const headOpt = glbOpt?.fit === "head" ? glbOpt : null;
+      const screenOpt = glbOpt?.fit === "screen" ? glbOpt : null;
       return (
         <>
           <mesh position={[0, 0.05, 0]} material={body} castShadow receiveShadow>
@@ -385,11 +430,63 @@ function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; m
       );
     })()
   ) : null;
+
+  // Basin: pedestal + counter always procedural. The AI-matched sink sits on
+  // the counter (GLB when provided, tinted bowl otherwise) and the matched
+  // faucet mounts at the back edge (GLB or chrome stand-in).
+  const basin = (() => {
+    if (f.kind !== "Basin" && f.kind !== "Vanity") return null;
+    const sinkOpt = glbOpt?.fit === "basinTop" ? glbOpt : null;
+    const fp = faucetForBasin(f.faucet);
+    const fpFinish = finishForTags(fp?.variant.tags);
+    const faucetMat = fpFinish?.metal
+      ? finishMat(fpFinish.color, true)
+      : fpFinish
+        ? ceramic(fpFinish.color)
+        : metal;
+    const bowlMat = sinkOpt ? body : ceramic(finish?.color ?? CERAMIC);
+    return (
+      <>
+        {f.kind === "Vanity" ? (
+          <mesh position={[0, 0.42, 0]} material={charcoal} castShadow receiveShadow>
+            <boxGeometry args={[f.w, 0.8, f.d]} />
+          </mesh>
+        ) : (
+          <mesh position={[0, 0.4, 0]} material={body} castShadow receiveShadow>
+            <boxGeometry args={[f.w * 0.5, 0.8, f.d * 0.6]} />
+          </mesh>
+        )}
+        <RoundedBox args={[f.w, 0.16, f.d]} radius={0.06} smoothness={4} position={[0, 0.86, 0]} material={body} castShadow receiveShadow />
+        {sinkOpt ? (
+          <ModelPart opt={sinkOpt} f={f} />
+        ) : (
+          <>
+            <RoundedBox args={[f.w * 0.5, 0.12, f.d * 0.48]} radius={0.05} smoothness={4} position={[0, 0.95, 0.02]} material={bowlMat} castShadow receiveShadow />
+            <mesh position={[0, 0.94, 0.02]} material={dark} receiveShadow>
+              <boxGeometry args={[f.w * 0.4, 0.06, f.d * 0.36]} />
+            </mesh>
+          </>
+        )}
+        {fp?.glb ? (
+          <ModelPart opt={{ ...fp, glb: fp.glb }} f={f} />
+        ) : fp || f.faucet ? (
+          <group position={[0, 0.94, -f.d / 2 + 0.09]}>
+            <mesh position={[0, 0.11, 0]} material={faucetMat} castShadow>
+              <cylinderGeometry args={[0.014, 0.016, 0.22, 14]} />
+            </mesh>
+            <mesh position={[0, 0.22, 0.055]} rotation={[Math.PI / 2, 0, 0]} material={faucetMat} castShadow>
+              <cylinderGeometry args={[0.012, 0.012, 0.13, 12]} />
+            </mesh>
+          </group>
+        ) : null}
+      </>
+    );
+  })();
   return (
     <group position={[f.cx, 0, f.cz]} rotation={[0, THREE.MathUtils.degToRad(f.rot ?? 0), 0]}>
       {/* soft grounding shadow, re-baked whenever the model swaps */}
       <ContactShadows
-        key={model}
+        key={`${model}|${f.faucet ?? ""}`}
         position={[0, 0.008, 0]}
         scale={[f.w + 1.2, f.d + 1.2]}
         far={1.4}
@@ -402,23 +499,7 @@ function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; m
       {shower}
       {bathtub}
       {toilet}
-      {f.kind === "Vanity" ? (
-        <>
-          <mesh position={[0, 0.42, 0]} material={charcoal} castShadow receiveShadow>
-            <boxGeometry args={[f.w, 0.8, f.d]} />
-          </mesh>
-          <mesh position={[0, 0.85, 0]} material={body} castShadow receiveShadow>
-            <boxGeometry args={[f.w + 0.04, 0.05, f.d + 0.04]} />
-          </mesh>
-        </>
-      ) : f.kind !== "Shower" && f.kind !== "Bathtub" && f.kind !== "Toilet" ? (
-        <>
-          <mesh position={[0, 0.4, 0]} material={body} castShadow receiveShadow>
-            <boxGeometry args={[f.w * 0.5, 0.8, f.d * 0.6]} />
-          </mesh>
-          <RoundedBox args={[f.w, 0.16, f.d]} radius={0.06} smoothness={4} position={[0, 0.86, 0]} material={body} castShadow receiveShadow />
-        </>
-      ) : null}
+      {basin}
       {labels && (
         <Html center position={[0, labelY, 0]} style={{ pointerEvents: "none" }}>
           <div style={{ fontSize: 11, color: "#fff", background: "rgba(0,0,0,0.55)", border: "1px solid #333", borderRadius: 9999, padding: "2px 10px", whiteSpace: "nowrap" }}>
@@ -628,7 +709,7 @@ function SwapTray({
   if (swappable.length === 0) return null;
   return (
     <div className="mt-6 border-t border-[#333] pt-6">
-      <p className="label-caps text-[#999]">Swap models — real Kohler scans</p>
+      <p className="label-caps text-[#999]">Swap models — catalogue variants (AI picks seeded)</p>
       {swappable.map((f) => {
         const sel = models[f.id] ?? PROCEDURAL;
         return (
@@ -647,8 +728,15 @@ function SwapTray({
                   key={m.id}
                   onClick={() => onModelChange(f.id, m.id)}
                   className={`overflow-hidden rounded-[10px] border text-left transition-colors ${sel === m.id ? "border-[#f5f5f0]" : "border-[#333] hover:border-[#666]"}`}
+                  title={`${m.variant.tags.join(" · ")} — ₹${m.variant.price_inr.toLocaleString("en-IN")}${m.glb ? "" : " (procedural until GLB lands)"}`}
                 >
-                  <img src={m.thumb} alt={m.label} width={96} height={72} className="block h-[72px] w-[96px] object-cover" loading="lazy" />
+                  {m.thumb ? (
+                    <img src={m.thumb} alt={m.label} width={96} height={72} className="block h-[72px] w-[96px] object-cover" loading="lazy" />
+                  ) : (
+                    <span className="flex h-[72px] w-[96px] items-center justify-center bg-gradient-to-br from-[#262626] to-[#0c0c0c] text-[11px] uppercase tracking-[0.08em] text-[#999]">
+                      {m.variant.tags.find((t) => !["minimal", "modern", "zen", "classic", "luxury", "heritage", "bold"].includes(t)) ?? m.variant.kind}
+                    </span>
+                  )}
                   <span className="block max-w-[96px] truncate px-2 py-1 text-[11px] text-[#999]">{m.label}</span>
                 </button>
               ))}

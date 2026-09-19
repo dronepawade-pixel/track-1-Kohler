@@ -3,18 +3,21 @@ import { Suspense, useState } from "react";
 import Link from "next/link";
 import { BUDGET_RANGES, DEFAULT_BUDGET_ID, budgetById } from "@/lib/budget";
 
-const STYLES = ["Modern Minimal", "Spa Retreat", "Heritage Classic", "Bold Statement"];
+// One label per canonical style tag (src/lib/tags.ts) — the words land in
+// the AI brief verbatim, so a pill click is a guaranteed tag hit.
+const STYLES = ["Minimal", "Modern", "Zen", "Classic", "Luxury", "Heritage", "Bold"];
 
 function NewDesignInner() {
   // Step 1 of the single flow: dimensions + brief here, then the 2D planner
   // canvas. 3D opens only from the planner (saved design), never directly.
-  const [form, setForm] = useState({ length: "3.6", width: "2.4", height: "2.7", budgetId: DEFAULT_BUDGET_ID, style: STYLES[1], doors: "1", windows: "1", notes: "" });
+  const [form, setForm] = useState({ length: "3.6", width: "2.4", height: "2.7", budgetId: DEFAULT_BUDGET_ID, style: STYLES[0], doors: "1", windows: "1", notes: "" });
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
   const area = (parseFloat(form.length) || 0) * (parseFloat(form.width) || 0);
   const query =
     `length=${encodeURIComponent(form.length)}&width=${encodeURIComponent(form.width)}` +
-    `&height=${encodeURIComponent(form.height)}&doors=${encodeURIComponent(form.doors)}&windows=${encodeURIComponent(form.windows)}`;
+    `&height=${encodeURIComponent(form.height)}&doors=${encodeURIComponent(form.doors)}&windows=${encodeURIComponent(form.windows)}` +
+    `&budgetId=${encodeURIComponent(form.budgetId)}&style=${encodeURIComponent(form.style)}&notes=${encodeURIComponent(form.notes)}`;
   const nextHref = `/planner?${query}`;
 
   return (

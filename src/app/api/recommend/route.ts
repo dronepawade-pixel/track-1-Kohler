@@ -64,7 +64,7 @@ const KIND_BY_CATEGORY: Record<string, FixtureKind | null> = {
 // --- Gemini tag normalizer -----------------------------------------------
 
 const KEYWORDS: [RegExp, string][] = [
-  [/minimal|simple|clean|less is more/i, "minimalist"],
+  [/minimal|simple|clean|less is more/i, "minimal"],
   [/modern|contemporary|composed/i, "modern"],
   [/zen|spa|calm|japandi|wabi/i, "zen"],
   [/classic|timeless|traditional/i, "classic"],
@@ -76,7 +76,7 @@ const KEYWORDS: [RegExp, string][] = [
 function keywordTags(text: string): string[] {
   const tags = new Set<string>();
   for (const [re, tag] of KEYWORDS) if (re.test(text)) tags.add(tag);
-  return tags.size > 0 ? [...tags] : ["modern", "minimalist"];
+  return tags.size > 0 ? [...tags] : ["modern", "minimal"];
 }
 
 function wantedKinds(text: string): FixtureKind[] {

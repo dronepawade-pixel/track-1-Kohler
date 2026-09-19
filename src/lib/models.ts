@@ -1,7 +1,11 @@
-// Swappable Kohler model catalogue for the 3D viewer.
-// IDs match thumbnail files in public/images/products/<id>.jpg.
-// dims are real metres (x=width, y=height, z=depth) measured from the scans.
-export type ModelFit = "footprint" | "seat" | "head" | "screen";
+// Swappable model catalogue for the 3D viewer, derived from the variant
+// registry (assets/models/<category>/catalog.json + admin overrides).
+// Variant ids double as model ids; a variant with an empty `glb` still
+// resolves here so finish/price lookups work, but the viewer keeps its
+// procedural mesh in that case (ModelPart is only used when glb is set).
+import { loadVariants, type Variant } from "./variants";
+
+export type ModelFit = "footprint" | "seat" | "head" | "screen" | "basinTop" | "faucet";
 
 export type ModelOption = {
   id: string;
@@ -11,22 +15,58 @@ export type ModelOption = {
   thumb: string;
   dims: [number, number, number];
   fit: ModelFit;
+  variant: Variant;
 };
 
 export const PROCEDURAL = "procedural";
 
-export const MODEL_OPTIONS: ModelOption[] = [
-  { id: "tub-21000", label: "Clawfoot Tub 21000", kinds: ["Bathtub"], glb: "/models/21000-P5-plain.glb", thumb: "/images/products/tub-21000.jpg", dims: [1.681, 0.705, 0.826], fit: "footprint" },
-  { id: "toilet-75790", label: "Two-Piece 75790", kinds: ["Toilet"], glb: "/models/75790-plain.glb", thumb: "/images/products/toilet-75790.jpg", dims: [0.361, 0.712, 0.831], fit: "footprint" },
-  { id: "seat-30754", label: "Smart Seat 30754", kinds: ["Toilet"], glb: "/models/30754-PA-plain.glb", thumb: "/images/products/toilet-smart-30754.jpg", dims: [0.315, 0.383, 0.295], fit: "seat" },
-  { id: "head-22170", label: "Rainhead 22170", kinds: ["Shower"], glb: "/models/22170-plain.glb", thumb: "/images/products/head-22170.jpg", dims: [0.139, 0.135, 0.128], fit: "head" },
-  { id: "trim-13696", label: "Shower Trim 13696", kinds: ["Shower"], glb: "/models/13696-G-plain.glb", thumb: "/images/products/trim-13696.jpg", dims: [0.1, 0.028, 0.1], fit: "head" },
-  { id: "screen-707002", label: "Shower Door 707002", kinds: ["Shower"], glb: "/models/707002-D3-plain.glb", thumb: "/images/products/door-707002.jpg", dims: [1.514, 1.573, 0.127], fit: "screen" },
-  { id: "screen-706008", label: "Shower Panel 706008", kinds: ["Shower"], glb: "/models/706008-L-plain.glb", thumb: "/images/products/panel-706008.jpg", dims: [0.446, 0.736, 0.035], fit: "screen" },
-];
+const KIND_BY_FIT: Record<Variant["fit"], string[]> = {
+  footprint: ["Bathtub", "Toilet", "Shower"],
+  seat: ["Toilet"],
+  head: ["Shower"],
+  screen: ["Shower"],
+  basinTop: ["Basin"],
+  faucet: ["Basin"],
+};
+
+// footprint variants render under their own fixture kind, not all three.
+const KIND_BY_VARIANT: Record<Variant["kind"], string[]> = {
+  Bathtub: ["Bathtub"],
+  Shower: ["Shower"],
+  Toilet: ["Toilet"],
+  Basin: ["Basin"],
+  Faucet: ["Basin"], // faucets mount on basins
+};
+
+const toOption = (v: Variant): ModelOption => ({
+  id: v.id,
+  label: v.name,
+  kinds: KIND_BY_VARIANT[v.kind],
+  glb: v.glb,
+  thumb: v.thumb,
+  dims: [v.dims_m[0], v.dims_m[1], v.dims_m[2]],
+  fit: v.fit,
+  variant: v,
+});
+
+/** Live options from the registry (seed JSON unless the admin editor saved
+ *  overrides). Called per render pass — cheap for catalogue-sized lists. */
+export const modelOptions = (): ModelOption[] =>
+  loadVariants().filter((v) => v.kind !== "Faucet" || v.fit === "faucet").map(toOption);
+
+export const MODEL_OPTIONS: ModelOption[] = loadVariants().map(toOption);
 
 export const optionsForKind = (kind: string): ModelOption[] =>
-  MODEL_OPTIONS.filter((m) => m.kinds.includes(kind));
+  modelOptions().filter(
+    (m) =>
+      m.kinds.includes(kind) &&
+      (m.variant.kind === "Faucet" ? false : true) // swap tray lists primaries only
+  );
 
 export const optionById = (id: string | undefined): ModelOption | null =>
-  MODEL_OPTIONS.find((m) => m.id === id) ?? null;
+  !id || id === PROCEDURAL ? null : modelOptions().find((m) => m.id === id) ?? null;
+
+export const faucetForBasin = (id: string | undefined): ModelOption | null =>
+  !id || id === PROCEDURAL ? null : modelOptions().find((m) => m.id === id && m.variant.kind === "Faucet") ?? null;
+
+export { KIND_BY_FIT };

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HelpDialog from "./HelpDialog";
+import AdminEditor from "./AdminEditor";
 
 const LINKS = [
   { label: "Resources", href: "/catalog" },
@@ -15,6 +16,7 @@ export default function Footer() {
           <Link key={l.label} href={l.href} className="hover:text-white transition-colors">{l.label}</Link>
         ))}
         <HelpDialog />
+        <AdminEditor />
       </div>
       <p className="label-caps mt-10 text-[#999]">Gracious living since 1873</p>
     </footer>
