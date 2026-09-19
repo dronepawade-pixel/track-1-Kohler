@@ -23,6 +23,7 @@
 
 ## Phase 3 — Deterministic engines (no LLM)
 - [ ] Constraint engine, compatibility checks, collision detection, budget calc tests
+- [x] AI style→tags→variants: `/api/tags` (Gemini + zod, keyword fallback) expands brief to style+colour+material tags; `buildBundle` picks tag-best, budget-respecting variant per fixture (basin pulls a faucet companion); 3D auto-seeds model swaps + procedural finish tinting. Catalogue in `assets/models/<category>/catalog.json`, editable site-side via footer "Catalogue data" (zod → localStorage).
 
 ## Phase 4 — AI last
 - [ ] Tool interface (searchProducts/getProduct/calculateBudget/validateLayout/…), chat, concept generation, Promptfoo evals, VibeSec review

@@ -1,0 +1,56 @@
+{
+  "category": "bathtubs",
+  "fixtureKind": "Bathtub",
+  "variants": [
+    {
+      "id": "tub-21000",
+      "name": "Clawfoot Tub 21000-P5",
+      "fit": "footprint",
+      "tags": ["classic", "heritage", "luxury", "white", "ceramic"],
+      "price_inr": 185000,
+      "dims_m": [1.681, 0.705, 0.826],
+      "glb": "/models/21000-P5-plain.glb",
+      "thumb": "/images/products/tub-21000.jpg"
+    },
+    {
+      "id": "tub-minimal-rect",
+      "name": "Rectoral Soaking Tub",
+      "fit": "footprint",
+      "tags": ["minimal", "modern", "white", "ceramic"],
+      "price_inr": 95000,
+      "dims_m": [1.7, 0.58, 0.75],
+      "glb": "",
+      "thumb": ""
+    },
+    {
+      "id": "tub-marble-monolith",
+      "name": "Monolith Marble Tub",
+      "fit": "footprint",
+      "tags": ["minimal", "marble", "white", "luxury"],
+      "price_inr": 320000,
+      "dims_m": [1.8, 0.6, 0.85],
+      "glb": "",
+      "thumb": ""
+    },
+    {
+      "id": "tub-bold-stone",
+      "name": "Noir Stone Tub",
+      "fit": "footprint",
+      "tags": ["bold", "black", "stone"],
+      "price_inr": 240000,
+      "dims_m": [1.75, 0.62, 0.8],
+      "glb": "",
+      "thumb": ""
+    },
+    {
+      "id": "tub-zen-oval",
+      "name": "Zen Oval Soaker",
+      "fit": "footprint",
+      "tags": ["zen", "white", "wood"],
+      "price_inr": 145000,
+      "dims_m": [1.65, 0.6, 0.78],
+      "glb": "",
+      "thumb": ""
+    }
+  ]
+}

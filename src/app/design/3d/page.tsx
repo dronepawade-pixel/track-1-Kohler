@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import IsoRoom, { type MetreFixture, type MetreOpening } from "./scene";
@@ -7,6 +7,8 @@ import RoomCanvas, { webglAvailable } from "./room3d";
 import { getDesign, sanitizeDesign, upsertDesign, type SavedDesign } from "@/lib/designs";
 import { PROCEDURAL } from "@/lib/models";
 import { decorById, SURFACE_TOP } from "@/lib/decor";
+import { buildBundle, tagsFromText } from "@/lib/variants";
+import { budgetById } from "@/lib/budget";
 
 const BASE_SCALE = 150;
 const MAX_W = 680;
@@ -52,6 +54,90 @@ function ViewInner() {
   // Same display scale as the 2D canvas, so px snapshots convert back to exact metres.
   const s = Math.min(BASE_SCALE, MAX_W / room.w, MAX_H / room.h);
 
+  // --- AI variant matching --------------------------------------------------
+  // design/new brief → /api/tags (Gemini + keyword fallback) → deterministic
+  // tag+budget matcher over the variant catalogue. Picks fill the per-fixture
+  // model map (manual swaps always win); faucets mount on basins separately.
+  const [faucetMap, setFaucetMap] = useState<Record<number, string>>({});
+  type AiInfo = {
+    status: "working" | "done" | "error";
+    tags: string[];
+    via: string;
+    totalKnown: number;
+    budgetCap: number;
+    overBudget: boolean;
+    warnings: string[];
+    lines: string[];
+  };
+  const [ai, setAi] = useState<AiInfo | null>(null);
+  const aiRanFor = useRef<string | null>(null);
+  useEffect(() => {
+    if (!stored?.brief || aiRanFor.current === stored.id) return;
+    aiRanFor.current = stored.id;
+    const text = `${stored.brief.style} ${stored.brief.notes}`.trim();
+    if (!text) return;
+    let cancelled = false;
+    (async () => {
+      setAi({ status: "working", tags: [], via: "", totalKnown: 0, budgetCap: 0, overBudget: false, warnings: [], lines: [] });
+      let tags: string[];
+      let via: string;
+      try {
+        const r = await fetch("/api/tags", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+        const j = (await r.json()) as { tags?: string[]; via?: string; error?: string };
+        if (!r.ok || !Array.isArray(j.tags) || j.tags.length === 0) throw new Error(j.error ?? "tags failed");
+        tags = j.tags;
+        via = j.via ?? "unknown";
+      } catch {
+        tags = tagsFromText(text);
+        via = "keyword-fallback (offline)";
+      }
+      if (cancelled) return;
+      const cap = budgetById(stored.brief!.budgetId).cap;
+      const fixtures = stored.items.filter((f) => !f.decorId);
+      const bundle = buildBundle(fixtures, tags, cap, { w: stored.room.w, h: stored.room.h });
+      setModels((prev) => {
+        const next = { ...prev };
+        for (const p of bundle.picks) {
+          if (p.kind === "Faucet") continue;
+          const f = fixtures[p.fixtureIndex];
+          if (f && !(f.id in next) && !f.model) next[f.id] = p.variant.id;
+        }
+        return next;
+      });
+      setFaucetMap((prev) => {
+        const next = { ...prev };
+        for (const p of bundle.picks) {
+          if (p.kind !== "Faucet") continue;
+          const f = fixtures[p.fixtureIndex];
+          if (f && !(f.id in next) && !f.faucet) next[f.id] = p.variant.id;
+        }
+        return next;
+      });
+      setAi({
+        status: "done",
+        tags: bundle.tags,
+        via,
+        totalKnown: bundle.totalKnown,
+        budgetCap: cap,
+        overBudget: bundle.overBudget,
+        warnings: bundle.warnings,
+        lines: bundle.picks.map(
+          (p) =>
+            `${p.kind === "Faucet" ? "Faucet →" : fixtures[p.fixtureIndex]?.kind ?? p.kind}: ${p.variant.name} ₹${p.variant.price_inr.toLocaleString("en-IN")}` +
+            (p.tagHits.length ? ` (matches ${p.tagHits.join(", ")})` : " (no tag match — closest)") +
+            (p.overBudget ? " ⚠ over budget" : "")
+        ),
+      });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [stored]);
+
   const fixtures: MetreFixture[] = useMemo(() => {
     const px =
       stored?.items ??
@@ -93,10 +179,11 @@ function ViewInner() {
         y0,
         glass: f.kind === "Shower",
         decorId: f.decorId,
+        faucet: f.faucet ?? faucetMap[f.id],
         rot: f.rot ?? 0,
       };
     });
-  }, [stored, room, s]);
+  }, [stored, room, s, faucetMap]);
 
   const openings: MetreOpening[] = useMemo(() => {
     if (stored) return stored.openings.map((o) => ({ ...o }));
@@ -149,7 +236,11 @@ function ViewInner() {
     upsertDesign({
       ...stored,
       updatedAt: new Date().toISOString(),
-      items: stored.items.map((f) => ({ ...f, model: models[f.id] ?? f.model ?? PROCEDURAL })),
+      items: stored.items.map((f) => ({
+        ...f,
+        model: models[f.id] ?? f.model ?? PROCEDURAL,
+        faucet: f.faucet ?? faucetMap[f.id],
+      })),
     });
     setSavedTick(true);
     setTimeout(() => setSavedTick(false), 2000);
@@ -181,6 +272,38 @@ function ViewInner() {
           <IsoRoom room={room} fixtures={fixtures} openings={openings} />
         )}
       </div>
+      {ai && ai.status !== "working" && (
+        <div className="card mt-4 p-5">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <p className="label-caps text-[#999]">AI match — “{stored?.brief?.style} {stored?.brief?.notes}”</p>
+            <p className="text-[14px] text-[#999]">
+              tags: <span className="text-white">{ai.tags.join(", ") || "—"}</span> · {ai.via}
+            </p>
+            <p className={`text-[14px] ${ai.overBudget ? "text-[#ff8a8a]" : "text-[#9fdfae]"}`}>
+              ₹{ai.totalKnown.toLocaleString("en-IN")} of ₹{ai.budgetCap.toLocaleString("en-IN")} cap
+              {ai.overBudget ? " — over budget: cheapest matches shown" : ` · ₹${(ai.budgetCap - ai.totalKnown).toLocaleString("en-IN")} headroom`}
+            </p>
+          </div>
+          {ai.lines.length > 0 && (
+            <ul className="mt-3 grid gap-1 text-[14px] text-[#999] sm:grid-cols-2">
+              {ai.lines.map((l, i) => (
+                <li key={i}>· {l}</li>
+              ))}
+            </ul>
+          )}
+          {ai.warnings.length > 0 && (
+            <ul className="mt-3 grid gap-1 text-[13px] text-[#ffcf8a]">
+              {ai.warnings.map((w, i) => (
+                <li key={i}>⚠ {w}</li>
+              ))}
+            </ul>
+          )}
+          <p className="label-caps mt-3 text-[#999]">Swap any model below — then “Save model swaps” to keep the picks.</p>
+        </div>
+      )}
+      {ai && ai.status === "working" && (
+        <p className="mt-4 text-[14px] text-[#999]">Matching your brief to catalogue models…</p>
+      )}
       <div className="mt-6 flex flex-wrap items-center gap-4">
         <Link href="/design/new" className="btn-ghost">← Details</Link>
         <Link href={plannerHref} className="btn-ghost">Edit in 2D canvas →</Link>

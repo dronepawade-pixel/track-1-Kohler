@@ -1,0 +1,56 @@
+{
+  "category": "toilets",
+  "fixtureKind": "Toilet",
+  "variants": [
+    {
+      "id": "toilet-75790",
+      "name": "Two-Piece Toilet 75790",
+      "fit": "footprint",
+      "tags": ["modern", "white", "ceramic"],
+      "price_inr": 65000,
+      "dims_m": [0.361, 0.712, 0.831],
+      "glb": "/models/75790-plain.glb",
+      "thumb": "/images/products/toilet-75790.jpg"
+    },
+    {
+      "id": "seat-30754",
+      "name": "Smart Seat 30754-PA",
+      "fit": "seat",
+      "tags": ["modern", "luxury", "chrome", "white"],
+      "price_inr": 120000,
+      "dims_m": [0.315, 0.383, 0.295],
+      "glb": "/models/30754-PA-plain.glb",
+      "thumb": "/images/products/toilet-smart-30754.jpg"
+    },
+    {
+      "id": "toilet-wallhung-min",
+      "name": "Wall-Hung Minimal WC",
+      "fit": "footprint",
+      "tags": ["minimal", "modern", "white", "ceramic"],
+      "price_inr": 88000,
+      "dims_m": [0.36, 0.52, 0.55],
+      "glb": "",
+      "thumb": ""
+    },
+    {
+      "id": "toilet-classic-close",
+      "name": "Classic Close-Coupled WC",
+      "fit": "footprint",
+      "tags": ["classic", "heritage", "white"],
+      "price_inr": 55000,
+      "dims_m": [0.42, 0.75, 0.66],
+      "glb": "",
+      "thumb": ""
+    },
+    {
+      "id": "toilet-bold-matte",
+      "name": "Noir Matte WC",
+      "fit": "footprint",
+      "tags": ["bold", "black", "modern"],
+      "price_inr": 140000,
+      "dims_m": [0.4, 0.6, 0.68],
+      "glb": "",
+      "thumb": ""
+    }
+  ]
+}

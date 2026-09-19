@@ -2,8 +2,9 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import { getDesign, uid, upsertDesign, sanitizeDesign, type SavedDesign } from "@/lib/designs";
+import { getDesign, uid, upsertDesign, sanitizeDesign, type SavedDesign, type SavedBrief } from "@/lib/designs";
 import { DECOR_OPTIONS, decorById } from "@/lib/decor";
+import { budgetById } from "@/lib/budget";
 
 type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number; model?: string; decorId?: string };
 type RoomSpec = { w: number; h: number; height: number; doors: number; windows: number };
@@ -185,6 +186,17 @@ function PlannerInner() {
   const [designName, setDesignName] = useState(stored?.title ?? "");
   const [savedTick, setSavedTick] = useState<string | null>(null);
   const router = useRouter();
+  // Step-1 brief (budget + style + notes) rides in from /design/new query
+  // params. Carried onto every save so the 3D view's AI matcher can pick
+  // tag-matched variants; saved designs keep their brief when re-opened.
+  const brief: SavedBrief | null = useMemo(() => {
+    if (stored?.brief) return stored.brief;
+    const budgetId = params?.get("budgetId");
+    const style = params?.get("style");
+    const notes = params?.get("notes");
+    if (!budgetId && !style && !notes) return null;
+    return { budgetId: budgetId || "comfort", style: style ?? "", notes: notes ?? "" };
+  }, [params, stored]);
   const persist = (): string => {
     const id = activeId ?? uid();
     const now = new Date().toISOString();
@@ -198,6 +210,7 @@ function PlannerInner() {
       room: { ...room },
       items: items.map((f) => ({ ...f })),
       openings: openings.map((o) => ({ ...o })),
+      ...(brief ? { brief } : prev?.brief ? { brief: prev.brief } : {}),
     });
     setActiveId(id);
     if (!designName.trim()) setDesignName(title);
@@ -318,7 +331,7 @@ function PlannerInner() {
 
   return (
     <section className="mx-auto max-w-[1200px] px-6 py-10">
-      <p className="label-caps text-[#999]">2D planner — deterministic geometry, no AI</p>
+      <p className="label-caps text-[#999]">2D planner — deterministic geometry · AI matching runs in the 3D view</p>
       <h1 className="narrative mt-2 text-[clamp(36px,9vw,54px)]">Arrange your room.</h1>
       <div className="mt-5 flex flex-wrap gap-2">
         {PALETTE_M.map((p) => (
@@ -438,7 +451,7 @@ function PlannerInner() {
             <button onClick={saveDesign} className="btn-cream mt-2 w-full whitespace-nowrap !px-3 !py-2 !text-[14px]">
               {activeId ? "Save changes" : "Save design"}
             </button>
-            <p className="label-caps mt-5 text-[#999]">Next step — your layout auto-saves on the way</p>
+            <p className="label-caps mt-5 text-[#999]">Next step — 3D matches your brief{brief ? ` (“${brief.style}${brief.notes ? ` + ${brief.notes.slice(0, 40)}…` : ""}”)` : ""} to catalogue models within the {brief ? `₹${budgetById(brief.budgetId).cap.toLocaleString("en-IN")}` : "saved"} budget</p>
             <button onClick={viewIn3D} className="btn-cream btn-arrow btn-spotlight mt-2 w-full whitespace-nowrap !py-3 !text-[15px]">
               View in 3D <span aria-hidden className="btn-arrow-glyph">→</span>
             </button>

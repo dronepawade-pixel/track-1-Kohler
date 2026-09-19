@@ -2,7 +2,7 @@
 // Works with zero backend (no Supabase keys needed). When the Supabase
 // tables (design_projects + design_versions) are wired up, swap these
 // helpers for DB calls — the SavedDesign shape already mirrors that schema.
-export type SavedFixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number; model?: string; decorId?: string };
+export type SavedFixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number; model?: string; faucet?: string; decorId?: string };
 export type SavedOpening = {
   id: number;
   kind: "door" | "window";
@@ -11,6 +11,9 @@ export type SavedOpening = {
   widthM: number;
 };
 export type SavedRoom = { w: number; h: number; height: number; doors: number; windows: number };
+// Step-1 brief carried into the 3D view so the AI matcher can pick variants
+// ("clean minimal bathroom marble" + budget band → tags → bundle).
+export type SavedBrief = { budgetId: string; style: string; notes: string };
 export type SavedDesign = {
   id: string;
   title: string;
@@ -19,6 +22,7 @@ export type SavedDesign = {
   room: SavedRoom;
   items: SavedFixture[];
   openings: SavedOpening[];
+  brief?: SavedBrief;
 };
 
 const KEY = "kohler:designs:v1";

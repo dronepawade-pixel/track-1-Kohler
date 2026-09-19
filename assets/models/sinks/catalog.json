@@ -1,0 +1,56 @@
+{
+  "category": "sinks",
+  "fixtureKind": "Basin",
+  "variants": [
+    {
+      "id": "sink-vessel-white",
+      "name": "Vessel Basin — White Ceramic",
+      "fit": "basinTop",
+      "tags": ["minimal", "modern", "white", "ceramic"],
+      "price_inr": 22000,
+      "dims_m": [0.45, 0.14, 0.32],
+      "glb": "",
+      "thumb": ""
+    },
+    {
+      "id": "sink-marble-slab",
+      "name": "Monolith Marble Washbasin",
+      "fit": "basinTop",
+      "tags": ["marble", "white", "luxury", "minimal"],
+      "price_inr": 48000,
+      "dims_m": [0.55, 0.16, 0.4],
+      "glb": "",
+      "thumb": ""
+    },
+    {
+      "id": "sink-bold-black",
+      "name": "Noir Countertop Basin",
+      "fit": "basinTop",
+      "tags": ["bold", "black", "modern"],
+      "price_inr": 26000,
+      "dims_m": [0.5, 0.15, 0.36],
+      "glb": "",
+      "thumb": ""
+    },
+    {
+      "id": "sink-undermount-classic",
+      "name": "Classic Undermount Sink",
+      "fit": "basinTop",
+      "tags": ["classic", "white", "ceramic"],
+      "price_inr": 15000,
+      "dims_m": [0.52, 0.18, 0.38],
+      "glb": "",
+      "thumb": ""
+    },
+    {
+      "id": "sink-zen-stone",
+      "name": "Stone Bowl — Spa",
+      "fit": "basinTop",
+      "tags": ["zen", "stone", "white"],
+      "price_inr": 32000,
+      "dims_m": [0.42, 0.13, 0.42],
+      "glb": "",
+      "thumb": ""
+    }
+  ]
+}
