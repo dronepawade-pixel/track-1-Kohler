@@ -192,7 +192,7 @@ exact error text + the step above that failed.
 
 - **Working model:** this repo + live at https://track-1-kohler.vercel.app
 - **Presentation deck:** `docs/PITCH_DECK.html` (landscape PDF after review)
-- **Prompts documentation:** `docs/AI_IMPLEMENTATION.md` (+ `docs/MANUAL_GUIDE.md`)
+- **Prompts documentation:** `docs/PROMPTS_DOCUMENTATION.pdf` (source: `docs/prompts-documentation.html`) — all AI prompts, system instructions and workflows; engineering detail in `docs/AI_IMPLEMENTATION.md` (+ `docs/MANUAL_GUIDE.md`)
 - **Video walkthrough:** Drive link to be added before sending
 
 [ai-impl]: ./docs/AI_IMPLEMENTATION.md
