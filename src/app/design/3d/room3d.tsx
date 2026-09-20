@@ -26,6 +26,10 @@ const WALL_T = 0.12;
 const CUT_H = 1.1;
 const CREAM = "#f5f5f0";
 const CERAMIC = "#f0eee8";
+// Variants without a scan yet show the same Kohler placeholder as the catalog
+// grid (never a fake render); real thumbnails replace it as GLBs land.
+const PLACEHOLDER_IMG = "/images/kohler-placeholder.png";
+const PLACEHOLDER_ALT = "The Bold Look of Kohler — images display when imported from Kohler database";
 
 type ClipEntry = { mats: THREE.Material[]; normal: THREE.Vector3 };
 type Registry = Map<string, ClipEntry>;
@@ -740,8 +744,8 @@ export function webglAvailable() {
   }
 }
 
-function TrayButton({ selected, title, onPick, thumb, thumbLabel, label, sub }: {
-  selected: boolean; title: string; onPick: () => void; thumb?: string; thumbLabel: string; label: string; sub?: string;
+function TrayButton({ selected, title, onPick, thumb, thumbLabel, label, sub, placeholder }: {
+  selected: boolean; title: string; onPick: () => void; thumb?: string; thumbLabel: string; label: string; sub?: string; placeholder?: boolean;
 }) {
   return (
     <button
@@ -751,6 +755,15 @@ function TrayButton({ selected, title, onPick, thumb, thumbLabel, label, sub }: 
     >
       {thumb ? (
         <img src={thumb} alt={label} width={96} height={72} className="block h-[72px] w-[96px] object-cover" loading="lazy" />
+      ) : placeholder ? (
+        <img
+          src={PLACEHOLDER_IMG}
+          alt={PLACEHOLDER_ALT}
+          width={96}
+          height={72}
+          className="block h-[72px] w-[96px] bg-black object-contain"
+          loading="lazy"
+        />
       ) : (
         <span className="flex h-[72px] w-[96px] items-center justify-center bg-gradient-to-br from-[#262626] to-[#0c0c0c] text-[11px] uppercase tracking-[0.08em] text-[#999]">
           {thumbLabel}
@@ -785,7 +798,8 @@ function OptionButtons({ items, selectedId, onPick }: {
     <>
       {sorted.map((m) => (
         <TrayButton key={m.id} selected={selectedId === m.id} title={variantTitle(m)} onPick={() => onPick(m.id)}
-          thumb={m.thumb || undefined} thumbLabel={tagFallback(m)} label={m.label} sub={m.variant.sub} />
+          thumb={m.thumb || undefined} thumbLabel={tagFallback(m)} label={m.label} sub={m.variant.sub}
+          placeholder={!m.thumb} />
       ))}
     </>
   );
