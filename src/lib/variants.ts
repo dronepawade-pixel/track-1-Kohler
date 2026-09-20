@@ -11,7 +11,7 @@ import toiletsSeed from "../../assets/models/toilets/catalog.json";
 import sinksSeed from "../../assets/models/sinks/catalog.json";
 import faucetsSeed from "../../assets/models/faucets/catalog.json";
 
-export const FITS = ["footprint", "seat", "head", "screen", "basinTop", "faucet"] as const;
+export const FITS = ["footprint", "seat", "head", "screen", "basinTop", "faucet", "part"] as const;
 export const VARIANT_KINDS = ["Bathtub", "Shower", "Toilet", "Basin", "Faucet"] as const;
 
 export const VariantSchema = z.object({
@@ -24,6 +24,25 @@ export const VariantSchema = z.object({
   dims_m: z.tuple([z.number().positive(), z.number().positive(), z.number().positive()]),
   glb: z.string().default(""),
   thumb: z.string().default(""),
+  // Visible subtype within the kind (Rainheads vs Handshowers, Vessel vs
+  // Pedestal…). Only set when certain — the tray groups by it, unset items
+  // render ungrouped. Free text, mirrors Studio Kohler leaf names.
+  sub: z.string().optional(),
+  // Studio Kohler provenance — preserved separately from the app's own
+  // category/tags so the Bathroom → group → subcategory hierarchy survives
+  // even though the app keeps its native taxonomy (Basins, Faucets…).
+  source: z
+    .object({
+      sku: z.string(),
+      product: z.string(),
+      url: z.string(),
+      studioPath: z.string(),
+      obj: z.string(),
+    })
+    .optional(),
+  // Internal inference note for OUR style tags (not an official Kohler
+  // classification). Never shown in the UI; kept for catalogue review.
+  styleReason: z.string().optional(),
 });
 export type Variant = z.infer<typeof VariantSchema>;
 

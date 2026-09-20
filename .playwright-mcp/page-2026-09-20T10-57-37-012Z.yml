@@ -1,0 +1,160 @@
+- generic [active] [ref=f703e1]:
+  - banner [ref=f703e2]:
+    - generic [ref=f703e3]:
+      - link "Kohler home" [ref=f703e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=f703e5]
+      - navigation [ref=f703e26]:
+        - link "Bathroom" [ref=f703e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=f703e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=f703e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=f703e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=f703e33]: →
+  - main [ref=f703e34]:
+    - generic [ref=f703e35]:
+      - generic "Kohler spa bathroom film" [ref=f703e36]
+      - generic [ref=f703e39]:
+        - heading "The bold look, made." [level=1] [ref=f703e40]
+        - paragraph [ref=f703e41]: Tell us your space, budget and rituals — we compose it from real Kohler products.
+        - link "Start your design" [ref=f703e44] [cursor=pointer]:
+          - /url: /design/new
+      - button "❚❚ Pause the film" [ref=f703e45]:
+        - generic [ref=f703e46]: ❚❚
+        - generic [ref=f703e47]: Pause the film
+    - generic [ref=f703e49]:
+      - generic [ref=f703e50]:
+        - generic [ref=f703e51]: Showers
+        - generic [ref=f703e52]: Smart Toilets
+        - generic [ref=f703e53]: New Launches
+        - generic [ref=f703e54]: Bathtubs
+        - generic [ref=f703e55]: Basins
+        - generic [ref=f703e56]: Faucets
+        - generic [ref=f703e57]: Showers
+        - generic [ref=f703e58]: Smart Toilets
+        - generic [ref=f703e59]: New Launches
+        - generic [ref=f703e60]: Bathtubs
+        - generic [ref=f703e61]: Basins
+        - generic [ref=f703e62]: Faucets
+        - generic [ref=f703e63]: Showers
+        - generic [ref=f703e64]: Smart Toilets
+        - generic [ref=f703e65]: New Launches
+        - generic [ref=f703e66]: Bathtubs
+        - generic [ref=f703e67]: Basins
+        - generic [ref=f703e68]: Faucets
+        - generic [ref=f703e69]: Showers
+        - generic [ref=f703e70]: Smart Toilets
+        - generic [ref=f703e71]: New Launches
+        - generic [ref=f703e72]: Bathtubs
+        - generic [ref=f703e73]: Basins
+        - generic [ref=f703e74]: Faucets
+      - generic [aria-hidden] [ref=f703e75]:
+        - generic [ref=f703e76]: Showers
+        - generic [ref=f703e77]: Smart Toilets
+        - generic [ref=f703e78]: New Launches
+        - generic [ref=f703e79]: Bathtubs
+        - generic [ref=f703e80]: Basins
+        - generic [ref=f703e81]: Faucets
+        - generic [ref=f703e82]: Showers
+        - generic [ref=f703e83]: Smart Toilets
+        - generic [ref=f703e84]: New Launches
+        - generic [ref=f703e85]: Bathtubs
+        - generic [ref=f703e86]: Basins
+        - generic [ref=f703e87]: Faucets
+        - generic [ref=f703e88]: Showers
+        - generic [ref=f703e89]: Smart Toilets
+        - generic [ref=f703e90]: New Launches
+        - generic [ref=f703e91]: Bathtubs
+        - generic [ref=f703e92]: Basins
+        - generic [ref=f703e93]: Faucets
+        - generic [ref=f703e94]: Showers
+        - generic [ref=f703e95]: Smart Toilets
+        - generic [ref=f703e96]: New Launches
+        - generic [ref=f703e97]: Bathtubs
+        - generic [ref=f703e98]: Basins
+        - generic [ref=f703e99]: Faucets
+    - generic [ref=f703e100]:
+      - paragraph [ref=f703e101]: Bathroom Collections
+      - heading "The spa at home, crafted for daily rituals." [level=2] [ref=f703e102]
+      - generic [ref=f703e103]:
+        - link "Performance Showering Showers Performance Showering Rainshower and handshower rituals in marble showering areas." [ref=f703e105] [cursor=pointer]:
+          - /url: /catalog?category=Showers
+          - img "Performance Showering" [ref=f703e106]
+          - generic [ref=f703e107]: Showers
+          - generic [ref=f703e108]:
+            - heading "Performance Showering" [level=3] [ref=f703e109]
+            - paragraph [ref=f703e110]: Rainshower and handshower rituals in marble showering areas.
+        - link "The Toilet Area Smart Toilets The Toilet Area Wall-hung forms with bidet seats in minimal spaces." [ref=f703e112] [cursor=pointer]:
+          - /url: /catalog?category=Smart%20Toilets
+          - img "The Toilet Area" [ref=f703e113]
+          - generic [ref=f703e114]: Smart Toilets
+          - generic [ref=f703e115]:
+            - heading "The Toilet Area" [level=3] [ref=f703e116]
+            - paragraph [ref=f703e117]: Wall-hung forms with bidet seats in minimal spaces.
+        - link "The Grooming Area Basins The Grooming Area Vessel basins with single-control faucets on stone vanities." [ref=f703e119] [cursor=pointer]:
+          - /url: /catalog?category=Basins
+          - img "The Grooming Area" [ref=f703e120]
+          - generic [ref=f703e121]: Basins
+          - generic [ref=f703e122]:
+            - heading "The Grooming Area" [level=3] [ref=f703e123]
+            - paragraph [ref=f703e124]: Vessel basins with single-control faucets on stone vanities.
+        - link "Freestanding Bathtubs Bathtubs Freestanding Bathtubs Soaking zones by the window — steam, soak, shower." [ref=f703e126] [cursor=pointer]:
+          - /url: /catalog?category=Bathtubs
+          - img "Freestanding Bathtubs" [ref=f703e127]
+          - generic [ref=f703e128]: Bathtubs
+          - generic [ref=f703e129]:
+            - heading "Freestanding Bathtubs" [level=3] [ref=f703e130]
+            - paragraph [ref=f703e131]: Soaking zones by the window — steam, soak, shower.
+      - link "Open 2D planner" [ref=f703e134] [cursor=pointer]:
+        - /url: /planner
+    - generic [ref=f703e137]:
+      - generic [ref=f703e138]:
+        - paragraph [ref=f703e139]: Area
+        - heading "Basin Area" [level=3] [ref=f703e140]
+        - paragraph [ref=f703e141]: Basins and faucets composed as one.
+      - generic [ref=f703e142]:
+        - paragraph [ref=f703e143]: Area
+        - heading "Showering Area" [level=3] [ref=f703e144]
+        - paragraph [ref=f703e145]: Showers, diverters, digital showering and bathtubs.
+      - generic [ref=f703e146]:
+        - paragraph [ref=f703e147]: Area
+        - heading "Toilet Area" [level=3] [ref=f703e148]
+        - paragraph [ref=f703e149]: Toilets, smart toilets, bidet seats and cisterns.
+    - generic [ref=f703e151]:
+      - paragraph [ref=f703e152]: How it works
+      - heading "Steam. Soak. Shower. in bold." [level=2] [ref=f703e153]
+      - generic [ref=f703e154]:
+        - generic [ref=f703e155]:
+          - paragraph [ref=f703e156]: "01"
+          - heading "Describe" [level=3] [ref=f703e157]
+          - paragraph [ref=f703e158]: Dimensions, photos, budget, style and rituals.
+        - generic [ref=f703e159]:
+          - paragraph [ref=f703e160]: "02"
+          - heading "Compose" [level=3] [ref=f703e161]
+          - paragraph [ref=f703e162]: Real Kohler products matched to your constraints.
+        - generic [ref=f703e163]:
+          - paragraph [ref=f703e164]: "03"
+          - heading "Arrange" [level=3] [ref=f703e165]
+          - paragraph [ref=f703e166]: Drag, rotate and snap on the 2D planner with clearances.
+        - generic [ref=f703e167]:
+          - paragraph [ref=f703e168]: "04"
+          - heading "Keep" [level=3] [ref=f703e169]
+          - paragraph [ref=f703e170]: Budget recalculated, versions saved and shared.
+      - link "Start your design — set your budget" [ref=f703e173] [cursor=pointer]:
+        - /url: /design/new
+  - contentinfo [ref=f703e174]:
+    - generic [ref=f703e175]:
+      - link "Resources" [ref=f703e176] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=f703e177] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=f703e178] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=f703e179]
+      - button "Catalogue data" [ref=f703e180]
+    - paragraph [ref=f703e181]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=f703e187] [cursor=pointer]

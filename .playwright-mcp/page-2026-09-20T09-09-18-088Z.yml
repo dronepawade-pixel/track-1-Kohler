@@ -1,0 +1,217 @@
+- generic [active] [ref=f192e1]:
+  - banner [ref=f192e2]:
+    - generic [ref=f192e3]:
+      - link "Kohler home" [ref=f192e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=f192e5]
+      - navigation [ref=f192e26]:
+        - link "Bathroom" [ref=f192e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=f192e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=f192e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=f192e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=f192e33]: →
+  - main [ref=f192e34]:
+    - generic [ref=f192e35]:
+      - paragraph [ref=f192e36]: Design track — step 3 of 3 · 3D concept, drag to walk around it
+      - heading "Your bathroom, in bold." [level=1] [ref=f192e37]
+      - paragraph [ref=f192e38]: Room 3.6 × 2.4 m · 8.6 m² · height 2.7 m · 5 fixtures · “Pilot 3D verify (temporary)”
+      - generic [ref=f192e71]:
+        - generic [ref=f192e73]:
+          - generic: Bathtub
+          - generic: Toilet
+          - generic: Toilet
+          - generic: Basin
+          - generic: Shower
+        - generic [ref=f192e76]:
+          - button "⟲ 45°" [ref=f192e77]
+          - button "45° ⟳" [ref=f192e78]
+          - button "Reset view" [ref=f192e79]
+          - button "Cutaway on" [ref=f192e80]
+          - button "Labels on" [ref=f192e81]
+          - button "Turntable off" [ref=f192e82]
+        - paragraph [ref=f192e83]: Drag to orbit · scroll to zoom · front walls section at 1.1 m so you can see inside.
+        - generic [ref=f192e84]:
+          - paragraph [ref=f192e85]: Ambience — pendant light + decor
+          - generic [ref=f192e86]:
+            - button "Light off" [ref=f192e87]
+            - button "Warm Lamp" [ref=f192e88]
+            - button "Cool Daylight" [ref=f192e90]
+            - button "Spa Teal" [ref=f192e92]
+            - button "Sunset Amber" [ref=f192e94]
+            - button "Rose" [ref=f192e96]
+            - button "Violet Night" [ref=f192e98]
+            - button "Decor on" [ref=f192e100]
+          - paragraph [ref=f192e101]: Warm Lamp pendant on. No decor placed yet — add some on the 2D canvas.
+        - generic [ref=f192e102]:
+          - paragraph [ref=f192e103]: Swap models — catalogue variants (AI picks seeded)
+          - generic [ref=f192e104]:
+            - paragraph [ref=f192e105]: Bathtub
+            - generic [ref=f192e106]:
+              - button "Studio Procedural" [ref=f192e107]:
+                - generic [ref=f192e108]: Studio
+                - generic [ref=f192e109]: Procedural
+              - button "Clawfoot Tub 21000-P5 Clawfoot Tub 21000-P5" [ref=f192e110]:
+                - img "Clawfoot Tub 21000-P5" [ref=f192e111]
+                - generic [ref=f192e112]: Clawfoot Tub 21000-P5
+              - button "white Rectoral Soaking Tub" [ref=f192e113]:
+                - generic [ref=f192e114]: white
+                - generic [ref=f192e115]: Rectoral Soaking Tub
+              - button "marble Monolith Marble Tub" [ref=f192e116]:
+                - generic [ref=f192e117]: marble
+                - generic [ref=f192e118]: Monolith Marble Tub
+              - button "black Noir Stone Tub" [ref=f192e119]:
+                - generic [ref=f192e120]: black
+                - generic [ref=f192e121]: Noir Stone Tub
+              - button "white Zen Oval Soaker" [ref=f192e122]:
+                - generic [ref=f192e123]: white
+                - generic [ref=f192e124]: Zen Oval Soaker
+              - button "white Stargaze Freestanding Bath K-6366" [ref=f192e125]:
+                - generic [ref=f192e126]: white
+                - generic [ref=f192e127]: Stargaze Freestanding Bath K-6366
+          - generic [ref=f192e128]:
+            - paragraph [ref=f192e129]: Toilet
+            - generic [ref=f192e130]:
+              - button "Studio Procedural" [ref=f192e131]:
+                - generic [ref=f192e132]: Studio
+                - generic [ref=f192e133]: Procedural
+              - button "Two-Piece Toilet 75790 Two-Piece Toilet 75790" [ref=f192e134]:
+                - img "Two-Piece Toilet 75790" [ref=f192e135]
+                - generic [ref=f192e136]: Two-Piece Toilet 75790
+              - button "Smart Seat 30754-PA Smart Seat 30754-PA" [ref=f192e137]:
+                - img "Smart Seat 30754-PA" [ref=f192e138]
+                - generic [ref=f192e139]: Smart Seat 30754-PA
+              - button "white Wall-Hung Minimal WC" [ref=f192e140]:
+                - generic [ref=f192e141]: white
+                - generic [ref=f192e142]: Wall-Hung Minimal WC
+              - button "white Classic Close-Coupled WC" [ref=f192e143]:
+                - generic [ref=f192e144]: white
+                - generic [ref=f192e145]: Classic Close-Coupled WC
+              - button "black Noir Matte WC" [ref=f192e146]:
+                - generic [ref=f192e147]: black
+                - generic [ref=f192e148]: Noir Matte WC
+              - button "white Highline Classic Two-Piece Toilet K-3493" [ref=f192e149]:
+                - generic [ref=f192e150]: white
+                - generic [ref=f192e151]: Highline Classic Two-Piece Toilet K-3493
+              - button "white PureWash E525 Bidet Seat K-18751" [ref=f192e152]:
+                - generic [ref=f192e153]: white
+                - generic [ref=f192e154]: PureWash E525 Bidet Seat K-18751
+          - generic [ref=f192e155]:
+            - paragraph [ref=f192e156]: Toilet
+            - generic [ref=f192e157]:
+              - button "Studio Procedural" [ref=f192e158]:
+                - generic [ref=f192e159]: Studio
+                - generic [ref=f192e160]: Procedural
+              - button "Two-Piece Toilet 75790 Two-Piece Toilet 75790" [ref=f192e161]:
+                - img "Two-Piece Toilet 75790" [ref=f192e162]
+                - generic [ref=f192e163]: Two-Piece Toilet 75790
+              - button "Smart Seat 30754-PA Smart Seat 30754-PA" [ref=f192e164]:
+                - img "Smart Seat 30754-PA" [ref=f192e165]
+                - generic [ref=f192e166]: Smart Seat 30754-PA
+              - button "white Wall-Hung Minimal WC" [ref=f192e167]:
+                - generic [ref=f192e168]: white
+                - generic [ref=f192e169]: Wall-Hung Minimal WC
+              - button "white Classic Close-Coupled WC" [ref=f192e170]:
+                - generic [ref=f192e171]: white
+                - generic [ref=f192e172]: Classic Close-Coupled WC
+              - button "black Noir Matte WC" [ref=f192e173]:
+                - generic [ref=f192e174]: black
+                - generic [ref=f192e175]: Noir Matte WC
+              - button "white Highline Classic Two-Piece Toilet K-3493" [ref=f192e176]:
+                - generic [ref=f192e177]: white
+                - generic [ref=f192e178]: Highline Classic Two-Piece Toilet K-3493
+              - button "white PureWash E525 Bidet Seat K-18751" [ref=f192e179]:
+                - generic [ref=f192e180]: white
+                - generic [ref=f192e181]: PureWash E525 Bidet Seat K-18751
+          - generic [ref=f192e182]:
+            - paragraph [ref=f192e183]: Basin
+            - generic [ref=f192e184]:
+              - button "Studio Procedural" [ref=f192e185]:
+                - generic [ref=f192e186]: Studio
+                - generic [ref=f192e187]: Procedural
+              - button "white Vessel Basin — White Ceramic" [ref=f192e188]:
+                - generic [ref=f192e189]: white
+                - generic [ref=f192e190]: Vessel Basin — White Ceramic
+              - button "marble Monolith Marble Washbasin" [ref=f192e191]:
+                - generic [ref=f192e192]: marble
+                - generic [ref=f192e193]: Monolith Marble Washbasin
+              - button "black Noir Countertop Basin" [ref=f192e194]:
+                - generic [ref=f192e195]: black
+                - generic [ref=f192e196]: Noir Countertop Basin
+              - button "white Classic Undermount Sink" [ref=f192e197]:
+                - generic [ref=f192e198]: white
+                - generic [ref=f192e199]: Classic Undermount Sink
+              - button "stone Stone Bowl — Spa" [ref=f192e200]:
+                - generic [ref=f192e201]: stone
+                - generic [ref=f192e202]: Stone Bowl — Spa
+              - button "black Vox Round Vessel Sink K-14800" [ref=f192e203]:
+                - generic [ref=f192e204]: black
+                - generic [ref=f192e205]: Vox Round Vessel Sink K-14800
+          - generic [ref=f192e206]:
+            - paragraph [ref=f192e207]: Shower
+            - generic [ref=f192e208]:
+              - button "Studio Procedural" [ref=f192e209]:
+                - generic [ref=f192e210]: Studio
+                - generic [ref=f192e211]: Procedural
+              - button "Rainhead 22170 Rainhead 22170" [ref=f192e212]:
+                - img "Rainhead 22170" [ref=f192e213]
+                - generic [ref=f192e214]: Rainhead 22170
+              - button "Shower Trim 13696-G Shower Trim 13696-G" [ref=f192e215]:
+                - img "Shower Trim 13696-G" [ref=f192e216]
+                - generic [ref=f192e217]: Shower Trim 13696-G
+              - button "Shower Door 707002-D3 Shower Door 707002-D3" [ref=f192e218]:
+                - img "Shower Door 707002-D3" [ref=f192e219]
+                - generic [ref=f192e220]: Shower Door 707002-D3
+              - button "Shower Panel 706008-L Shower Panel 706008-L" [ref=f192e221]:
+                - img "Shower Panel 706008-L" [ref=f192e222]
+                - generic [ref=f192e223]: Shower Panel 706008-L
+              - button "glass Zen Steam Pod" [ref=f192e224]:
+                - generic [ref=f192e225]: glass
+                - generic [ref=f192e226]: Zen Steam Pod
+              - button "chrome Contemporary Round Rainhead 8in K-13688" [ref=f192e227]:
+                - generic [ref=f192e228]: chrome
+                - generic [ref=f192e229]: Contemporary Round Rainhead 8in K-13688
+      - generic [ref=f192e230]:
+        - generic [ref=f192e231]:
+          - paragraph [ref=f192e232]: AI match — “modern minimal bathroom pilot verify”
+          - paragraph [ref=f192e233]: "tags: minimal, white, modern · keyword-fallback"
+          - paragraph [ref=f192e234]: ₹2,70,000 of ₹4,50,000 cap · ₹1,80,000 headroom
+        - list [ref=f192e235]:
+          - listitem [ref=f192e236]: "· Bathtub: Rectoral Soaking Tub ₹95,000 (matches minimal, modern, white)"
+          - listitem [ref=f192e237]: "· Shower: Contemporary Round Rainhead 8in K-13688 ₹0 (matches modern, minimal)"
+          - listitem [ref=f192e238]: "· Toilet: Wall-Hung Minimal WC ₹88,000 (matches minimal, modern, white)"
+          - listitem [ref=f192e239]: "· Toilet: Two-Piece Toilet 75790 ₹65,000 (matches modern, white)"
+          - listitem [ref=f192e240]: "· Basin: Vessel Basin — White Ceramic ₹22,000 (matches minimal, modern, white)"
+          - listitem [ref=f192e241]: "· Faucet →: Taut Widespread Faucet K-97100-4 ₹0 (matches modern, minimal)"
+        - paragraph [ref=f192e242]: Swap any model below — then “Save model swaps” to keep the picks.
+      - generic [ref=f192e41]:
+        - link "← Details" [ref=f192e42] [cursor=pointer]:
+          - /url: /design/new
+        - link "Edit in 2D canvas →" [ref=f192e43] [cursor=pointer]:
+          - /url: /planner?design=pilot-3d-verify
+        - link "Saved designs" [ref=f192e44] [cursor=pointer]:
+          - /url: /saved
+        - link "Continue to budget →" [ref=f192e45] [cursor=pointer]:
+          - /url: /budget
+        - button "Save model swaps" [ref=f192e243]
+      - generic [ref=f192e46]:
+        - generic [ref=f192e47]: Fixtures
+        - generic [ref=f192e49]: Doors
+        - generic [ref=f192e51]: Windows
+  - contentinfo [ref=f192e53]:
+    - generic [ref=f192e54]:
+      - link "Resources" [ref=f192e55] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=f192e56] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=f192e57] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=f192e58]
+      - button "Catalogue data" [ref=f192e59]
+    - paragraph [ref=f192e60]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=f192e66] [cursor=pointer]
+  - alert [ref=f192e70]

@@ -1,0 +1,104 @@
+- generic [ref=f195e1]:
+  - banner [ref=f195e2]:
+    - generic [ref=f195e3]:
+      - link "Kohler home" [ref=f195e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=f195e5]
+      - navigation [ref=f195e26]:
+        - link "Bathroom" [ref=f195e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=f195e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=f195e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=f195e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=f195e33]: →
+  - main [ref=f195e34]:
+    - generic [ref=f195e257]:
+      - paragraph [ref=f195e258]: 2D planner — deterministic geometry · AI matching runs in the 3D view
+      - heading "Arrange your room." [level=1] [ref=f195e259]
+      - generic [ref=f195e260]:
+        - button "+ Basin" [ref=f195e261]
+        - button "+ Shower" [ref=f195e262]
+        - button "+ Bathtub" [ref=f195e263]
+        - button "+ Toilet" [ref=f195e264]
+        - button "+ Door" [ref=f195e265]
+        - button "+ Window" [ref=f195e266]
+      - generic [ref=f195e267]:
+        - generic [ref=f195e268]: Catalogue — places pre-fitted fixtures, swappable in 3D
+        - button "+ Vessel Sink" [ref=f195e269]
+        - button "+ Widespread Faucet" [ref=f195e270]
+        - button "+ Freestanding Tub" [ref=f195e271]
+        - button "+ Rainhead" [active] [ref=f195e272]
+        - button "+ Two-Piece Toilet" [ref=f195e273]
+        - button "+ Bidet Seat" [ref=f195e274]
+      - generic [ref=f195e275]:
+        - generic [ref=f195e276]: Decor — free placement, sits on top, not costed
+        - button "+ Monstera plant" [ref=f195e277]
+        - button "+ Flower pot" [ref=f195e278]
+        - button "+ Towel ladder" [ref=f195e279]
+        - button "+ Towel stack" [ref=f195e280]
+        - button "+ Soap tray set" [ref=f195e281]
+        - button "+ Laundry hamper" [ref=f195e282]
+        - button "+ Bath stool" [ref=f195e283]
+        - button "+ Bath caddy" [ref=f195e284]
+        - button "Decor shown" [ref=f195e285]
+      - generic [ref=f195e286]:
+        - img [ref=f195e288]:
+          - generic [ref=f195e290]: 0.0m
+          - generic [ref=f195e291]: 1.2m
+          - generic [ref=f195e292]: 2.4m
+          - generic [ref=f195e293]: 3.6m
+          - generic [ref=f195e294]: door 0.90m
+          - generic [ref=f195e297]: window 1.20m
+          - generic [ref=f195e300]: Shower
+          - generic [ref=f195e303]: Toilet
+          - generic [ref=f195e326]: Basin
+          - generic [ref=f195e329]: Basin
+          - generic [ref=f195e339]: Basin
+          - generic [ref=f195e343]: Bathtub
+          - generic [ref=f195e347]: Shower
+        - complementary [ref=f195e306]:
+          - paragraph [ref=f195e307]: Measurements & constraints
+          - paragraph [ref=f195e308]: Room 3.6 × 2.4 m · 8.6 m²
+          - paragraph [ref=f195e309]: Height 2.7 m · 1 door · 1 window
+          - paragraph [ref=f195e310]: 7 fixtures · snap 10px · clearance 0.6m
+          - generic [ref=f195e311]:
+            - paragraph [ref=f195e312]: Canvas history
+            - generic [ref=f195e313]:
+              - button "↩ Undo (5)" [ref=f195e350]
+              - button "Clear canvas" [ref=f195e315]
+          - generic [ref=f195e316]:
+            - paragraph [ref=f195e317]: Save this design
+            - textbox "Design name" [ref=f195e318]:
+              - /placeholder: Name this bathroom…
+            - button "Save design" [ref=f195e319]
+            - paragraph [ref=f195e320]: Next step — 3D matches your brief to catalogue models within the saved budget
+            - button "View in 3D" [ref=f195e321]:
+              - text: View in 3D
+              - generic [aria-hidden] [ref=f195e322]: →
+            - link "View saved →" [ref=f195e324] [cursor=pointer]:
+              - /url: /saved
+          - paragraph [ref=f195e325]: ⚠ 7 overlaps — drag Shower, Toilet, Basin, Basin, Basin, Bathtub, Shower apart.
+          - generic [ref=f195e333]:
+            - paragraph [ref=f195e334]:
+              - text: Basin
+              - generic [ref=f195e335]: · 0°
+            - generic [ref=f195e336]:
+              - button "Rotate 90°" [ref=f195e337]
+              - button "Remove" [ref=f195e338]
+  - contentinfo [ref=f195e104]:
+    - generic [ref=f195e105]:
+      - link "Resources" [ref=f195e106] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=f195e107] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=f195e108] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=f195e109]
+      - button "Catalogue data" [ref=f195e110]
+    - paragraph [ref=f195e111]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=f195e117] [cursor=pointer]
+  - alert [ref=f195e121]: KOHLER AI Bathroom Designer

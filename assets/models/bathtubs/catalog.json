@@ -10,7 +10,8 @@
       "price_inr": 185000,
       "dims_m": [1.681, 0.705, 0.826],
       "glb": "/models/21000-P5-plain.glb",
-      "thumb": "/images/products/tub-21000.jpg"
+      "thumb": "/images/products/tub-21000.jpg",
+      "sub": "Freestanding Bathtubs"
     },
     {
       "id": "tub-minimal-rect",
@@ -30,7 +31,8 @@
       "price_inr": 320000,
       "dims_m": [1.8, 0.6, 0.85],
       "glb": "",
-      "thumb": ""
+      "thumb": "",
+      "sub": "Freestanding Bathtubs"
     },
     {
       "id": "tub-bold-stone",
@@ -51,6 +53,82 @@
       "dims_m": [1.65, 0.6, 0.78],
       "glb": "",
       "thumb": ""
+    },
+    {
+      "id": "tub-stargaze-6366",
+      "name": "Stargaze Freestanding Bath K-6366",
+      "fit": "footprint",
+      "tags": ["modern", "luxury", "white"],
+      "price_inr": 0,
+      "dims_m": [1.828, 0.634, 0.916],
+      "glb": "/models/6366-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-6366-0",
+        "product": "Stargaze 72\" x 36\" freestanding bath with straight shroud",
+        "url": "https://www.studiokohler.com/products/bathroom/bathing/6366?sku=K-6366-0",
+        "studioPath": "Bathroom → Bathtubs",
+        "obj": "assets/models/kohler_freestanding_bathtubs_stargaze_K-6366-0.obj"
+      },
+      "styleReason": "Sculptural freestanding oval shroud form, clean surfaces, white finish; statement piece (price Unknown → 0 placeholder)",
+      "sub": "Freestanding Bathtubs"
+    },
+    {
+      "id": "tub-sunstruck-6368",
+      "name": "Sunstruck Freestanding Bath K-6368",
+      "fit": "footprint",
+      "tags": ["modern", "luxury", "white"],
+      "price_inr": 0,
+      "dims_m": [1.679, 0.915, 0.629],
+      "glb": "/models/6368-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-6368-0",
+        "product": "Sunstruck 65-1/2\" x 35-1/2\" freestanding bath, straight shroud",
+        "url": "https://www.studiokohler.com/products/bathroom/bathing/6368?sku=K-6368-0",
+        "studioPath": "Bathroom → Bathtubs",
+        "obj": "assets/models/Bathroom Bathtubs/6368.obj"
+      },
+      "styleReason": "Freestanding shroud bath, verified product title (price Unknown → 0 placeholder)",
+      "sub": "Freestanding Bathtubs"
+    },
+    {
+      "id": "tub-alcove-26109",
+      "name": "Alcove Bath K-26109-LA",
+      "fit": "footprint",
+      "tags": ["classic", "white"],
+      "price_inr": 0,
+      "dims_m": [0.768, 0.422, 1.524],
+      "glb": "/models/26109-LA-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-26109-LA",
+        "product": "Alcove bathtub",
+        "url": "https://www.studiokohler.com/search-results?value=K-26109",
+        "studioPath": "Bathroom → Bathtubs",
+        "obj": "assets/models/Bathroom Bathtubs/26109-LA.obj"
+      },
+      "styleReason": "Alcove shell with apron, conventional form (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Alcove Bathtubs"
+    },
+    {
+      "id": "tub-archer-1949",
+      "name": "Archer Drop-In Whirlpool K-1949",
+      "fit": "footprint",
+      "tags": ["heritage", "luxury", "white"],
+      "price_inr": 0,
+      "dims_m": [1.676, 0.465, 0.813],
+      "glb": "/models/1949-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-1949-0",
+        "product": "Archer 66\" x 32\" drop-in whirlpool",
+        "url": "https://www.studiokohler.com/products/bathroom/bathing/1949?sku=K-1949-0",
+        "studioPath": "Bathroom → Bathtubs",
+        "obj": "assets/models/Bathroom Bathtubs/1949.obj"
+      },
+      "styleReason": "Drop-in whirlpool, verified product title (price Unknown → 0 placeholder)",
+      "sub": "Drop-in Bathtubs"
     }
   ]
 }

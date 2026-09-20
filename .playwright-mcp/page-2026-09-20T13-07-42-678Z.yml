@@ -1,0 +1,92 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Kohler home" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=e5]
+      - navigation [ref=e26]:
+        - link "Bathroom" [ref=e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=e33]: →
+  - main [ref=e34]:
+    - generic [ref=e35]:
+      - paragraph [ref=e36]: 2D planner — deterministic geometry · AI matching runs in the 3D view
+      - heading "Arrange your room." [level=1] [ref=e37]
+      - generic [ref=e38]:
+        - button "+ Basin" [ref=e39]
+        - button "+ Shower" [ref=e40]
+        - button "+ Bathtub" [ref=e41]
+        - button "+ Toilet" [ref=e42]
+        - button "+ Door" [ref=e43]
+        - button "+ Window" [ref=e44]
+        - button "✦ Auto-place from brief" [ref=e45]
+      - generic [ref=e46]:
+        - generic [ref=e47]: Catalogue — places pre-fitted fixtures, swappable in 3D
+        - button "+ Vessel Sink" [ref=e48]
+        - button "+ Widespread Faucet" [ref=e49]
+        - button "+ Freestanding Tub" [ref=e50]
+        - button "+ Rainhead" [ref=e51]
+        - button "+ Two-Piece Toilet" [ref=e52]
+        - button "+ Bidet Seat" [ref=e53]
+      - generic [ref=e54]:
+        - generic [ref=e55]: Decor — free placement, sits on top, not costed
+        - button "+ Monstera plant" [ref=e56]
+        - button "+ Flower pot" [ref=e57]
+        - button "+ Towel ladder" [ref=e58]
+        - button "+ Towel stack" [ref=e59]
+        - button "+ Soap tray set" [ref=e60]
+        - button "+ Laundry hamper" [ref=e61]
+        - button "+ Bath stool" [ref=e62]
+        - button "+ Bath caddy" [ref=e63]
+        - button "Decor shown" [ref=e64]
+      - generic [ref=e65]:
+        - img [ref=e67]:
+          - generic [ref=e69]: 0.0m
+          - generic [ref=e70]: 1.2m
+          - generic [ref=e71]: 2.4m
+          - generic [ref=e72]: 3.6m
+          - generic [ref=e73]: door 0.90m
+          - generic [ref=e76]: window 1.20m
+          - generic [ref=e79]: Shower
+          - generic [ref=e82]: Toilet
+        - complementary [ref=e85]:
+          - paragraph [ref=e86]: Measurements & constraints
+          - paragraph [ref=e87]: Room 3.6 × 2.4 m · 8.6 m²
+          - paragraph [ref=e88]: Height 2.7 m · 1 door · 1 window
+          - paragraph [ref=e89]: 2 fixtures · snap 10px · clearance 0.6m
+          - generic [ref=e90]:
+            - paragraph [ref=e91]: Canvas history
+            - generic [ref=e92]:
+              - button "↩ Undo" [disabled] [ref=e93]
+              - button "Clear canvas" [ref=e94]
+          - generic [ref=e95]:
+            - paragraph [ref=e96]: Save this design
+            - textbox "Design name" [ref=e97]:
+              - /placeholder: Name this bathroom…
+            - button "Save design" [ref=e98]
+            - paragraph [ref=e99]: Next step — 3D matches your brief (“Minimal + basin and toilet…”) to catalogue models within the ₹7,00,000 budget
+            - button "View in 3D" [ref=e100]:
+              - text: View in 3D
+              - generic [aria-hidden] [ref=e101]: →
+            - link "View saved →" [ref=e103] [cursor=pointer]:
+              - /url: /saved
+          - paragraph [ref=e104]: ✓ No collisions.
+  - contentinfo [ref=e105]:
+    - generic [ref=e106]:
+      - link "Resources" [ref=e107] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=e108] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=e109] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=e110]
+      - button "Catalogue data" [ref=e111]
+    - paragraph [ref=e112]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=e118] [cursor=pointer]

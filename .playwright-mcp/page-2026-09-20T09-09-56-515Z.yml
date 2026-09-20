@@ -1,0 +1,32 @@
+- generic [active] [ref=f193e1]:
+  - banner [ref=f193e2]:
+    - generic [ref=f193e3]:
+      - link "Kohler home" [ref=f193e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=f193e5]
+      - navigation [ref=f193e26]:
+        - link "Bathroom" [ref=f193e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=f193e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=f193e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=f193e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=f193e33]: →
+  - main [ref=f193e34]:
+    - paragraph [ref=f193e36]: Loading collections…
+  - contentinfo [ref=f193e37]:
+    - generic [ref=f193e38]:
+      - link "Resources" [ref=f193e39] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=f193e40] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=f193e41] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=f193e42]
+      - button "Catalogue data" [ref=f193e43]
+    - paragraph [ref=f193e44]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=f193e50] [cursor=pointer]
+  - alert [ref=f193e54]

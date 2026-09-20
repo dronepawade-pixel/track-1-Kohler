@@ -1,0 +1,83 @@
+- generic [active] [ref=f191e1]:
+  - banner [ref=f191e2]:
+    - generic [ref=f191e3]:
+      - link "Kohler home" [ref=f191e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=f191e5]
+      - navigation [ref=f191e26]:
+        - link "Bathroom" [ref=f191e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=f191e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=f191e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=f191e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=f191e33]: →
+  - main [ref=f191e34]:
+    - generic [ref=f191e35]:
+      - paragraph [ref=f191e36]: 2D planner — deterministic geometry · AI matching runs in the 3D view
+      - heading "Arrange your room." [level=1] [ref=f191e37]
+      - generic [ref=f191e38]:
+        - button "+ Basin" [ref=f191e39]
+        - button "+ Shower" [ref=f191e40]
+        - button "+ Bathtub" [ref=f191e41]
+        - button "+ Toilet" [ref=f191e42]
+        - button "+ Door" [ref=f191e43]
+        - button "+ Window" [ref=f191e44]
+      - generic [ref=f191e45]:
+        - generic [ref=f191e46]: Decor — free placement, sits on top, not costed
+        - button "+ Monstera plant" [ref=f191e47]
+        - button "+ Flower pot" [ref=f191e48]
+        - button "+ Towel ladder" [ref=f191e49]
+        - button "+ Towel stack" [ref=f191e50]
+        - button "+ Soap tray set" [ref=f191e51]
+        - button "+ Laundry hamper" [ref=f191e52]
+        - button "+ Bath stool" [ref=f191e53]
+        - button "+ Bath caddy" [ref=f191e54]
+        - button "Decor shown" [ref=f191e55]
+      - generic [ref=f191e56]:
+        - img [ref=f191e58]:
+          - generic [ref=f191e60]: 0.0m
+          - generic [ref=f191e61]: 1.2m
+          - generic [ref=f191e62]: 2.4m
+          - generic [ref=f191e63]: 3.6m
+          - generic [ref=f191e64]: door 0.90m
+          - generic [ref=f191e67]: window 1.20m
+          - generic [ref=f191e70]: Shower
+          - generic [ref=f191e73]: Toilet
+        - complementary [ref=f191e76]:
+          - paragraph [ref=f191e77]: Measurements & constraints
+          - paragraph [ref=f191e78]: Room 3.6 × 2.4 m · 8.6 m²
+          - paragraph [ref=f191e79]: Height 2.7 m · 1 door · 1 window
+          - paragraph [ref=f191e80]: 2 fixtures · snap 10px · clearance 0.6m
+          - generic [ref=f191e81]:
+            - paragraph [ref=f191e82]: Canvas history
+            - generic [ref=f191e83]:
+              - button "↩ Undo" [disabled] [ref=f191e84]
+              - button "Clear canvas" [ref=f191e85]
+          - generic [ref=f191e86]:
+            - paragraph [ref=f191e87]: Save this design
+            - textbox "Design name" [ref=f191e88]:
+              - /placeholder: Name this bathroom…
+            - button "Save design" [ref=f191e89]
+            - paragraph [ref=f191e90]: Next step — 3D matches your brief to catalogue models within the saved budget
+            - button "View in 3D" [ref=f191e91]:
+              - text: View in 3D
+              - generic [aria-hidden] [ref=f191e92]: →
+            - link "View saved →" [ref=f191e94] [cursor=pointer]:
+              - /url: /saved
+          - paragraph [ref=f191e95]: ✓ No collisions.
+  - contentinfo [ref=f191e96]:
+    - generic [ref=f191e97]:
+      - link "Resources" [ref=f191e98] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=f191e99] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=f191e100] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=f191e101]
+      - button "Catalogue data" [ref=f191e102]
+    - paragraph [ref=f191e103]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=f191e109] [cursor=pointer]

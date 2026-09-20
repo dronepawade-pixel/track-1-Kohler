@@ -94,10 +94,14 @@ export const fmtPrice = (p: number | null) =>
   p === null ? "Unknown" : `₹${p.toLocaleString("en-IN")}`;
 
 // ---------------------------------------------------------------------------
-// AI catalog: local scans (real GLBs + measured dims, price Unknown) joined
+// AI catalog: local scans (real GLBs + measured dims) joined
 // with verified seed-CSV rows (real SKUs/prices, GLB pending → 3D fallback).
 // `sku` values starting with "SCAN-" are LOCAL scan ids, not Kohler SKUs.
 // style_tags are LOCAL matching tags, not an official Kohler taxonomy.
+// PRICES: rows marked "dummy:" are PROTOTYPE PLACEHOLDERS (market-typical
+// India ₹ guesses) so auto-place budgeting works end-to-end. They are NOT
+// verified Kohler pricing — replace from studiokohler.com before any real
+// use. verified_at stays blank on these rows to keep that visible.
 // ---------------------------------------------------------------------------
 
 export type FixtureKind = "Bathtub" | "Shower" | "Toilet" | "Basin";
@@ -117,7 +121,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
   {
     sku: "SCAN-21000-P5", name: "Clawfoot Tub (local scan 21000-P5)",
     category: "Bathtubs", subtype: "Freestanding Bathtubs", collection: "Unknown",
-    finish: "Unknown", price: null, dimensions: "168.1 × 82.6 cm (measured from scan)",
+    finish: "Unknown", price: 118000 /* dummy: unverified */, dimensions: "168.1 × 82.6 cm (measured from scan)",
     url: null, kind: "Bathtub", modelId: "tub-21000", w_m: 1.681, d_m: 0.826,
     bundleable: true, width_mm: 1681, depth_mm: 826, height_mm: 705,
     style_tags: ["classic", "luxury", "heritage"],
@@ -126,7 +130,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
   {
     sku: "SCAN-75790", name: "Two-Piece Toilet (local scan 75790)",
     category: "Smart Toilets", subtype: "Two-Piece Toilets", collection: "Unknown",
-    finish: "Unknown", price: null, dimensions: "36.1 × 83.1 cm (measured from scan)",
+    finish: "Unknown", price: 18500 /* dummy: unverified */, dimensions: "36.1 × 83.1 cm (measured from scan)",
     url: null, kind: "Toilet", modelId: "toilet-75790", w_m: 0.361, d_m: 0.831,
     bundleable: true, width_mm: 361, depth_mm: 831, height_mm: 712,
     style_tags: ["modern", "minimal"],
@@ -135,7 +139,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
   {
     sku: "SCAN-707002-D3", name: "Shower Door enclosure (local scan 707002-D3)",
     category: "Showers", subtype: "Shower Doors", collection: "Unknown",
-    finish: "Unknown", price: null, dimensions: "151.4 × 12.7 cm (measured from scan)",
+    finish: "Unknown", price: 42000 /* dummy: unverified */, dimensions: "151.4 × 12.7 cm (measured from scan)",
     url: null, kind: "Shower", modelId: "screen-707002", w_m: 1.514, d_m: 0.6,
     bundleable: true, width_mm: 1514, depth_mm: 600, height_mm: 1573,
     style_tags: ["modern", "minimal"],
@@ -144,7 +148,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
   {
     sku: "SCAN-706008-L", name: "Shower Panel (local scan 706008-L)",
     category: "Showers", subtype: "Shower Doors", collection: "Unknown",
-    finish: "Unknown", price: null, dimensions: "44.6 × 3.5 cm (measured from scan)",
+    finish: "Unknown", price: 65000 /* dummy: unverified */, dimensions: "44.6 × 3.5 cm (measured from scan)",
     url: null, kind: "Shower", modelId: "screen-706008", w_m: 0.446, d_m: 0.4,
     bundleable: false, width_mm: 446, depth_mm: 400, height_mm: 736,
     style_tags: ["modern", "minimal"],
@@ -173,7 +177,7 @@ export const CATALOG_PRODUCTS: CatalogEntry[] = [
   {
     sku: "K-77795", name: "Eir One-piece elongated smart toilet dual-flush",
     category: "Smart Toilets", subtype: "One-Piece Toilets", collection: "Eir",
-    finish: "White", price: null, dimensions: "41.8 × 70 × 41.6 cm",
+    finish: "White", price: 132000 /* dummy: unverified */, dimensions: "41.8 × 70 × 41.6 cm",
     url: "https://www.kohler.com/products/bathroom/toilets/77795",
     kind: "Toilet", modelId: "procedural", w_m: 0.418, d_m: 0.7,
     bundleable: true, width_mm: 418, depth_mm: 700, height_mm: 416,

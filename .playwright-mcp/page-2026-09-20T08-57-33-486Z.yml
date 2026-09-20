@@ -1,0 +1,1012 @@
+- generic [ref=f16e1]:
+  - banner [ref=f16e3]:
+    - generic [ref=f16e6]:
+      - list [ref=f16e7]:
+        - listitem [ref=f16e8]:
+          - link "Kohler.co (opens in new tab)" [ref=f16e9] [cursor=pointer]:
+            - /url: https://www.kohlercompany.com/
+            - text: Kohler.co
+        - listitem [ref=f16e10]:
+          - link "Kallista (opens in new tab)" [ref=f16e11] [cursor=pointer]:
+            - /url: https://www.kallista.com/
+            - text: Kallista
+        - listitem [ref=f16e12]:
+          - link "Klafs (opens in new tab)" [ref=f16e13] [cursor=pointer]:
+            - /url: https://klafsusa.com/
+            - text: Klafs
+        - listitem [ref=f16e14]:
+          - link "Kast (opens in new tab)" [ref=f16e15] [cursor=pointer]:
+            - /url: https://kastconcretebasins.com/
+            - text: Kast
+      - 'button "Project Location: United States" [ref=f16e17] [cursor=pointer]'
+    - generic [ref=f16e27]:
+      - generic [ref=f16e28]:
+        - link "Studio Kohler Large logo" [ref=f16e29] [cursor=pointer]:
+          - /url: /
+          - img "Studio Kohler Logo" [ref=f16e30]
+        - navigation "Main Navigation" [ref=f16e46]:
+          - menubar [ref=f16e47]:
+            - menuitem "Collections" [ref=f16e48]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: Fixtures
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/modernlife
+                                  - text: ModernLife™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/veil
+                                  - text: Veil™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/memoirs
+                                  - text: Memoirs™
+                          - generic:
+                            - generic: Featured Collections
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=ProductArtistEditions%3A%22Yes%22
+                                  - text: Artist Editions
+                        - generic:
+                          - generic:
+                            - generic: Faucets
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/avid
+                                  - text: Avid™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/components
+                                  - text: Components™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/composed
+                                  - text: Composed™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/purist
+                                  - text: Purist™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/parallel
+                                  - text: Parallel™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/july
+                                  - text: July™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/artifacts
+                                  - text: Artifacts™
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /featured/showering
+                              - text: Performance Showering
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers?fq=ProductBrandNameDisplay%3A%22Statement%22
+                                  - text: Statement™
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers?fq=ProductBrandNameDisplay%3A%22Anthem%22
+                                  - text: Anthem™
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/collections/components
+                              - generic [ref=f16e50] [cursor=pointer]
+                            - generic:
+                              - paragraph: Components™ Collection
+                              - link:
+                                - /url: /products/collections/components
+                                - generic: Expolore Components™
+            - menuitem "Bathroom" [ref=f16e52]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/faucets/bathroom-sink-faucets
+                              - text: Bathroom Sink Faucets
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sink-faucets?fq=InstallationType%3A"Widespread"
+                                  - text: Widespread Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sink-faucets?fq=ProductNumberofHandles%3A"1"
+                                  - text: Single Control Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/faucets/bathroom-sink-faucets?fq=InstallationType%3A"Centerset"
+                                  - text: Centerset Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/faucets/bathroom-sink-faucets?fq=InstallationType%3A"Wall+Mount"
+                                  - text: Wall Mounted Faucets
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/bathroom-sinks
+                              - text: Bathroom Sinks
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=ProductArtistEditions%3A"Yes"
+                                  - text: Artist Editions Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Undermount"
+                                  - text: Undermount Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Drop-in"
+                                  - text: Drop In Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Vessel"
+                                  - text: Vessel Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Pedestal"
+                                  - text: Pedestal Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Console+Top"
+                                  - text: Console Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Wall+Mount"
+                                  - text: Wall Mounted Sinks
+                        - generic:
+                          - generic:
+                            - generic: Bathtub & Shower Faucets
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/faucets/bath-faucets
+                                  - text: Bathtub Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/valves-trims
+                                  - text: Valves and Trims
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/bathing
+                              - text: Bathtubs
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathing?fq=InstallationType%3A"Freestanding"
+                                  - text: Freestanding Bathtubs
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathing?fq=InstallationType%3A"Alcove"
+                                  - text: Alcove Bathtubs
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathing?fq=InstallationType%3A"Drop-in"
+                                  - text: Drop-in Bathtubs
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathing?fq=ProductHydrotherapy%3A"Whirlpool"
+                                  - text: Hydrotherapy Bathtubs
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/showers
+                              - text: Showers
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/rainheads
+                                  - text: Rainheads
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/showerheads
+                                  - text: Shower Heads
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/handshowers
+                                  - text: Handshowers
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/body-sprays
+                                  - text: Body Sprays
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/valves-trims
+                                  - text: Shower Valves & Trim
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers?fq=ProductType%3A"Digital+Thermostatic"
+                                  - text: Smart Showers
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/steam-generators
+                                  - text: Steam Showers
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/shower-doors
+                                  - text: Shower Doors
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/shower-bases
+                                  - text: Shower Bases
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/shower-columns
+                                  - text: Shower Columns & Kits
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers?fq=ProductProductType%3A%22Shower+Drains%22
+                                  - text: Shower Drains
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/shower-fittings
+                                  - text: Shower Fittings
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/toilets
+                              - text: Toilets
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/smart-toilets
+                                  - text: Smart Toilets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/toilets?fq=ProductConfiguration%3A"One-piece"
+                                  - text: One-Piece Toilets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/toilets?fq=ProductConfiguration%3A"Two-piece"
+                                  - text: Two-Piece Toilets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/toilets?fq=Toilet_Height_s%3A"Tall+Height"
+                                  - text: Tall Toilets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/toilets?fq=InstallationType%3A"Wall-hung"
+                                  - text: Wall-Hung Toilets
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/toilet-seats
+                              - text: Toilet Seats
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/toilet-seats?fq=ProductSmartFeatures_ss%3A"Bidet"
+                                  - text: Bidet Seats
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /featured/smart-toilets
+                              - generic [ref=f16e54] [cursor=pointer]
+                            - generic:
+                              - paragraph: Numi™ 2.0
+                              - link:
+                                - /url: /featured/smart-toilets
+                                - generic: Explore Smart Toilets
+            - menuitem "Kitchen" [ref=f16e56]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/kitchen/kitchen-sinks
+                              - text: Kitchen Sinks
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-sinks?fq=ProductMaterial%3A"Cast+Iron"
+                                  - text: Cast Iron Sink
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-sinks?fq=ProductMaterial%3A"Stainless+Steel"
+                                  - text: Stainless Steel Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-sinks?fq=ProductMaterial%3A"Neoroc+Composite"
+                                  - text: Neoroc Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-sinks?fq=InstallationType%3A"Farmhouse"
+                                  - text: Farmhouse Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-sinks?fq=ProductMaterial%3A"Vitreous+China"
+                                  - text: Vitreous Sink
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/kitchen/kitchen-faucets
+                              - text: Kitchen Faucets
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-faucets?fq=ProductType%3A"Pull-Down"
+                                  - text: Pull Down Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-faucets?fq=ProductType%3A"Pull-Out"
+                                  - text: Pull Out Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-faucets?fq=ProductFeaturesFilter%3A"Bridge"
+                                  - text: Bridge Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-faucets?fq=ProductFeaturesFilter%3A"Pot+Filler"
+                                  - text: Pot Filler Faucets
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/kitchen/kitchen-sinks
+                              - generic [ref=f16e58] [cursor=pointer]
+                            - generic:
+                              - paragraph: Whitehaven™
+                              - link:
+                                - /url: /products/kitchen/kitchen-sinks
+                                - generic: Explore Kitchen Sinks
+            - menuitem "Project References" [ref=f16e59]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: Project References
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /projects
+                                  - text: View All
+                        - generic:
+                          - generic:
+                            - generic: Asia Pacific
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /projects/kimpton-tsin-sha-tsui
+                                  - text: Kimpton Tsim Sha Tsui - Hong Kong
+                              - listitem:
+                                - link:
+                                  - /url: /projects/andaz-jomtien-thailand
+                                  - text: Andaz Hotel Pattaya Jomtien Beach - Thailand
+                          - generic:
+                            - generic: China
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /projects/jw-marriott-hotel-xian-south-china
+                                  - text: JW Marriot Hotel Xi'an South - China
+                              - listitem:
+                                - link:
+                                  - /url: /projects/park-hyatt-changsha-china
+                                  - text: Park Hyatt - China
+                        - generic:
+                          - generic:
+                            - generic: Middle East
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /projects/ciel-dubai
+                                  - text: Ciel Marina - Dubai
+                              - listitem:
+                                - link:
+                                  - /url: /projects/mandarin-oriental-emirates-palace
+                                  - text: Emirates Palace Mandarin Oriental - Abu Dhabi
+                          - generic:
+                            - generic: Latin America
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /projects/tamarindo-park-costa-rica
+                                  - text: Tamarindo Park - Costa Rica
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /case-studies/ciel-dubai
+                              - generic [ref=f16e61] [cursor=pointer]
+                            - generic:
+                              - paragraph: Ciel Dubai Marina
+                              - link:
+                                - /url: /case-studies/ciel-dubai
+                                - generic: Explore the Project
+            - menuitem "Events" [ref=f16e63]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: International Events
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /events
+                                  - text: View All
+                        - generic:
+                          - generic:
+                            - generic: Upcoming Events
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /events/kohler-design-forum-seoul-2026
+                                  - text: Kohler Design Forum Seoul 2026
+                        - generic:
+                          - generic:
+                            - generic: Past Events
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /events/decorex-2026
+                                  - text: Decorex Joburg 2026
+                              - listitem:
+                                - link:
+                                  - /url: /events/milan-design-week-2026
+                                  - text: Milan Design Week 2026
+                              - listitem:
+                                - link:
+                                  - /url: /events/downtown-design-dubai-2025
+                                  - text: Downtown Design Dubai 2025
+                              - listitem:
+                                - link:
+                                  - /url: /events/index_saudi_arabia_2025
+                                  - text: Index Saudi Arabia 2025
+                              - listitem:
+                                - link:
+                                  - /url: /events/kss-ryadh
+                                  - text: Kohler Signature Store Riyadh Opening
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /events/kohler-design-forum-seoul-2026
+                              - generic [ref=f16e65] [cursor=pointer]
+                            - generic:
+                              - paragraph: Kohler Design Forum Seoul 2026
+                              - link:
+                                - /url: /events/kohler-design-forum-seoul-2026
+                                - generic: Explore the Event
+            - menuitem "Resources" [ref=f16e67]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: Resources
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /resources/technical-specifications
+                                  - text: Technical Specifications
+                              - listitem:
+                                - link:
+                                  - /url: /resources/literature
+                                  - text: Literature
+                              - listitem:
+                                - link:
+                                  - /url: /resources/kohler-finishes
+                                  - text: Kohler Finishes
+                              - listitem:
+                                - link:
+                                  - /url: /find-a-store
+                                  - text: Find a Store
+                              - listitem:
+                                - link:
+                                  - /url: /about-studio-kohler
+                                  - text: About Studio Kohler
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /resources/technical-specifications
+                              - generic [ref=f16e69] [cursor=pointer]
+                            - generic:
+                              - paragraph: Access our technical specification library
+                              - link:
+                                - /url: /resources/technical-specifications
+                                - generic: Download Design and Technical Files
+            - menuitem [ref=f16e71]:
+              - link "Contact Us" [ref=f16e72] [cursor=pointer]:
+                - /url: /contact-us
+      - generic [ref=f16e73]:
+        - button "sign in" [ref=f16e74] [cursor=pointer]
+        - button "search" [ref=f16e78] [cursor=pointer]
+  - main [ref=f16e81]:
+    - generic [ref=f16e83]:
+      - list [ref=f16e87]:
+        - listitem [ref=f16e88]:
+          - link "Home /" [ref=f16e89] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=f16e90]:
+          - link "Bathroom Sinks" [ref=f16e91] [cursor=pointer]:
+            - /url: ""
+      - generic [ref=f16e92]:
+        - heading "Bathroom Sinks" [level=1] [ref=f16e93]
+        - generic [ref=f16e94]:
+          - 'heading "Showing products available in: United States" [level=2] [ref=f16e95]'
+          - generic [ref=f16e96] [cursor=pointer]: Change Country
+    - generic [ref=f16e100]:
+      - paragraph [ref=f16e101]: 32 results
+      - generic [ref=f16e104]:
+        - combobox [ref=f16e105] [cursor=pointer]: "Sort By: Featured"
+        - listbox "Sort By":
+          - option "Featured" [selected]
+          - option "Name A-Z"
+          - option "Name Z-A"
+    - generic [ref=f16e109]:
+      - generic [ref=f16e114]:
+        - generic [ref=f16e115]:
+          - generic [ref=f16e116]:
+            - generic [ref=f16e118]:
+              - generic [ref=f16e119]: Vessel
+              - button "remove tag" [ref=f16e120] [cursor=pointer]
+            - button "Clear All" [ref=f16e124] [cursor=pointer]
+          - generic [ref=f16e126]:
+            - button [ref=f16e128] [cursor=pointer]:
+              - heading "Hole Configurations" [level=2] [ref=f16e129]
+            - button [ref=f16e133] [cursor=pointer]:
+              - heading "Basin Shape" [level=2] [ref=f16e134]
+            - button [ref=f16e138] [cursor=pointer]:
+              - heading "Size - Side to Side" [level=2] [ref=f16e139]
+            - button [ref=f16e143] [cursor=pointer]:
+              - heading "Size - Front to Back" [level=2] [ref=f16e144]
+            - button [ref=f16e148] [cursor=pointer]:
+              - heading "Product Family" [level=2] [ref=f16e149]
+            - button [ref=f16e153] [cursor=pointer]:
+              - heading "Artist Editions" [level=2] [ref=f16e154]
+            - button [ref=f16e158] [cursor=pointer]:
+              - heading "Style" [level=2] [ref=f16e159]
+            - button [ref=f16e163] [cursor=pointer]:
+              - heading "Color/Finish" [level=2] [ref=f16e164]
+            - button [ref=f16e168] [cursor=pointer]:
+              - heading "Material" [level=2] [ref=f16e169]
+            - generic [ref=f16e172]:
+              - button [expanded] [ref=f16e173] [cursor=pointer]:
+                - heading "Installation Type" [level=2] [ref=f16e174]
+              - region "Installation Type" [ref=f16e176]:
+                - group [ref=f16e180]:
+                  - generic [ref=f16e182]:
+                    - checkbox "Console Top (1)" [ref=f16e184] [cursor=pointer]
+                    - generic [ref=f16e185]: Console Top (1)
+                  - generic [ref=f16e188]:
+                    - checkbox "Drop-in (70)" [ref=f16e190] [cursor=pointer]
+                    - generic [ref=f16e191]: Drop-in (70)
+                  - generic [ref=f16e194]:
+                    - checkbox "Pedestal (28)" [ref=f16e196] [cursor=pointer]
+                    - generic [ref=f16e197]: Pedestal (28)
+                  - generic [ref=f16e200]:
+                    - checkbox "Undermount (69)" [ref=f16e202] [cursor=pointer]
+                    - generic [ref=f16e203]: Undermount (69)
+                  - generic [ref=f16e206]:
+                    - checkbox "Vanity Top (10)" [ref=f16e208] [cursor=pointer]
+                    - generic [ref=f16e209]: Vanity Top (10)
+                  - generic [ref=f16e212]:
+                    - checkbox "Vessel (32)" [checked] [ref=f16e214] [cursor=pointer]
+                    - generic [ref=f16e215]: Vessel (32)
+                  - generic [ref=f16e218]:
+                    - checkbox "Wall Mount (3)" [ref=f16e220] [cursor=pointer]
+                    - generic [ref=f16e221]: Wall Mount (3)
+            - button [ref=f16e224] [cursor=pointer]:
+              - heading "Size - Side to Side" [level=2] [ref=f16e225]
+        - generic [ref=f16e228]:
+          - generic [ref=f16e229]:
+            - button "Print" [ref=f16e230] [cursor=pointer]
+            - button "Share" [ref=f16e235] [cursor=pointer]
+          - generic [ref=f16e241]:
+            - paragraph [ref=f16e242]: Having trouble finding what you are looking for?
+            - link "Contact Us" [ref=f16e244] [cursor=pointer]:
+              - /url: /contact-us
+      - generic [ref=f16e246]:
+        - generic [ref=f16e248]:
+          - generic [ref=f16e250]:
+            - figure [ref=f16e251]:
+              - link [ref=f16e252] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/14800?sku=K-14800-7
+                - img "Vox™" [ref=f16e254]
+            - generic [ref=f16e255]:
+              - generic [ref=f16e257]:
+                - button "White" [ref=f16e258] [cursor=pointer]:
+                  - img "White" [ref=f16e262]
+                - button "Black Black" [ref=f16e263] [cursor=pointer]:
+                  - img "Black Black" [ref=f16e267]
+                - button "Almond" [ref=f16e268] [cursor=pointer]:
+                  - img "Almond" [ref=f16e272]
+                - button "Ice Grey" [ref=f16e273] [cursor=pointer]:
+                  - img "Ice Grey" [ref=f16e277]
+                - button "Biscuit" [ref=f16e278] [cursor=pointer]:
+                  - img "Biscuit" [ref=f16e282]
+              - generic [ref=f16e285]:
+                - checkbox "Compare" [ref=f16e287] [cursor=pointer]
+                - generic [ref=f16e288]: Compare
+              - heading "Vox™" [level=3] [ref=f16e291]
+              - paragraph [ref=f16e293]: 16-1/2" round vessel bathroom sink
+              - generic [ref=f16e294]: K-14800-7
+          - generic [ref=f16e296]:
+            - figure [ref=f16e297]:
+              - link [ref=f16e298] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/2661?sku=K-2661-0
+                - img "Vox™" [ref=f16e300]
+            - generic [ref=f16e301]:
+              - generic [ref=f16e303]:
+                - button "Black Black" [ref=f16e304] [cursor=pointer]:
+                  - img "Black Black" [ref=f16e308]
+                - button "Almond" [ref=f16e309] [cursor=pointer]:
+                  - img "Almond" [ref=f16e313]
+                - button "Biscuit" [ref=f16e314] [cursor=pointer]:
+                  - img "Biscuit" [ref=f16e318]
+                - button "Ice Grey" [ref=f16e319] [cursor=pointer]:
+                  - img "Ice Grey" [ref=f16e323]
+                - button "White" [ref=f16e324] [cursor=pointer]:
+                  - img "White" [ref=f16e328]
+              - generic [ref=f16e331]:
+                - checkbox "Compare" [ref=f16e333] [cursor=pointer]
+                - generic [ref=f16e334]: Compare
+              - heading "Vox™" [level=3] [ref=f16e337]
+              - paragraph [ref=f16e339]: 16-1/4" square vessel bathroom sink
+              - generic [ref=f16e340]: K-2661-0
+          - generic [ref=f16e342]:
+            - figure [ref=f16e343]:
+              - link [ref=f16e344] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/2200?sku=K-2200-0
+                - img "Conical Bell™" [ref=f16e346]
+            - generic [ref=f16e347]:
+              - generic [ref=f16e349]:
+                - button "Honed White" [ref=f16e350] [cursor=pointer]:
+                  - img "Honed White" [ref=f16e354]
+                - button "Sandbar" [ref=f16e355] [cursor=pointer]:
+                  - img "Sandbar" [ref=f16e359]
+                - button "Bouclé Muslin" [ref=f16e360] [cursor=pointer]:
+                  - img "Bouclé Muslin" [ref=f16e364]
+                - button "Bouclé Tweed" [ref=f16e365] [cursor=pointer]:
+                  - img "Bouclé Tweed" [ref=f16e369]
+                - button "Cashmere" [ref=f16e370] [cursor=pointer]:
+                  - img "Cashmere" [ref=f16e374]
+                - generic [ref=f16e375]: "+9"
+              - generic [ref=f16e378]:
+                - checkbox "Compare" [ref=f16e380] [cursor=pointer]
+                - generic [ref=f16e381]: Compare
+              - heading "Conical Bell™" [level=3] [ref=f16e384]
+              - paragraph [ref=f16e386]: 16-1/4" round vessel bathroom sink, no overflow
+              - generic [ref=f16e387]: K-2200-0
+          - generic [ref=f16e389]:
+            - figure [ref=f16e390]:
+              - link [ref=f16e391] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/20213?sku=K-20213-0
+                - img "Iron Plains™" [ref=f16e393]
+            - generic [ref=f16e394]:
+              - generic [ref=f16e396]:
+                - button "Lavender Grey" [ref=f16e397] [cursor=pointer]:
+                  - img "Lavender Grey" [ref=f16e401]
+                - button "Indigo Blue" [ref=f16e402] [cursor=pointer]:
+                  - img "Indigo Blue" [ref=f16e406]
+                - button "Black Plum" [ref=f16e407] [cursor=pointer]:
+                  - img "Black Plum" [ref=f16e411]
+                - button "Biscuit" [ref=f16e412] [cursor=pointer]:
+                  - img "Biscuit" [ref=f16e416]
+                - button "Sea Salt" [ref=f16e417] [cursor=pointer]:
+                  - img "Sea Salt" [ref=f16e421]
+                - generic [ref=f16e422]: "+8"
+              - generic [ref=f16e425]:
+                - checkbox "Compare" [ref=f16e427] [cursor=pointer]
+                - generic [ref=f16e428]: Compare
+              - heading "Iron Plains™" [level=3] [ref=f16e431]
+              - paragraph [ref=f16e433]: 33" oval drop-in/undermount bathroom sink
+              - generic [ref=f16e434]: K-20213-0
+          - generic [ref=f16e436]:
+            - figure [ref=f16e437]:
+              - link [ref=f16e438] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/20212?sku=K-20212-0
+                - img "Iron Plains™" [ref=f16e440]
+            - generic [ref=f16e441]:
+              - generic [ref=f16e443]:
+                - button "Indigo Blue" [ref=f16e444] [cursor=pointer]:
+                  - img "Indigo Blue" [ref=f16e448]
+                - button "Lavender Grey" [ref=f16e449] [cursor=pointer]:
+                  - img "Lavender Grey" [ref=f16e453]
+                - button "Black Plum" [ref=f16e454] [cursor=pointer]:
+                  - img "Black Plum" [ref=f16e458]
+                - button "Biscuit" [ref=f16e459] [cursor=pointer]:
+                  - img "Biscuit" [ref=f16e463]
+                - button "Cashmere" [ref=f16e464] [cursor=pointer]:
+                  - img "Cashmere" [ref=f16e468]
+                - generic [ref=f16e469]: "+8"
+              - generic [ref=f16e472]:
+                - checkbox "Compare" [ref=f16e474] [cursor=pointer]
+                - generic [ref=f16e475]: Compare
+              - heading "Iron Plains™" [level=3] [ref=f16e478]
+              - paragraph [ref=f16e480]: 30" rectangular drop-in/undermount bathroom sink
+              - generic [ref=f16e481]: K-20212-0
+          - generic [ref=f16e483]:
+            - figure [ref=f16e484]:
+              - link [ref=f16e485] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/20211?sku=K-20211-0
+                - img "Iron Plains™" [ref=f16e487]
+            - generic [ref=f16e488]:
+              - generic [ref=f16e490]:
+                - button "Indigo Blue" [ref=f16e491] [cursor=pointer]:
+                  - img "Indigo Blue" [ref=f16e495]
+                - button "Lavender Grey" [ref=f16e496] [cursor=pointer]:
+                  - img "Lavender Grey" [ref=f16e500]
+                - button "Black Plum" [ref=f16e501] [cursor=pointer]:
+                  - img "Black Plum" [ref=f16e505]
+                - button "Biscuit" [ref=f16e506] [cursor=pointer]:
+                  - img "Biscuit" [ref=f16e510]
+                - button "Dune" [ref=f16e511] [cursor=pointer]:
+                  - img "Dune" [ref=f16e515]
+                - generic [ref=f16e516]: "+8"
+              - generic [ref=f16e519]:
+                - checkbox "Compare" [ref=f16e521] [cursor=pointer]
+                - generic [ref=f16e522]: Compare
+              - heading "Iron Plains™" [level=3] [ref=f16e525]
+              - paragraph [ref=f16e527]: 12" round drop-in/undermount/vessel bathroom sink
+              - generic [ref=f16e528]: K-20211-0
+          - generic [ref=f16e530]:
+            - figure [ref=f16e531]:
+              - link [ref=f16e532] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/5400?sku=K-5400-0
+                - img "Iron Plains™" [ref=f16e534]
+            - generic [ref=f16e535]:
+              - generic [ref=f16e537]:
+                - button "Indigo Blue" [ref=f16e538] [cursor=pointer]:
+                  - img "Indigo Blue" [ref=f16e542]
+                - button "Lavender Grey" [ref=f16e543] [cursor=pointer]:
+                  - img "Lavender Grey" [ref=f16e547]
+                - button "Black Plum" [ref=f16e548] [cursor=pointer]:
+                  - img "Black Plum" [ref=f16e552]
+                - button "White" [ref=f16e553] [cursor=pointer]:
+                  - img "White" [ref=f16e557]
+                - button "Almond" [ref=f16e558] [cursor=pointer]:
+                  - img "Almond" [ref=f16e562]
+                - generic [ref=f16e563]: "+10"
+              - generic [ref=f16e566]:
+                - checkbox "Compare" [ref=f16e568] [cursor=pointer]
+                - generic [ref=f16e569]: Compare
+              - heading "Iron Plains™" [level=3] [ref=f16e572]
+              - paragraph [ref=f16e574]: 18-1/2" rectangular drop-in/undermount bathroom sink
+              - generic [ref=f16e575]: K-5400-0
+          - generic [ref=f16e577]:
+            - figure [ref=f16e578]:
+              - link [ref=f16e579] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/5373?sku=K-5373-0
+                - img "Vox™" [ref=f16e581]
+            - generic [ref=f16e582]:
+              - generic [ref=f16e584]:
+                - button "White" [ref=f16e585] [cursor=pointer]:
+                  - img "White" [ref=f16e589]
+                - button "Black Black" [ref=f16e590] [cursor=pointer]:
+                  - img "Black Black" [ref=f16e594]
+              - generic [ref=f16e597]:
+                - checkbox "Compare" [ref=f16e599] [cursor=pointer]
+                - generic [ref=f16e600]: Compare
+              - heading "Vox™" [level=3] [ref=f16e603]
+              - paragraph [ref=f16e605]: 22-3/4" rectangular vessel bathroom sink
+              - generic [ref=f16e606]: K-5373-0
+          - generic [ref=f16e608]:
+            - figure [ref=f16e609]:
+              - link [ref=f16e610] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/8325?sku=K-8325-CS6
+                - img "Kensho™" [ref=f16e612]
+            - generic [ref=f16e613]:
+              - generic [ref=f16e615]:
+                - button "Biancone" [ref=f16e616] [cursor=pointer]:
+                  - img "Biancone" [ref=f16e620]
+                - button "Grey Fousana" [ref=f16e621] [cursor=pointer]:
+                  - img "Grey Fousana" [ref=f16e625]
+              - generic [ref=f16e628]:
+                - checkbox "Compare" [ref=f16e630] [cursor=pointer]
+                - generic [ref=f16e631]: Compare
+              - heading "Kensho™" [level=3] [ref=f16e634]
+              - paragraph [ref=f16e636]: 28" oval vessel bathroom sink, no overflow
+              - generic [ref=f16e637]: K-8325-CS6
+          - generic [ref=f16e639]:
+            - figure [ref=f16e640]:
+              - link [ref=f16e641] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/8324?sku=K-8324-CS6
+                - img "Kensho™" [ref=f16e643]
+            - generic [ref=f16e644]:
+              - generic [ref=f16e646]:
+                - button "Biancone" [ref=f16e647] [cursor=pointer]:
+                  - img "Biancone" [ref=f16e651]
+                - button "Grey Fousana" [ref=f16e652] [cursor=pointer]:
+                  - img "Grey Fousana" [ref=f16e656]
+              - generic [ref=f16e659]:
+                - checkbox "Compare" [ref=f16e661] [cursor=pointer]
+                - generic [ref=f16e662]: Compare
+              - heading "Kensho™" [level=3] [ref=f16e665]
+              - paragraph [ref=f16e667]: 16" round vessel bathroom sink, no overflow
+              - generic [ref=f16e668]: K-8324-CS6
+          - generic [ref=f16e670]:
+            - figure [ref=f16e671]:
+              - link [ref=f16e672] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/14223-bt?sku=K-14223-BT-0
+                - img "Botanical Study™ Conical Bell™" [ref=f16e674]
+            - generic [ref=f16e675]:
+              - button "Botanical Study" [ref=f16e678] [cursor=pointer]:
+                - img "Botanical Study" [ref=f16e682]
+              - generic [ref=f16e685]:
+                - checkbox "Compare" [ref=f16e687] [cursor=pointer]
+                - generic [ref=f16e688]: Compare
+              - heading "Botanical Study™ Conical Bell™" [level=3] [ref=f16e691]
+              - paragraph [ref=f16e693]: 16-1/4" round vessel bathroom sink, no overflow
+              - generic [ref=f16e694]: K-14223-BT-0
+          - generic [ref=f16e696]:
+            - figure [ref=f16e697]:
+              - link [ref=f16e698] [cursor=pointer]:
+                - /url: /products/bathroom/bathroom-sinks/2833?sku=K-2833-0
+                - img "DemiLav™" [ref=f16e700]
+            - generic [ref=f16e701]:
+              - generic [ref=f16e703]:
+                - button "Lavender Grey" [ref=f16e704] [cursor=pointer]:
+                  - img "Lavender Grey" [ref=f16e708]
+                - button "Black Plum" [ref=f16e709] [cursor=pointer]:
+                  - img "Black Plum" [ref=f16e713]
+                - button "Indigo Blue" [ref=f16e714] [cursor=pointer]:
+                  - img "Indigo Blue" [ref=f16e718]
+                - button "Sunlight" [ref=f16e719] [cursor=pointer]:
+                  - img "Sunlight" [ref=f16e723]
+                - button "Ember" [ref=f16e724] [cursor=pointer]:
+                  - img "Ember" [ref=f16e728]
+                - generic [ref=f16e729]: "+29"
+              - generic [ref=f16e732]:
+                - checkbox "Compare" [ref=f16e734] [cursor=pointer]
+                - generic [ref=f16e735]: Compare
+              - heading "DemiLav™" [level=3] [ref=f16e738]
+              - paragraph [ref=f16e740]: 18-1/4" rectangular vessel bathroom sink, no overflow
+              - generic [ref=f16e741]: K-2833-0
+        - generic [ref=f16e743]:
+          - button "Load More" [ref=f16e744] [cursor=pointer]
+          - button "Back to Top" [ref=f16e747] [cursor=pointer]
+  - contentinfo [ref=f16e752]:
+    - generic [ref=f16e755]:
+      - generic [ref=f16e756]:
+        - generic [ref=f16e757]:
+          - heading "Follow us" [level=3] [ref=f16e758]
+          - generic [ref=f16e759]:
+            - link "Facebook" [ref=f16e760] [cursor=pointer]:
+              - /url: https://www.facebook.com/StudioKOHLER
+            - link "Instagram" [ref=f16e763] [cursor=pointer]:
+              - /url: https://www.instagram.com/studiokohler/
+            - link "Linkedin" [ref=f16e766] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/studiokohler
+        - generic [ref=f16e770]:
+          - generic [ref=f16e771]: Sign up to receive email news, promotions and information about Studio Kohler.
+          - generic [ref=f16e772]:
+            - textbox "Email address" [ref=f16e773]
+            - button "SUBSCRIBE" [ref=f16e774] [cursor=pointer]
+      - generic [ref=f16e776]:
+        - generic [ref=f16e777]:
+          - heading "Stores" [level=6] [ref=f16e778]
+          - list [ref=f16e779]:
+            - listitem [ref=f16e780]:
+              - link "Kohler Experience Centers" [ref=f16e781] [cursor=pointer]:
+                - /url: /resources/kohler-experience-center
+            - listitem [ref=f16e782]:
+              - link "Find A Store" [ref=f16e783] [cursor=pointer]:
+                - /url: /find-a-store
+        - generic [ref=f16e784]:
+          - heading "Contact Us" [level=6] [ref=f16e785]
+          - list [ref=f16e786]:
+            - listitem [ref=f16e787]:
+              - link "General Enquiry" [ref=f16e788] [cursor=pointer]:
+                - /url: /contact-us
+            - listitem [ref=f16e789]:
+              - link "Request Product Information" [ref=f16e790] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-product-information
+            - listitem [ref=f16e791]:
+              - link "Specification Support" [ref=f16e792] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-consultation
+            - listitem [ref=f16e793]:
+              - link "Request Technical Documents" [ref=f16e794] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-technical-documents
+            - listitem [ref=f16e795]:
+              - link "Request Product Samples" [ref=f16e796] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-product-sample
+            - listitem [ref=f16e797]:
+              - link "Request Product Modification" [ref=f16e798] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-product-modification
+            - listitem [ref=f16e799]:
+              - link "Request Colour & Finish Samples" [ref=f16e800] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-color-finish
+            - listitem [ref=f16e801]:
+              - link "After‑Sales Support" [ref=f16e802] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=after-sales-support
+        - generic [ref=f16e803]:
+          - heading "Resources" [level=6] [ref=f16e804]
+          - list [ref=f16e805]:
+            - listitem [ref=f16e806]:
+              - link "Download Technical Files" [ref=f16e807] [cursor=pointer]:
+                - /url: /resources/technical-specifications
+            - listitem [ref=f16e808]:
+              - link "Download Literature" [ref=f16e809] [cursor=pointer]:
+                - /url: /resources/literature
+            - listitem [ref=f16e810]:
+              - link "Kohler Finishes" [ref=f16e811] [cursor=pointer]:
+                - /url: /resources/kohler-finishes
+        - generic [ref=f16e812]:
+          - heading "About Us" [level=6] [ref=f16e813]
+          - list [ref=f16e814]:
+            - listitem [ref=f16e815]:
+              - link "FAQs" [ref=f16e816] [cursor=pointer]:
+                - /url: /faqs
+            - listitem [ref=f16e817]:
+              - link "About Studio Kohler" [ref=f16e818] [cursor=pointer]:
+                - /url: /about-studio-kohler
+            - listitem [ref=f16e819]:
+              - link "Kohler Co." [ref=f16e820] [cursor=pointer]:
+                - /url: https://www.kohlercompany.com/who-we-are/
+            - listitem [ref=f16e821]:
+              - link "Kitchen & Bath Brands" [ref=f16e822] [cursor=pointer]:
+                - /url: https://www.kohlercompany.com/our-brands/kitchen-bath
+    - generic [ref=f16e826]:
+      - list [ref=f16e827]:
+        - listitem [ref=f16e828]:
+          - link "Privacy" [ref=f16e829] [cursor=pointer]:
+            - /url: /privacy-policy
+        - listitem [ref=f16e830]:
+          - link "Cookies Settings" [ref=f16e831] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=f16e832]:
+          - link "Legal" [ref=f16e833] [cursor=pointer]:
+            - /url: /legal-policy
+      - paragraph [ref=f16e834]: ©Kohler Co. All Rights Reserved
+  - alert [ref=f16e835]
+  - generic:
+    - dialog "Share":
+      - generic:
+        - generic:
+          - link "Share on facebook":
+            - /url: "#"
+          - link "Share on pinterest":
+            - /url: "#"
+          - link "Share on x":
+            - /url: "#"
+          - link "Share on linkedin":
+            - /url: "#"
+        - generic:
+          - button "Copy link"
+          - button "Email"
+  - dialog "Cookie Preferences" [ref=f16e837]:
+    - generic [ref=f16e839]:
+      - generic [ref=f16e841]:
+        - heading "Cookie Preferences" [level=2] [ref=f16e842]
+        - generic [ref=f16e843]:
+          - text: Cookies may be used on this site and stored on your device to enhance site navigation, analyze site usage, enable troubleshooting session recording for optimized customer support resolution, and assist in our marketing efforts.
+          - link "More information about your privacy, opens in a new tab" [ref=f16e844] [cursor=pointer]:
+            - /url: https://www.studiokohler.com/en-us/cookie-policy
+            - text: Read our Cookie Policy
+      - generic [ref=f16e846]:
+        - button "Cookies Settings, Opens the preference center dialog" [ref=f16e847] [cursor=pointer]: Cookies Settings
+        - button "Reject All" [ref=f16e848] [cursor=pointer]
+        - button "Accept All Cookies" [ref=f16e849] [cursor=pointer]
+  - button "Hello, have a question? Let’s chat." [ref=f16e850] [cursor=pointer]

@@ -1,0 +1,878 @@
+- generic [active] [ref=f145e1]:
+  - banner [ref=f145e3]:
+    - generic [ref=f145e6]:
+      - list [ref=f145e7]:
+        - listitem [ref=f145e8]:
+          - link "Kohler.co (opens in new tab)" [ref=f145e9] [cursor=pointer]:
+            - /url: https://www.kohlercompany.com/
+            - text: Kohler.co
+        - listitem [ref=f145e10]:
+          - link "Kallista (opens in new tab)" [ref=f145e11] [cursor=pointer]:
+            - /url: https://www.kallista.com/
+            - text: Kallista
+        - listitem [ref=f145e12]:
+          - link "Klafs (opens in new tab)" [ref=f145e13] [cursor=pointer]:
+            - /url: https://klafsusa.com/
+            - text: Klafs
+        - listitem [ref=f145e14]:
+          - link "Kast (opens in new tab)" [ref=f145e15] [cursor=pointer]:
+            - /url: https://kastconcretebasins.com/
+            - text: Kast
+      - 'button "Project Location: United States" [ref=f145e17] [cursor=pointer]'
+    - generic [ref=f145e27]:
+      - generic [ref=f145e28]:
+        - link "Studio Kohler Large logo" [ref=f145e29] [cursor=pointer]:
+          - /url: /
+          - img "Studio Kohler Logo" [ref=f145e30]
+        - navigation "Main Navigation" [ref=f145e46]:
+          - menubar [ref=f145e47]:
+            - menuitem "Collections" [ref=f145e48]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: Fixtures
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/modernlife
+                                  - text: ModernLife™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/veil
+                                  - text: Veil™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/memoirs
+                                  - text: Memoirs™
+                          - generic:
+                            - generic: Featured Collections
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=ProductArtistEditions%3A%22Yes%22
+                                  - text: Artist Editions
+                        - generic:
+                          - generic:
+                            - generic: Faucets
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/avid
+                                  - text: Avid™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/components
+                                  - text: Components™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/composed
+                                  - text: Composed™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/purist
+                                  - text: Purist™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/parallel
+                                  - text: Parallel™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/july
+                                  - text: July™
+                              - listitem:
+                                - link:
+                                  - /url: /products/collections/artifacts
+                                  - text: Artifacts™
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /featured/showering
+                              - text: Performance Showering
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers?fq=ProductBrandNameDisplay%3A%22Statement%22
+                                  - text: Statement™
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers?fq=ProductBrandNameDisplay%3A%22Anthem%22
+                                  - text: Anthem™
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/collections/components
+                            - generic:
+                              - paragraph: Components™ Collection
+                              - link:
+                                - /url: /products/collections/components
+                                - generic: Expolore Components™
+            - menuitem "Bathroom" [ref=f145e50]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/faucets/bathroom-sink-faucets
+                              - text: Bathroom Sink Faucets
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sink-faucets?fq=InstallationType%3A"Widespread"
+                                  - text: Widespread Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sink-faucets?fq=ProductNumberofHandles%3A"1"
+                                  - text: Single Control Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/faucets/bathroom-sink-faucets?fq=InstallationType%3A"Centerset"
+                                  - text: Centerset Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/faucets/bathroom-sink-faucets?fq=InstallationType%3A"Wall+Mount"
+                                  - text: Wall Mounted Faucets
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/bathroom-sinks
+                              - text: Bathroom Sinks
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=ProductArtistEditions%3A"Yes"
+                                  - text: Artist Editions Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Undermount"
+                                  - text: Undermount Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Drop-in"
+                                  - text: Drop In Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Vessel"
+                                  - text: Vessel Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Pedestal"
+                                  - text: Pedestal Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Console+Top"
+                                  - text: Console Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathroom-sinks?fq=InstallationType%3A"Wall+Mount"
+                                  - text: Wall Mounted Sinks
+                        - generic:
+                          - generic:
+                            - generic: Bathtub & Shower Faucets
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/faucets/bath-faucets
+                                  - text: Bathtub Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/valves-trims
+                                  - text: Valves and Trims
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/bathing
+                              - text: Bathtubs
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathing?fq=InstallationType%3A"Freestanding"
+                                  - text: Freestanding Bathtubs
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathing?fq=InstallationType%3A"Alcove"
+                                  - text: Alcove Bathtubs
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathing?fq=InstallationType%3A"Drop-in"
+                                  - text: Drop-in Bathtubs
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/bathing?fq=ProductHydrotherapy%3A"Whirlpool"
+                                  - text: Hydrotherapy Bathtubs
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/showers
+                              - text: Showers
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/rainheads
+                                  - text: Rainheads
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/showerheads
+                                  - text: Shower Heads
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/handshowers
+                                  - text: Handshowers
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/body-sprays
+                                  - text: Body Sprays
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/valves-trims
+                                  - text: Shower Valves & Trim
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers?fq=ProductType%3A"Digital+Thermostatic"
+                                  - text: Smart Showers
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/steam-generators
+                                  - text: Steam Showers
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/shower-doors
+                                  - text: Shower Doors
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/shower-bases
+                                  - text: Shower Bases
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/shower-columns
+                                  - text: Shower Columns & Kits
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers?fq=ProductProductType%3A%22Shower+Drains%22
+                                  - text: Shower Drains
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/showers/shower-fittings
+                                  - text: Shower Fittings
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/toilets
+                              - text: Toilets
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/smart-toilets
+                                  - text: Smart Toilets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/toilets?fq=ProductConfiguration%3A"One-piece"
+                                  - text: One-Piece Toilets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/toilets?fq=ProductConfiguration%3A"Two-piece"
+                                  - text: Two-Piece Toilets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/toilets?fq=Toilet_Height_s%3A"Tall+Height"
+                                  - text: Tall Toilets
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/toilets?fq=InstallationType%3A"Wall-hung"
+                                  - text: Wall-Hung Toilets
+                          - generic:
+                            - link:
+                              - /url: /products/bathroom/toilet-seats
+                              - text: Toilet Seats
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/bathroom/toilet-seats?fq=ProductSmartFeatures_ss%3A"Bidet"
+                                  - text: Bidet Seats
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /featured/smart-toilets
+                            - generic:
+                              - paragraph: Numi™ 2.0
+                              - link:
+                                - /url: /featured/smart-toilets
+                                - generic: Explore Smart Toilets
+            - menuitem "Kitchen" [ref=f145e52]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/kitchen/kitchen-sinks
+                              - text: Kitchen Sinks
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-sinks?fq=ProductMaterial%3A"Cast+Iron"
+                                  - text: Cast Iron Sink
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-sinks?fq=ProductMaterial%3A"Stainless+Steel"
+                                  - text: Stainless Steel Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-sinks?fq=ProductMaterial%3A"Neoroc+Composite"
+                                  - text: Neoroc Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-sinks?fq=InstallationType%3A"Farmhouse"
+                                  - text: Farmhouse Sinks
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-sinks?fq=ProductMaterial%3A"Vitreous+China"
+                                  - text: Vitreous Sink
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/kitchen/kitchen-faucets
+                              - text: Kitchen Faucets
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-faucets?fq=ProductType%3A"Pull-Down"
+                                  - text: Pull Down Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-faucets?fq=ProductType%3A"Pull-Out"
+                                  - text: Pull Out Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-faucets?fq=ProductFeaturesFilter%3A"Bridge"
+                                  - text: Bridge Faucets
+                              - listitem:
+                                - link:
+                                  - /url: /products/kitchen/kitchen-faucets?fq=ProductFeaturesFilter%3A"Pot+Filler"
+                                  - text: Pot Filler Faucets
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /products/kitchen/kitchen-sinks
+                            - generic:
+                              - paragraph: Whitehaven™
+                              - link:
+                                - /url: /products/kitchen/kitchen-sinks
+                                - generic: Explore Kitchen Sinks
+            - menuitem "Project References" [ref=f145e54]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: Project References
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /projects
+                                  - text: View All
+                        - generic:
+                          - generic:
+                            - generic: Asia Pacific
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /projects/kimpton-tsin-sha-tsui
+                                  - text: Kimpton Tsim Sha Tsui - Hong Kong
+                              - listitem:
+                                - link:
+                                  - /url: /projects/andaz-jomtien-thailand
+                                  - text: Andaz Hotel Pattaya Jomtien Beach - Thailand
+                          - generic:
+                            - generic: China
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /projects/jw-marriott-hotel-xian-south-china
+                                  - text: JW Marriot Hotel Xi'an South - China
+                              - listitem:
+                                - link:
+                                  - /url: /projects/park-hyatt-changsha-china
+                                  - text: Park Hyatt - China
+                        - generic:
+                          - generic:
+                            - generic: Middle East
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /projects/ciel-dubai
+                                  - text: Ciel Marina - Dubai
+                              - listitem:
+                                - link:
+                                  - /url: /projects/mandarin-oriental-emirates-palace
+                                  - text: Emirates Palace Mandarin Oriental - Abu Dhabi
+                          - generic:
+                            - generic: Latin America
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /projects/tamarindo-park-costa-rica
+                                  - text: Tamarindo Park - Costa Rica
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /case-studies/ciel-dubai
+                            - generic:
+                              - paragraph: Ciel Dubai Marina
+                              - link:
+                                - /url: /case-studies/ciel-dubai
+                                - generic: Explore the Project
+            - menuitem "Events" [ref=f145e56]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: International Events
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /events
+                                  - text: View All
+                        - generic:
+                          - generic:
+                            - generic: Upcoming Events
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /events/kohler-design-forum-seoul-2026
+                                  - text: Kohler Design Forum Seoul 2026
+                        - generic:
+                          - generic:
+                            - generic: Past Events
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /events/decorex-2026
+                                  - text: Decorex Joburg 2026
+                              - listitem:
+                                - link:
+                                  - /url: /events/milan-design-week-2026
+                                  - text: Milan Design Week 2026
+                              - listitem:
+                                - link:
+                                  - /url: /events/downtown-design-dubai-2025
+                                  - text: Downtown Design Dubai 2025
+                              - listitem:
+                                - link:
+                                  - /url: /events/index_saudi_arabia_2025
+                                  - text: Index Saudi Arabia 2025
+                              - listitem:
+                                - link:
+                                  - /url: /events/kss-ryadh
+                                  - text: Kohler Signature Store Riyadh Opening
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /events/kohler-design-forum-seoul-2026
+                            - generic:
+                              - paragraph: Kohler Design Forum Seoul 2026
+                              - link:
+                                - /url: /events/kohler-design-forum-seoul-2026
+                                - generic: Explore the Event
+            - menuitem "Resources" [ref=f145e58]:
+              - generic [aria-hidden]:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: Resources
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /resources/technical-specifications
+                                  - text: Technical Specifications
+                              - listitem:
+                                - link:
+                                  - /url: /resources/literature
+                                  - text: Literature
+                              - listitem:
+                                - link:
+                                  - /url: /resources/kohler-finishes
+                                  - text: Kohler Finishes
+                              - listitem:
+                                - link:
+                                  - /url: /find-a-store
+                                  - text: Find a Store
+                              - listitem:
+                                - link:
+                                  - /url: /about-studio-kohler
+                                  - text: About Studio Kohler
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /resources/technical-specifications
+                            - generic:
+                              - paragraph: Access our technical specification library
+                              - link:
+                                - /url: /resources/technical-specifications
+                                - generic: Download Design and Technical Files
+            - menuitem [ref=f145e60]:
+              - link "Contact Us" [ref=f145e61] [cursor=pointer]:
+                - /url: /contact-us
+      - generic [ref=f145e62]:
+        - button "sign in" [ref=f145e63] [cursor=pointer]
+        - button "search" [ref=f145e67] [cursor=pointer]
+  - main [ref=f145e70]:
+    - generic [ref=f145e72]:
+      - list [ref=f145e76]:
+        - listitem [ref=f145e77]:
+          - link "Home /" [ref=f145e78] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=f145e79]:
+          - link "Toilet Seats" [ref=f145e80] [cursor=pointer]:
+            - /url: ""
+      - generic [ref=f145e81]:
+        - heading "Toilet Seats" [level=1] [ref=f145e82]
+        - generic [ref=f145e83]:
+          - 'heading "Showing products available in: United States" [level=2] [ref=f145e84]'
+          - generic [ref=f145e85] [cursor=pointer]: Change Country
+    - generic [ref=f145e89]:
+      - paragraph [ref=f145e90]: 70 results
+      - generic [ref=f145e93]:
+        - combobox [ref=f145e94] [cursor=pointer]: "Sort By: Featured"
+        - listbox "Sort By":
+          - option "Featured" [selected]
+          - option "Name A-Z"
+          - option "Name Z-A"
+    - generic [ref=f145e98]:
+      - generic [ref=f145e103]:
+        - generic [ref=f145e105]:
+          - button [ref=f145e107] [cursor=pointer]:
+            - heading "Style" [level=2] [ref=f145e108]
+          - button [ref=f145e112] [cursor=pointer]:
+            - heading "Grip-tight Bumpers" [level=2] [ref=f145e113]
+          - button [ref=f145e117] [cursor=pointer]:
+            - heading "Color/Finish" [level=2] [ref=f145e118]
+          - button [ref=f145e122] [cursor=pointer]:
+            - heading "Bowl Shape" [level=2] [ref=f145e123]
+          - button [ref=f145e127] [cursor=pointer]:
+            - heading "Smart Features" [level=2] [ref=f145e128]
+          - button [ref=f145e132] [cursor=pointer]:
+            - heading "Product Family" [level=2] [ref=f145e133]
+        - generic [ref=f145e136]:
+          - generic [ref=f145e137]:
+            - button "Print" [ref=f145e138] [cursor=pointer]
+            - button "Share" [ref=f145e143] [cursor=pointer]
+          - generic [ref=f145e149]:
+            - paragraph [ref=f145e150]: Having trouble finding what you are looking for?
+            - link "Contact Us" [ref=f145e152] [cursor=pointer]:
+              - /url: /contact-us
+      - generic [ref=f145e154]:
+        - generic [ref=f145e156]:
+          - generic [ref=f145e158]:
+            - figure [ref=f145e159]:
+              - link [ref=f145e160] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/20112?sku=K-20112-0
+            - generic [ref=f145e161]:
+              - button "White" [ref=f145e164] [cursor=pointer]
+              - generic [ref=f145e169]:
+                - checkbox "Compare" [ref=f145e171] [cursor=pointer]
+                - generic [ref=f145e172]: Compare
+              - heading "Brevia™" [level=3] [ref=f145e175]
+              - paragraph [ref=f145e177]: Elongated toilet seat
+              - generic [ref=f145e178]: K-20112-0
+          - generic [ref=f145e180]:
+            - figure [ref=f145e181]:
+              - link [ref=f145e182] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/20111?sku=K-20111-0
+            - generic [ref=f145e183]:
+              - generic [ref=f145e185]:
+                - button "Biscuit" [ref=f145e186] [cursor=pointer]
+                - button "White" [ref=f145e189] [cursor=pointer]
+              - generic [ref=f145e194]:
+                - checkbox "Compare" [ref=f145e196] [cursor=pointer]
+                - generic [ref=f145e197]: Compare
+              - heading "Brevia™" [level=3] [ref=f145e200]
+              - paragraph [ref=f145e202]: Quiet-Close round-front toilet seat
+              - generic [ref=f145e203]: K-20111-0
+          - generic [ref=f145e205]:
+            - figure [ref=f145e206]:
+              - link [ref=f145e207] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/20110?sku=K-20110-0
+            - generic [ref=f145e208]:
+              - generic [ref=f145e210]:
+                - button "Biscuit" [ref=f145e211] [cursor=pointer]
+                - button "White" [ref=f145e214] [cursor=pointer]
+              - generic [ref=f145e219]:
+                - checkbox "Compare" [ref=f145e221] [cursor=pointer]
+                - generic [ref=f145e222]: Compare
+              - heading "Brevia™" [level=3] [ref=f145e225]
+              - paragraph [ref=f145e227]: Quiet-Close elongated toilet seat
+              - generic [ref=f145e228]: K-20110-0
+          - generic [ref=f145e230]:
+            - figure [ref=f145e231]:
+              - link [ref=f145e232] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/18751?sku=K-18751-0
+            - generic [ref=f145e233]:
+              - generic [ref=f145e235]:
+                - button "White" [ref=f145e236] [cursor=pointer]
+                - button "Biscuit" [ref=f145e239] [cursor=pointer]
+              - generic [ref=f145e244]:
+                - checkbox "Compare" [ref=f145e246] [cursor=pointer]
+                - generic [ref=f145e247]: Compare
+              - heading "PureWash™ E525" [level=3] [ref=f145e250]
+              - paragraph [ref=f145e252]: Elongated bidet toilet seat
+              - generic [ref=f145e253]: K-18751-0
+          - generic [ref=f145e255]:
+            - figure [ref=f145e256]:
+              - link [ref=f145e257] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/4652-a?sku=K-4652-A-0
+            - generic [ref=f145e258]:
+              - button "White" [ref=f145e261] [cursor=pointer]
+              - generic [ref=f145e266]:
+                - checkbox "Compare" [ref=f145e268] [cursor=pointer]
+                - generic [ref=f145e269]: Compare
+              - heading "Lustra™" [level=3] [ref=f145e272]
+              - paragraph [ref=f145e274]: Quick-Release elongated toilet seat with antimicrobial agent
+              - generic [ref=f145e275]: K-4652-A-0
+          - generic [ref=f145e277]:
+            - figure [ref=f145e278]:
+              - link [ref=f145e279] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/4652?sku=K-4652-0
+            - generic [ref=f145e280]:
+              - generic [ref=f145e282]:
+                - button "Tea Green" [ref=f145e283] [cursor=pointer]
+                - button "Dune" [ref=f145e286] [cursor=pointer]
+                - button "Cashmere" [ref=f145e289] [cursor=pointer]
+                - button "Sandbar" [ref=f145e292] [cursor=pointer]
+                - button "Sunlight" [ref=f145e295] [cursor=pointer]
+                - generic [ref=f145e298]: "+23"
+              - generic [ref=f145e301]:
+                - checkbox "Compare" [ref=f145e303] [cursor=pointer]
+                - generic [ref=f145e304]: Compare
+              - heading "Lustra™" [level=3] [ref=f145e307]
+              - paragraph [ref=f145e309]: Quick-Release elongated toilet seat
+              - generic [ref=f145e310]: K-4652-0
+          - generic [ref=f145e312]:
+            - figure [ref=f145e313]:
+              - link [ref=f145e314] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/4647?sku=K-4647-0
+            - generic [ref=f145e315]:
+              - generic [ref=f145e317]:
+                - button "Dune" [ref=f145e318] [cursor=pointer]
+                - button "Biscuit" [ref=f145e321] [cursor=pointer]
+                - button "Almond" [ref=f145e324] [cursor=pointer]
+                - button "White" [ref=f145e327] [cursor=pointer]
+                - button "Honed White" [ref=f145e330] [cursor=pointer]
+              - generic [ref=f145e335]:
+                - checkbox "Compare" [ref=f145e337] [cursor=pointer]
+                - generic [ref=f145e338]: Compare
+              - heading "Stonewood™" [level=3] [ref=f145e341]
+              - paragraph [ref=f145e343]: Elongated toilet seat
+              - generic [ref=f145e344]: K-4647-0
+          - generic [ref=f145e346]:
+            - figure [ref=f145e347]:
+              - link [ref=f145e348] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/4648?sku=K-4648-0
+            - generic [ref=f145e349]:
+              - generic [ref=f145e351]:
+                - button "Dune" [ref=f145e352] [cursor=pointer]
+                - button "Biscuit" [ref=f145e355] [cursor=pointer]
+                - button "Almond" [ref=f145e358] [cursor=pointer]
+                - button "White" [ref=f145e361] [cursor=pointer]
+              - generic [ref=f145e366]:
+                - checkbox "Compare" [ref=f145e368] [cursor=pointer]
+                - generic [ref=f145e369]: Compare
+              - heading "Stonewood™" [level=3] [ref=f145e372]
+              - paragraph [ref=f145e374]: Round-front toilet seat
+              - generic [ref=f145e375]: K-4648-0
+          - generic [ref=f145e377]:
+            - figure [ref=f145e378]:
+              - link [ref=f145e379] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/4660?sku=K-4660-0
+            - generic [ref=f145e380]:
+              - generic [ref=f145e382]:
+                - button "Ice Grey" [ref=f145e383] [cursor=pointer]
+                - button "Biscuit" [ref=f145e386] [cursor=pointer]
+                - button "Innocent Blush" [ref=f145e389] [cursor=pointer]
+                - button "Almond" [ref=f145e392] [cursor=pointer]
+                - button "Mexican Sand" [ref=f145e395] [cursor=pointer]
+                - generic [ref=f145e398]: "+2"
+              - generic [ref=f145e401]:
+                - checkbox "Compare" [ref=f145e403] [cursor=pointer]
+                - generic [ref=f145e404]: Compare
+              - heading "Lustra™" [level=3] [ref=f145e407]
+              - paragraph [ref=f145e409]: Round-front toilet seat
+              - generic [ref=f145e410]: K-4660-0
+          - generic [ref=f145e412]:
+            - figure [ref=f145e413]:
+              - link [ref=f145e414] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/4662?sku=K-4662-0
+            - generic [ref=f145e415]:
+              - generic [ref=f145e417]:
+                - button "Dune" [ref=f145e418] [cursor=pointer]
+                - button "Tea Green" [ref=f145e421] [cursor=pointer]
+                - button "Cashmere" [ref=f145e424] [cursor=pointer]
+                - button "Sandbar" [ref=f145e427] [cursor=pointer]
+                - button "Sunlight" [ref=f145e430] [cursor=pointer]
+                - generic [ref=f145e433]: "+23"
+              - generic [ref=f145e436]:
+                - checkbox "Compare" [ref=f145e438] [cursor=pointer]
+                - generic [ref=f145e439]: Compare
+              - heading "Lustra™" [level=3] [ref=f145e442]
+              - paragraph [ref=f145e444]: Quick-Release round-front toilet seat
+              - generic [ref=f145e445]: K-4662-0
+          - generic [ref=f145e447]:
+            - figure [ref=f145e448]:
+              - link [ref=f145e449] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/5724?sku=K-5724-0
+            - generic [ref=f145e450]:
+              - generic [ref=f145e452]:
+                - button "Biscuit" [ref=f145e453] [cursor=pointer]
+                - button "White" [ref=f145e456] [cursor=pointer]
+              - generic [ref=f145e461]:
+                - checkbox "Compare" [ref=f145e463] [cursor=pointer]
+                - generic [ref=f145e464]: Compare
+              - heading "PureWash™ M250" [level=3] [ref=f145e467]
+              - paragraph [ref=f145e469]: Elongated manual bidet toilet seat
+              - generic [ref=f145e470]: K-5724-0
+          - generic [ref=f145e472]:
+            - figure [ref=f145e473]:
+              - link [ref=f145e474] [cursor=pointer]:
+                - /url: /products/bathroom/toilet-seats/24495-a?sku=K-24495-A-0
+            - generic [ref=f145e475]:
+              - generic [ref=f145e477]:
+                - button "White" [ref=f145e478] [cursor=pointer]
+                - button "Biscuit" [ref=f145e481] [cursor=pointer]
+              - generic [ref=f145e486]:
+                - checkbox "Compare" [ref=f145e488] [cursor=pointer]
+                - generic [ref=f145e489]: Compare
+              - heading "Border™" [level=3] [ref=f145e492]
+              - paragraph [ref=f145e494]: ReadyLatch Quiet-Close elongated toilet seat with antimicrobial agent
+              - generic [ref=f145e495]: K-24495-A-0
+        - generic [ref=f145e497]:
+          - button "Load More" [ref=f145e498] [cursor=pointer]
+          - button "Back to Top" [ref=f145e501] [cursor=pointer]
+  - contentinfo [ref=f145e506]:
+    - generic [ref=f145e509]:
+      - generic [ref=f145e510]:
+        - generic [ref=f145e511]:
+          - heading "Follow us" [level=3] [ref=f145e512]
+          - generic [ref=f145e513]:
+            - link "Facebook" [ref=f145e514] [cursor=pointer]:
+              - /url: https://www.facebook.com/StudioKOHLER
+            - link "Instagram" [ref=f145e517] [cursor=pointer]:
+              - /url: https://www.instagram.com/studiokohler/
+            - link "Linkedin" [ref=f145e520] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/studiokohler
+        - generic [ref=f145e524]:
+          - generic [ref=f145e525]: Sign up to receive email news, promotions and information about Studio Kohler.
+          - generic [ref=f145e526]:
+            - textbox "Email address" [ref=f145e527]
+            - button "SUBSCRIBE" [ref=f145e528] [cursor=pointer]
+      - generic [ref=f145e530]:
+        - generic [ref=f145e531]:
+          - heading "Stores" [level=6] [ref=f145e532]
+          - list [ref=f145e533]:
+            - listitem [ref=f145e534]:
+              - link "Kohler Experience Centers" [ref=f145e535] [cursor=pointer]:
+                - /url: /resources/kohler-experience-center
+            - listitem [ref=f145e536]:
+              - link "Find A Store" [ref=f145e537] [cursor=pointer]:
+                - /url: /find-a-store
+        - generic [ref=f145e538]:
+          - heading "Contact Us" [level=6] [ref=f145e539]
+          - list [ref=f145e540]:
+            - listitem [ref=f145e541]:
+              - link "General Enquiry" [ref=f145e542] [cursor=pointer]:
+                - /url: /contact-us
+            - listitem [ref=f145e543]:
+              - link "Request Product Information" [ref=f145e544] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-product-information
+            - listitem [ref=f145e545]:
+              - link "Specification Support" [ref=f145e546] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-consultation
+            - listitem [ref=f145e547]:
+              - link "Request Technical Documents" [ref=f145e548] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-technical-documents
+            - listitem [ref=f145e549]:
+              - link "Request Product Samples" [ref=f145e550] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-product-sample
+            - listitem [ref=f145e551]:
+              - link "Request Product Modification" [ref=f145e552] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-product-modification
+            - listitem [ref=f145e553]:
+              - link "Request Colour & Finish Samples" [ref=f145e554] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=request-color-finish
+            - listitem [ref=f145e555]:
+              - link "After‑Sales Support" [ref=f145e556] [cursor=pointer]:
+                - /url: /contact-us?howcanwehelpyou=after-sales-support
+        - generic [ref=f145e557]:
+          - heading "Resources" [level=6] [ref=f145e558]
+          - list [ref=f145e559]:
+            - listitem [ref=f145e560]:
+              - link "Download Technical Files" [ref=f145e561] [cursor=pointer]:
+                - /url: /resources/technical-specifications
+            - listitem [ref=f145e562]:
+              - link "Download Literature" [ref=f145e563] [cursor=pointer]:
+                - /url: /resources/literature
+            - listitem [ref=f145e564]:
+              - link "Kohler Finishes" [ref=f145e565] [cursor=pointer]:
+                - /url: /resources/kohler-finishes
+        - generic [ref=f145e566]:
+          - heading "About Us" [level=6] [ref=f145e567]
+          - list [ref=f145e568]:
+            - listitem [ref=f145e569]:
+              - link "FAQs" [ref=f145e570] [cursor=pointer]:
+                - /url: /faqs
+            - listitem [ref=f145e571]:
+              - link "About Studio Kohler" [ref=f145e572] [cursor=pointer]:
+                - /url: /about-studio-kohler
+            - listitem [ref=f145e573]:
+              - link "Kohler Co." [ref=f145e574] [cursor=pointer]:
+                - /url: https://www.kohlercompany.com/who-we-are/
+            - listitem [ref=f145e575]:
+              - link "Kitchen & Bath Brands" [ref=f145e576] [cursor=pointer]:
+                - /url: https://www.kohlercompany.com/our-brands/kitchen-bath
+    - generic [ref=f145e580]:
+      - list [ref=f145e581]:
+        - listitem [ref=f145e582]:
+          - link "Privacy" [ref=f145e583] [cursor=pointer]:
+            - /url: /privacy-policy
+        - listitem [ref=f145e584]:
+          - link "Cookies Settings" [ref=f145e585] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=f145e586]:
+          - link "Legal" [ref=f145e587] [cursor=pointer]:
+            - /url: /legal-policy
+      - paragraph [ref=f145e588]: ©Kohler Co. All Rights Reserved
+  - alert [ref=f145e589]
+  - generic:
+    - dialog "Share":
+      - generic:
+        - generic:
+          - link "Share on facebook":
+            - /url: "#"
+          - link "Share on pinterest":
+            - /url: "#"
+          - link "Share on x":
+            - /url: "#"
+          - link "Share on linkedin":
+            - /url: "#"
+        - generic:
+          - button "Copy link"
+          - button "Email"

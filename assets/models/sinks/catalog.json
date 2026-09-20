@@ -10,7 +10,8 @@
       "price_inr": 22000,
       "dims_m": [0.45, 0.14, 0.32],
       "glb": "",
-      "thumb": ""
+      "thumb": "",
+      "sub": "Vessel Sinks"
     },
     {
       "id": "sink-marble-slab",
@@ -40,7 +41,8 @@
       "price_inr": 15000,
       "dims_m": [0.52, 0.18, 0.38],
       "glb": "",
-      "thumb": ""
+      "thumb": "",
+      "sub": "Undermount Sinks"
     },
     {
       "id": "sink-zen-stone",
@@ -51,6 +53,101 @@
       "dims_m": [0.42, 0.13, 0.42],
       "glb": "",
       "thumb": ""
+    },
+    {
+      "id": "sink-vox-14800",
+      "name": "Vox Round Vessel Sink K-14800",
+      "fit": "basinTop",
+      "tags": ["minimal", "modern", "black", "ceramic"],
+      "price_inr": 0,
+      "dims_m": [0.42, 0.203, 0.42],
+      "glb": "/models/14800-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-14800-7",
+        "product": "Vox 16-1/2\" round vessel bathroom sink",
+        "url": "https://www.studiokohler.com/products/bathroom/bathroom-sinks/14800?sku=K-14800-7",
+        "studioPath": "Bathroom → Bathroom Sinks",
+        "obj": "assets/models/Bathroom Sinks/14800.obj"
+      },
+      "styleReason": "Kohler copy: 'true minimalist fashion' + 'sleek and contemporary'; spherical round basin; observed Black Black finish (price Unknown → 0 placeholder)",
+      "sub": "Vessel Sinks"
+    },
+    {
+      "id": "sink-artist-14218",
+      "name": "Artist Editions Basin K-14218-HD1",
+      "fit": "basinTop",
+      "tags": ["bold", "luxury"],
+      "price_inr": 0,
+      "dims_m": [0.487, 0.409, 0.258],
+      "glb": "/models/14218-HD1-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-14218-HD1",
+        "product": "Artist Editions bathroom sink",
+        "url": "https://www.studiokohler.com/search-results?value=K-14218",
+        "studioPath": "Bathroom → Bathroom Sinks",
+        "obj": "assets/models/Bathroom Sinks/14218-HD1.obj"
+      },
+      "styleReason": "Decorative Artist Editions basin, statement piece (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Artist Editions Sinks"
+    },
+    {
+      "id": "sink-vessel-20211",
+      "name": "Vessel Basin K-20211",
+      "fit": "basinTop",
+      "tags": ["zen", "white", "ceramic"],
+      "price_inr": 0,
+      "dims_m": [0.304, 0.305, 0.178],
+      "glb": "/models/20211-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-20211",
+        "product": "12-inch round vessel bathroom sink",
+        "url": "https://www.studiokohler.com/search-results?value=K-20211",
+        "studioPath": "Bathroom → Bathroom Sinks",
+        "obj": "assets/models/Bathroom Sinks/20211.obj"
+      },
+      "styleReason": "Simple round vessel bowl, default white finish (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Vessel Sinks"
+    },
+    {
+      "id": "sink-pedestal-5265",
+      "name": "Pedestal Sink K-5265-4",
+      "fit": "basinTop",
+      "tags": ["heritage", "white", "ceramic"],
+      "price_inr": 0,
+      "dims_m": [0.532, 0.461, 0.902],
+      "glb": "/models/5265-4-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-5265-4",
+        "product": "Pedestal bathroom sink",
+        "url": "https://www.studiokohler.com/search-results?value=K-5265",
+        "studioPath": "Bathroom → Bathroom Sinks",
+        "obj": "assets/models/Bathroom Sinks/5265-4.obj"
+      },
+      "styleReason": "Tall pedestal form reads classic; default white (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Pedestal Sinks"
+    },
+    {
+      "id": "sink-wallmount-2035",
+      "name": "Wall-Mount Sink K-2035-4",
+      "fit": "basinTop",
+      "tags": ["minimal", "modern", "white", "ceramic"],
+      "price_inr": 0,
+      "dims_m": [0.571, 0.46, 0.452],
+      "glb": "/models/2035-4-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-2035-4",
+        "product": "Wall-mount bathroom sink",
+        "url": "https://www.studiokohler.com/search-results?value=K-2035",
+        "studioPath": "Bathroom → Bathroom Sinks",
+        "obj": "assets/models/Bathroom Sinks/2035-4.obj"
+      },
+      "styleReason": "Flat wall-hung basin, unadorned (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Wall Mounted Sinks"
     }
   ]
 }

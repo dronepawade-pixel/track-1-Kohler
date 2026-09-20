@@ -28,6 +28,13 @@ const RequestSchema = z.object({
   budget_inr: z.number().nonnegative(),
   style: z.string().max(500).optional().default(""),
   notes: z.string().max(2000).optional().default(""),
+  // strict (default): any style/fit/budget miss 422s the whole bundle.
+  // best-effort: place what fits, report the rest as warnings (planner
+  // auto-place — user can drag/undo from there).
+  mode: z.enum(["strict", "best-effort"]).default("strict"),
+  // Best-effort only: kinds that can't fit the remaining budget are placed
+  // anyway and flagged over budget, instead of being skipped.
+  include_over_budget: z.boolean().default(false),
 });
 
 const GeminiReplySchema = z.object({
@@ -79,20 +86,57 @@ function keywordTags(text: string): string[] {
   return tags.size > 0 ? [...tags] : ["modern", "minimal"];
 }
 
-function wantedKinds(text: string): FixtureKind[] {
-  const all: FixtureKind[] = ["Bathtub", "Shower", "Toilet", "Basin"];
-  const hits = new Set<FixtureKind>();
-  if (/tub|bath|soak/i.test(text)) hits.add("Bathtub");
-  if (/shower|rain|steam/i.test(text)) hits.add("Shower");
-  if (/toilet|wc|water closet|bidet|veil|eir/i.test(text)) hits.add("Toilet");
-  if (/basin|sink|vanity|wash/i.test(text)) hits.add("Basin");
-  return hits.size > 0 ? all.filter((k) => hits.has(k)) : all;
+// Fixture mentions with counts: "2 toilets", "double basins", "twin sinks"
+// all yield {Toilet:2}/{Basin:2}. A number within ~24 chars before the kind
+// word counts; unqualified mentions mean 1. Cap 4 per kind.
+const KIND_PATTERNS: [FixtureKind, RegExp][] = [
+  ["Bathtub", /\b(tubs?|bathtubs?|baths?|soak(?:ing)?\s*tubs?)\b/i],
+  ["Shower", /\b(showers?|rain(?:heads?|showers?)|steam)\b/i],
+  ["Toilet", /\b(toilets?|wcs?|water\s+closets?|bidets?|veils?|eirs?)\b/i],
+  ["Basin", /\b(basins?|sinks?|vanities|vanity|washes|wash)\b/i],
+];
+const COUNT_VALUE: Record<string, number> = {
+  "2": 2, two: 2, double: 2, twin: 2,
+  "3": 3, three: 3, triple: 3,
+  "4": 4, four: 4,
+};
+// Number counts only when it DIRECTLY precedes the kind word (≤2 filler
+// words between, e.g. "two extra toilets") — so "2 toilets and a basin"
+// doesn't leak the 2 into the basin. Scanned from the END of the prefix,
+// word by word: the token nearest the kind wins.
+function nearCount(before: string): number | undefined {
+  const toks = before.trim().split(/[\s,]+/).filter(Boolean);
+  for (let back = 1; back <= Math.min(3, toks.length); back++) {
+    const v = COUNT_VALUE[toks[toks.length - back].toLowerCase()];
+    if (v !== undefined) return v;
+  }
+  return undefined;
+}
+
+export function wantedCounts(text: string): Record<FixtureKind, number> {
+  const out: Record<FixtureKind, number> = { Bathtub: 0, Shower: 0, Toilet: 0, Basin: 0 };
+  for (const [kind, re] of KIND_PATTERNS) {
+    const gre = new RegExp(re.source, "gi");
+    let m: RegExpExecArray | null;
+    let n = 0;
+    while ((m = gre.exec(text)) !== null) {
+      // Synonyms ("vanity sinks") must not double-count: each mention is 1
+      // unless a number directly precedes it; the largest wins.
+      let mention = 1;
+      const before = text.slice(Math.max(0, m.index - 30), m.index);
+      const v = nearCount(before);
+      if (v && v > 1) mention = v;
+      n = Math.max(n, mention);
+    }
+    out[kind] = Math.min(n, 4);
+  }
+  return out;
 }
 
 async function geminiTags(text: string): Promise<{ tags: string[]; via: string }> {
   const key = process.env.GEMINI_API_KEY;
   if (!key) return { tags: keywordTags(text), via: "keyword-fallback (no GEMINI_API_KEY)" };
-  const model = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-3.6-flash";
   const prompt = `Map this bathroom style description to tags. Reply with ONLY compact JSON, no markdown, no explanation.
 Allowed tags: ${STYLE_TAXONOMY.join(", ")}.
 Schema: {"tags":["<1-3 allowed tags, best match first>"]}
@@ -108,7 +152,7 @@ Description: ${text.slice(0, 1000)}`;
         signal: ctrl.signal,
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.2, maxOutputTokens: 128 },
+          generationConfig: { temperature: 0.2, maxOutputTokens: 512 },
         }),
       }
     );
@@ -234,67 +278,128 @@ export async function POST(req: Request) {
   const text = `${body.style ?? ""}\n${body.notes ?? ""}`.trim();
   const { entries, source } = await loadCatalog();
   const { tags, via } = await geminiTags(text || String(body.style ?? ""));
-  const kinds = wantedKinds(`${body.style ?? ""} ${body.notes ?? ""}`);
+  const warnings: string[] = [];
+  const bestEffort = body.mode === "best-effort";
+  const includeOver = body.include_over_budget;
 
-  // Strict style match: tag overlap required (no relaxation per user choice).
-  const styled = entries.filter(
+  // Strict style match: tag overlap required. Best-effort relaxes to any
+  // style with a warning instead of failing the whole request.
+  let styled = entries.filter(
     (e) => e.bundleable && (e.style_tags ?? []).some((t) => tags.includes(t))
   );
   if (styled.length === 0) {
-    return Response.json(
-      { error: "No catalogue items match these style tags.", tags_used: tags, tag_source: via, catalog_source: source },
-      { status: 422 }
-    );
+    if (!bestEffort) {
+      return Response.json(
+        { error: "No catalogue items match these style tags.", tags_used: tags, tag_source: via, catalog_source: source },
+        { status: 422 }
+      );
+    }
+    warnings.push(`No catalogue items match ${tags.join(", ")} — style relaxed, any-style picks placed.`);
+    styled = entries.filter((e) => e.bundleable);
   }
 
   // Strict fit: at least one orientation inside the room.
-  const fitting = styled.filter(
-    (e) => (e.w_m <= room.w && e.d_m <= room.h) || (e.d_m <= room.w && e.w_m <= room.h)
-  );
-  if (fitting.length === 0) {
+  const fits = (e: CatalogEntry) =>
+    (e.w_m <= room.w && e.d_m <= room.h) || (e.d_m <= room.w && e.w_m <= room.h);
+  let fitting = styled.filter(fits);
+  // Best-effort per-kind style fallback: a fixture the brief explicitly
+  // mentions must be placed even when nothing of that kind carries the
+  // requested tags — closest available wins, with a warning. Budget stays a
+  // hard cap (plan.txt): only style relaxes, never money.
+  const fittingAny = entries.filter((e) => e.bundleable && fits(e));
+  if (fitting.length === 0 && !bestEffort) {
     return Response.json(
       { error: "Style-matching items do not fit this room size.", tags_used: tags, tag_source: via, catalog_source: source },
       { status: 422 }
     );
   }
+  if (fittingAny.length === 0) {
+    warnings.push(`Nothing in the catalogue fits a ${room.w} × ${room.h} m room — nothing placed.`);
+  }
 
-  // Strict budget: greedy per kind (Bathtub → Shower → Toilet → Basin),
-  // best style-overlap first, cheaper known price breaks ties. Unknown-price
-  // items never count toward the sum but are flagged.
+  // Greedy per kind (Bathtub → Shower → Toilet → Basin) × requested count
+  // ("2 toilets" → 2 picks). Best style-overlap first, cheaper known price
+  // breaks ties. Unknown-price items never count toward the sum but are
+  // flagged. Strict 422s on a miss; best-effort skips (or includes over
+  // budget when asked) with warnings. Multiples may repeat the best SKU
+  // (twin vanities) once distinct options run out.
   const order: FixtureKind[] = ["Bathtub", "Shower", "Toilet", "Basin"];
+  const counts = wantedCounts(`${body.style ?? ""} ${body.notes ?? ""}`);
+  const noMentions = order.every((k) => counts[k] === 0);
   const score = (e: CatalogEntry) =>
     (e.style_tags ?? []).filter((t) => tags.includes(t)).length;
   const chosen: CatalogEntry[] = [];
-  const warnings: string[] = [];
   let remaining = budget;
   for (const kind of order) {
-    if (!kinds.includes(kind)) continue;
-    const pool = fitting
-      .filter((e) => e.kind === kind && !chosen.some((c) => c.sku === e.sku))
-      .sort((a, b) => score(b) - score(a) || (a.price ?? Infinity) - (b.price ?? Infinity));
-    if (pool.length === 0) {
-      warnings.push(`No ${kind} matches this style — skipped.`);
-      continue;
+    const want = noMentions ? 1 : counts[kind];
+    if (want === 0) continue;
+    const sorted = (list: CatalogEntry[]) =>
+      [...list].sort((a, b) => score(b) - score(a) || (a.price ?? Infinity) - (b.price ?? Infinity));
+    const kindStyled = sorted(fitting.filter((e) => e.kind === kind));
+    const kindAny = sorted(fittingAny.filter((e) => e.kind === kind));
+    let relaxedWarned = false;
+    let placedForKind = 0;
+    for (let c = 0; c < want; c++) {
+      const notChosen = (e: CatalogEntry) => !chosen.some((x) => x.sku === e.sku);
+      let pool = kindStyled.filter(notChosen);
+      if (pool.length === 0 && c > 0) pool = kindStyled; // multiples: repeat best SKU
+      if (pool.length === 0 && bestEffort) {
+        pool = kindAny.filter(notChosen).length ? kindAny.filter(notChosen) : kindAny;
+        if (pool.length > 0 && !relaxedWarned) {
+          relaxedWarned = true;
+          warnings.push(`No ${kind.toLowerCase()} matches ${tags.join(", ")} — placed the closest available.`);
+        }
+      }
+      if (pool.length === 0) {
+        if (c === 0) warnings.push(`No ${kind} in the catalogue fits this room — skipped.`);
+        break;
+      }
+      let pick: CatalogEntry | undefined = pool.find((e) => (e.price ?? 0) <= remaining);
+      let over = false;
+      if (!pick && bestEffort && includeOver && pool.length > 0) {
+        pick = pool[0];
+        over = true;
+      }
+      if (!pick) {
+        if (!bestEffort) {
+          return Response.json(
+            {
+              error: `Cheapest matching ${kind} (₹${Math.min(...pool.map((e) => e.price ?? Infinity)).toLocaleString("en-IN")}) exceeds the remaining ₹${remaining.toLocaleString("en-IN")} — strict budget, no bundle.`,
+              tags_used: tags, tag_source: via, catalog_source: source,
+            },
+            { status: 422 }
+          );
+        }
+        warnings.push(
+          want > 1
+            ? `Only ${placedForKind} of ${want} ${kind.toLowerCase()}${placedForKind === 1 ? "" : "s"} affordable within the remaining ₹${remaining.toLocaleString("en-IN")} — rest skipped.`
+            : `No ${kind} affordable within the remaining ₹${remaining.toLocaleString("en-IN")} — skipped.`
+        );
+        break;
+      }
+      if (over) {
+        warnings.push(`${pick.name} (₹${(pick.price ?? 0).toLocaleString("en-IN")}) exceeds the remaining ₹${remaining.toLocaleString("en-IN")} — included over budget on request.`);
+        remaining = 0;
+      } else {
+        remaining -= pick.price ?? 0;
+      }
+      chosen.push(pick);
+      placedForKind++;
+      if (pick.price === null) warnings.push(`${pick.sku} has unverified pricing (Unknown) — excluded from total.`);
     }
-    const pick = pool.find((e) => (e.price ?? 0) <= remaining);
-    if (!pick) {
+  }
+  if (chosen.length === 0) {
+    if (!bestEffort) {
       return Response.json(
-        {
-          error: `Cheapest matching ${kind} (₹${Math.min(...pool.map((e) => e.price ?? Infinity)).toLocaleString("en-IN")}) exceeds the remaining ₹${remaining.toLocaleString("en-IN")} — strict budget, no bundle.`,
-          tags_used: tags, tag_source: via, catalog_source: source,
-        },
+        { error: "Nothing affordable matches — strict budget, no bundle.", tags_used: tags, tag_source: via, catalog_source: source },
         { status: 422 }
       );
     }
-    chosen.push(pick);
-    remaining -= pick.price ?? 0;
-    if (pick.price === null) warnings.push(`${pick.sku} has unverified pricing (Unknown) — excluded from total.`);
-  }
-  if (chosen.length === 0) {
-    return Response.json(
-      { error: "Nothing affordable matches — strict budget, no bundle.", tags_used: tags, tag_source: via, catalog_source: source },
-      { status: 422 }
-    );
+    return Response.json({
+      tags_used: tags, tag_source: via, catalog_source: source,
+      bundle: [], totalCost_known: 0, budget_inr: budget, remaining_inr: remaining,
+      unknownCount: 0, warnings, layout: [], room: { l_m: l, w_m: w, h_m: h },
+    });
   }
 
   const { placements, warnings: layoutWarnings } = autoLayout(room, chosen);
@@ -316,6 +421,7 @@ export async function POST(req: Request) {
     totalCost_known: totalCost,
     budget_inr: budget,
     remaining_inr: remaining,
+    over_budget: totalCost > budget,
     unknownCount: chosen.filter((e) => e.price === null).length,
     warnings: [...warnings, ...layoutWarnings],
     layout: placements,

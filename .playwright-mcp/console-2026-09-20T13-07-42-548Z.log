@@ -1,0 +1,96 @@
+[      87ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[     100ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[     119ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/favicon.ico:0
+[   31340ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[   31523ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[   33777ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[   67647ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[   70948ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[   71780ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[   72648ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[   73582ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  102447ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  114273ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  115639ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  115940ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  116118ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  116618ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  196293ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  197111ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  197118ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  197250ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  197288ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  197898ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  203098ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  203510ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  204044ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  206044ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  206932ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  218152ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  219207ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  220073ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  256842ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  256909ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  258043ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  258109ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  258643ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  258888ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  259710ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  260943ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  261009ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  262310ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  533334ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  533806ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  534957ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  535756ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  536489ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  543021ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  543160ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  543669ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  544206ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  554489ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  555190ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  555939ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  559206ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  559393ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  562290ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  563296ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  573814ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  574092ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  575227ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  575667ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  577513ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  577585ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  578677ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  579456ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  579764ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  584376ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  584781ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  584950ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  585331ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  586313ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  587076ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  589809ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  589881ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  591056ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  591351ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  592831ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  594306ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  595600ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  596889ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  599160ms] [LOG] THREE.WebGLRenderer: Context Lost. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  744727ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  744737ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  752731ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  752742ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  869293ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  869349ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  870101ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  880835ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  881264ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  882189ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  882260ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  883135ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[  885573ms] [LOG] THREE.WebGLRenderer: Context Lost. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[ 1220120ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776
+[ 1220128ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js:776

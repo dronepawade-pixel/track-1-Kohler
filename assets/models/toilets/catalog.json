@@ -10,7 +10,8 @@
       "price_inr": 65000,
       "dims_m": [0.361, 0.712, 0.831],
       "glb": "/models/75790-plain.glb",
-      "thumb": "/images/products/toilet-75790.jpg"
+      "thumb": "/images/products/toilet-75790.jpg",
+      "sub": "Two-Piece Toilets"
     },
     {
       "id": "seat-30754",
@@ -20,7 +21,8 @@
       "price_inr": 120000,
       "dims_m": [0.315, 0.383, 0.295],
       "glb": "/models/30754-PA-plain.glb",
-      "thumb": "/images/products/toilet-smart-30754.jpg"
+      "thumb": "/images/products/toilet-smart-30754.jpg",
+      "sub": "Bidet Seats"
     },
     {
       "id": "toilet-wallhung-min",
@@ -30,7 +32,8 @@
       "price_inr": 88000,
       "dims_m": [0.36, 0.52, 0.55],
       "glb": "",
-      "thumb": ""
+      "thumb": "",
+      "sub": "Wall-Hung Toilets"
     },
     {
       "id": "toilet-classic-close",
@@ -40,7 +43,8 @@
       "price_inr": 55000,
       "dims_m": [0.42, 0.75, 0.66],
       "glb": "",
-      "thumb": ""
+      "thumb": "",
+      "sub": "Two-Piece Toilets"
     },
     {
       "id": "toilet-bold-matte",
@@ -51,6 +55,120 @@
       "dims_m": [0.4, 0.6, 0.68],
       "glb": "",
       "thumb": ""
+    },
+    {
+      "id": "toilet-highline-3493",
+      "name": "Highline Classic Two-Piece Toilet K-3493",
+      "fit": "footprint",
+      "tags": ["classic", "white", "ceramic"],
+      "price_inr": 0,
+      "dims_m": [0.535, 0.776, 0.797],
+      "glb": "/models/3493-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-3493-0",
+        "product": "Highline Classic two-piece elongated toilet, 1.6 gpf",
+        "url": "https://www.studiokohler.com/products/bathroom/toilets/3493?sku=K-3493-0",
+        "studioPath": "Bathroom → Toilets",
+        "obj": "assets/models/kohler_two-piece_toilets_highline-classic_K-3493-0.obj"
+      },
+      "styleReason": "'Highline Classic' in product name; conventional two-piece elongated form, white (price Unknown → 0 placeholder)",
+      "sub": "Two-Piece Toilets"
+    },
+    {
+      "id": "toilet-eir-77795",
+      "name": "Eir One-Piece Toilet K-77795",
+      "fit": "footprint",
+      "tags": ["minimal", "modern", "white", "ceramic"],
+      "price_inr": 0,
+      "dims_m": [0.821, 0.9, 0.934],
+      "glb": "/models/77795-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-77795",
+        "product": "Eir one-piece elongated smart toilet, dual-flush",
+        "url": "https://www.kohler.com/products/bathroom/toilets/77795",
+        "studioPath": "Bathroom → Toilets",
+        "obj": "assets/models/Bathroom Toilets/77795.obj"
+      },
+      "styleReason": "One-piece smart toilet, clean lines (seed CSV corroborates SKU; price Unknown → 0 placeholder)",
+      "sub": "One-Piece Toilets"
+    },
+    {
+      "id": "toilet-two-5310",
+      "name": "Two-Piece Toilet K-5310",
+      "fit": "footprint",
+      "tags": ["classic", "white", "ceramic"],
+      "price_inr": 0,
+      "dims_m": [0.447, 0.733, 0.774],
+      "glb": "/models/5310-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-5310",
+        "product": "Two-piece elongated toilet",
+        "url": "https://www.studiokohler.com/search-results?value=K-5310",
+        "studioPath": "Bathroom → Toilets",
+        "obj": "assets/models/Bathroom Toilets/5310.obj"
+      },
+      "styleReason": "Conventional two-piece form (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Two-Piece Toilets"
+    },
+    {
+      "id": "toilet-two-6424",
+      "name": "Two-Piece Toilet K-6424",
+      "fit": "footprint",
+      "tags": ["modern", "white", "ceramic"],
+      "price_inr": 0,
+      "dims_m": [0.455, 0.724, 0.703],
+      "glb": "/models/6424-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-6424",
+        "product": "Two-piece elongated toilet",
+        "url": "https://www.studiokohler.com/search-results?value=K-6424",
+        "studioPath": "Bathroom → Toilets",
+        "obj": "assets/models/Bathroom Toilets/6424.obj"
+      },
+      "styleReason": "Two-piece bowl+tank massing (owner-confirmed Toilets; price Unknown → 0 placeholder)",
+      "sub": "Two-Piece Toilets"
+    },
+    {
+      "id": "toilet-wallhung-76395",
+      "name": "Wall-Hung Toilet K-76395",
+      "fit": "footprint",
+      "tags": ["minimal", "modern", "white", "ceramic"],
+      "price_inr": 0,
+      "dims_m": [0.438, 1.136, 0.674],
+      "glb": "/models/76395-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-76395",
+        "product": "Wall-hung toilet",
+        "url": "https://www.studiokohler.com/search-results?value=K-76395",
+        "studioPath": "Bathroom → Toilets",
+        "obj": "assets/models/Bathroom Toilets/76395.obj"
+      },
+      "styleReason": "Tall unit reads as wall-hung with carrier; eyeball float in viewer (owner-confirmed; price Unknown → 0 placeholder)",
+      "sub": "Wall-Hung Toilets"
+    },
+    {
+      "id": "seat-purewash-18751",
+      "name": "PureWash E525 Bidet Seat K-18751",
+      "fit": "seat",
+      "tags": ["modern", "minimal", "white"],
+      "price_inr": 0,
+      "dims_m": [0.43, 0.526, 0.131],
+      "glb": "/models/18751-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-18751-0",
+        "product": "PureWash E525 elongated bidet toilet seat",
+        "url": "https://www.studiokohler.com/products/bathroom/toilet-seats/18751?sku=K-18751-0",
+        "studioPath": "Bathroom → Toilet Seats → Bidet Seats",
+        "obj": "assets/models/kohler_bidet_seats_purewash-E525_K-18751-0.obj"
+      },
+      "styleReason": "Slim electronic bidet seat, unadorned elongated form, white; kept under app-native Smart Toilets/Bidet Seats subtype per taxonomy decision (price Unknown → 0 placeholder)",
+      "sub": "Bidet Seats"
     }
   ]
 }

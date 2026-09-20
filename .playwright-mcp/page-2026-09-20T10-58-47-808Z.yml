@@ -1,0 +1,91 @@
+- generic [active] [ref=f704e1]:
+  - banner [ref=f704e2]:
+    - generic [ref=f704e3]:
+      - link "Kohler home" [ref=f704e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=f704e5]
+      - navigation [ref=f704e26]:
+        - link "Bathroom" [ref=f704e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=f704e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=f704e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=f704e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=f704e33]: →
+  - main [ref=f704e34]:
+    - generic [ref=f704e35]:
+      - paragraph [ref=f704e36]: 2D planner — deterministic geometry · AI matching runs in the 3D view
+      - heading "Arrange your room." [level=1] [ref=f704e37]
+      - generic [ref=f704e38]:
+        - button "+ Basin" [ref=f704e39]
+        - button "+ Shower" [ref=f704e40]
+        - button "+ Bathtub" [ref=f704e41]
+        - button "+ Toilet" [ref=f704e42]
+        - button "+ Door" [ref=f704e43]
+        - button "+ Window" [ref=f704e44]
+      - generic [ref=f704e45]:
+        - generic [ref=f704e46]: Catalogue — places pre-fitted fixtures, swappable in 3D
+        - button "+ Vessel Sink" [ref=f704e47]
+        - button "+ Widespread Faucet" [ref=f704e48]
+        - button "+ Freestanding Tub" [ref=f704e49]
+        - button "+ Rainhead" [ref=f704e50]
+        - button "+ Two-Piece Toilet" [ref=f704e51]
+        - button "+ Bidet Seat" [ref=f704e52]
+      - generic [ref=f704e53]:
+        - generic [ref=f704e54]: Decor — free placement, sits on top, not costed
+        - button "+ Monstera plant" [ref=f704e55]
+        - button "+ Flower pot" [ref=f704e56]
+        - button "+ Towel ladder" [ref=f704e57]
+        - button "+ Towel stack" [ref=f704e58]
+        - button "+ Soap tray set" [ref=f704e59]
+        - button "+ Laundry hamper" [ref=f704e60]
+        - button "+ Bath stool" [ref=f704e61]
+        - button "+ Bath caddy" [ref=f704e62]
+        - button "Decor shown" [ref=f704e63]
+      - generic [ref=f704e64]:
+        - img [ref=f704e66]:
+          - generic [ref=f704e68]: 0.0m
+          - generic [ref=f704e69]: 1.2m
+          - generic [ref=f704e70]: 2.4m
+          - generic [ref=f704e71]: 3.6m
+          - generic [ref=f704e72]: door 0.90m
+          - generic [ref=f704e75]: window 1.20m
+          - generic [ref=f704e78]: Shower
+          - generic [ref=f704e81]: Toilet
+        - complementary [ref=f704e84]:
+          - paragraph [ref=f704e85]: Measurements & constraints
+          - paragraph [ref=f704e86]: Room 3.6 × 2.4 m · 8.6 m²
+          - paragraph [ref=f704e87]: Height 2.7 m · 1 door · 1 window
+          - paragraph [ref=f704e88]: 2 fixtures · snap 10px · clearance 0.6m
+          - generic [ref=f704e89]:
+            - paragraph [ref=f704e90]: Canvas history
+            - generic [ref=f704e91]:
+              - button "↩ Undo" [disabled] [ref=f704e92]
+              - button "Clear canvas" [ref=f704e93]
+          - generic [ref=f704e94]:
+            - paragraph [ref=f704e95]: Save this design
+            - textbox "Design name" [ref=f704e96]:
+              - /placeholder: Name this bathroom…
+            - button "Save design" [ref=f704e97]
+            - paragraph [ref=f704e98]: Next step — 3D matches your brief to catalogue models within the saved budget
+            - button "View in 3D" [ref=f704e99]:
+              - text: View in 3D
+              - generic [aria-hidden] [ref=f704e100]: →
+            - link "View saved →" [ref=f704e102] [cursor=pointer]:
+              - /url: /saved
+          - paragraph [ref=f704e103]: ✓ No collisions.
+  - contentinfo [ref=f704e104]:
+    - generic [ref=f704e105]:
+      - link "Resources" [ref=f704e106] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=f704e107] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=f704e108] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=f704e109]
+      - button "Catalogue data" [ref=f704e110]
+    - paragraph [ref=f704e111]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=f704e117] [cursor=pointer]

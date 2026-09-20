@@ -3,10 +3,11 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getDesign, uid, upsertDesign, sanitizeDesign, type SavedDesign, type SavedBrief } from "@/lib/designs";
+import { toSavedFixtures } from "@/lib/autoLayout";
 import { DECOR_OPTIONS, decorById } from "@/lib/decor";
-import { budgetById } from "@/lib/budget";
+import { BUDGET_RANGES, budgetById } from "@/lib/budget";
 
-type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number; model?: string; decorId?: string };
+type Fixture = { id: number; kind: string; x: number; y: number; w: number; h: number; rot: number; model?: string; faucet?: string; seat?: string; screen?: string; decorId?: string };
 type RoomSpec = { w: number; h: number; height: number; doors: number; windows: number };
 type Wall = "top" | "bottom" | "left" | "right";
 type Opening = { id: number; kind: "door" | "window"; wall: Wall; offsetM: number; widthM: number };
@@ -26,6 +27,20 @@ const PALETTE_M = [
   { kind: "Shower", w: 0.9, h: 0.9 },
   { kind: "Bathtub", w: 1.7, h: 0.75 },
   { kind: "Toilet", w: 0.6, h: 0.7 },
+];
+// Catalogue shortcuts — one per pilot subcategory with a real GLB. Each
+// places a normal fixture of the parent kind, pre-fitted with its model id
+// (faucets ride as the basin's companion, seats as the toilet's model), so
+// the 3D swap tray opens with the real model already selected. Footprints
+// follow the measured model dims where known. Generic palette, openings and
+// decor below are untouched.
+const SUBCAT_PALETTE: { label: string; kind: string; w: number; h: number; model?: string; faucet?: string; seat?: string; attach?: "model" | "faucet" | "seat" }[] = [
+  { label: "Vessel Sink", kind: "Basin", w: 0.42, h: 0.42, model: "sink-vox-14800" },
+  { label: "Widespread Faucet", kind: "Basin", w: 0.6, h: 0.5, faucet: "faucet-taut-97100", attach: "faucet" },
+  { label: "Freestanding Tub", kind: "Bathtub", w: 1.83, h: 0.92, model: "tub-stargaze-6366" },
+  { label: "Rainhead", kind: "Shower", w: 0.9, h: 0.9, model: "head-contemporary-13688", attach: "model" },
+  { label: "Two-Piece Toilet", kind: "Toilet", w: 0.54, h: 0.8, model: "toilet-highline-3493" },
+  { label: "Bidet Seat", kind: "Toilet", w: 0.6, h: 0.7, seat: "seat-purewash-18751", attach: "seat" },
 ];
 const WALLS: { id: Wall; label: string }[] = [
   { id: "top", label: "Top" },
@@ -146,8 +161,35 @@ function PlannerInner() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [undo]);
-  const add = (kind: string, wm: number, hm: number) =>
-    commitItems([...items, { id: nextId++, kind, x: (room.w * s) / 2, y: (room.h * s) / 2, w: px(wm), h: px(hm), rot: 0 }]);
+  const add = (kind: string, wm: number, hm: number, preset?: { model?: string; faucet?: string; seat?: string; screen?: string }) =>
+    commitItems([...items, { id: nextId++, kind, x: (room.w * s) / 2, y: (room.h * s) / 2, w: px(wm), h: px(hm), rot: 0, ...preset }]);
+  // Canvas tag: kind plus any attached catalogue parts, so a joined
+  // basin+tap or toilet+seat reads as one fixture, not an overlap.
+  const fixtureLabel = (f: Fixture) => {
+    const parts: string[] = [f.kind];
+    if (f.faucet) parts.push("tap");
+    if (f.kind === "Shower" && f.model) parts.push("head");
+    if (f.seat) parts.push("seat");
+    return parts.join(" + ");
+  };
+  // Catalogue shortcut: attached parts (tap/head/seat) join the selected
+  // fixture of the matching kind (or the first one) instead of dropping a
+  // new overlapping box. Standalone pieces (sink/tub/WC) place as before.
+  // Falls back to placing a pre-fitted fixture when none of that kind exists.
+  const addSubcat = (p: (typeof SUBCAT_PALETTE)[number]) => {
+    if (p.attach) {
+      const target =
+        items.find((f) => f.id === sel && f.kind === p.kind && !f.decorId) ??
+        items.find((f) => f.kind === p.kind && !f.decorId);
+      if (target) {
+        const patch =
+          p.attach === "faucet" ? { faucet: p.faucet } : p.attach === "seat" ? { seat: p.seat } : { model: p.model };
+        commitItems(items.map((f) => (f.id === target.id ? { ...f, ...patch } : f)));
+        return;
+      }
+    }
+    add(p.kind, p.w, p.h, { model: p.model, faucet: p.faucet, seat: p.seat });
+  };
   // Decor: free placement, sits on the top layer, never clashes, never costed.
   const addDecor = (decorId: string) => {
     const d = decorById(decorId);
@@ -197,6 +239,82 @@ function PlannerInner() {
     if (!budgetId && !style && !notes) return null;
     return { budgetId: budgetId || "comfort", style: style ?? "", notes: notes ?? "" };
   }, [params, stored]);
+
+  // --- Auto-place from brief -------------------------------------------------
+  // /api/recommend (best-effort mode) turns "room for a freestanding tub,
+  // walk-in rainshower…" into which real catalogue items fit this room within
+  // budget, then autoLayout() places them deterministically (metres → px at
+  // the same scale the canvas uses). AI picks tags only; SKUs/prices/geometry
+  // are checked in code. Runs once when arriving from /design/new; the button
+  // re-runs it. Manual edits always survive — undo restores the previous
+  // canvas, and decor is never touched.
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
+  type PlaceInfo = { status: "working" | "done"; lines: string[]; warnings: string[]; tags: string[]; via: string; placed: number; cap: number; total: number };
+  const [place, setPlace] = useState<PlaceInfo | null>(null);
+  const ranForRef = useRef<string | null>(null);
+  const runAutoPlace = async (cap: number, includeOver = false) => {
+    if (!brief) return;
+    setPlace({ status: "working", lines: [], warnings: [], tags: [], via: "", placed: 0, cap, total: 0 });
+    try {
+      const res = await fetch("/api/recommend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          room: { l_m: room.w, w_m: room.h, h_m: room.height },
+          budget_inr: cap,
+          style: brief.style,
+          notes: brief.notes,
+          mode: "best-effort",
+          include_over_budget: includeOver,
+        }),
+      });
+      const j = (await res.json()) as {
+        layout?: { sku: string; kind: string; modelId: string; x_m: number; y_m: number; rotation_deg: 0 | 90; w_m: number; d_m: number }[];
+        bundle?: { sku: string; name: string; kind: string; price_inr: number | null }[];
+        warnings?: string[];
+        tags_used?: string[];
+        tag_source?: string;
+        totalCost_known?: number;
+        error?: string;
+      };
+      if (!res.ok || !Array.isArray(j.layout)) throw new Error(j.error ?? "auto-place failed");
+      const fixtures = toSavedFixtures({ ...room }, j.layout, nextId);
+      const prevItems = itemsRef.current;
+      if (fixtures.length > 0) {
+        nextId += fixtures.length;
+        // Fresh layout on top of existing decor; the history push makes the
+        // whole replace a single undo step. Nothing placed → canvas untouched.
+        setItems([...fixtures, ...prevItems.filter((f) => f.decorId)]);
+        setHistory((h) => [...h.slice(-49), { items: prevItems, openings }]);
+      }
+      const bySku = new Map((j.bundle ?? []).map((b) => [b.sku, b]));
+      setPlace({
+        status: "done",
+        placed: fixtures.length,
+        cap,
+        total: j.totalCost_known ?? 0,
+        tags: j.tags_used ?? [],
+        via: j.tag_source ?? "",
+        lines: j.layout.map((p) => {
+          const b = bySku.get(p.sku);
+          return `${p.kind}: ${b?.name ?? p.sku}${b?.price_inr != null ? ` ₹${b.price_inr.toLocaleString("en-IN")}` : " price Unknown"}`;
+        }),
+        warnings: j.warnings ?? [],
+      });
+    } catch (e) {
+      setPlace({ status: "done", placed: 0, cap, total: 0, tags: [], via: "", lines: [], warnings: [`Auto-place failed — ${(e as Error).message}. Arrange fixtures manually.`] });
+    }
+  };
+  // Arriving from /design/new (query params, no saved design): place once.
+  useEffect(() => {
+    if (designId || !brief || stored) return;
+    const key = `${brief.budgetId}|${brief.style}|${brief.notes}`;
+    if (ranForRef.current === key) return;
+    ranForRef.current = key;
+    void runAutoPlace(budgetById(brief.budgetId).cap);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [brief, designId, stored]);
   const persist = (): string => {
     const id = activeId ?? uid();
     const now = new Date().toISOString();
@@ -339,6 +457,88 @@ function PlannerInner() {
         ))}
         <button onClick={() => addOpening("door")} className="btn-ghost !py-2 !text-[14px]">+ Door</button>
         <button onClick={() => addOpening("window")} className="btn-ghost !py-2 !text-[14px]">+ Window</button>
+        {brief && (
+          <button
+            onClick={() => void runAutoPlace(place?.cap ?? budgetById(brief.budgetId).cap)}
+            disabled={place?.status === "working"}
+            className="btn-cream !py-2 !text-[14px] disabled:opacity-40"
+            title="Places catalogue fixtures your brief mentions, within budget, using the deterministic layout engine"
+          >
+            {place?.status === "working" ? "Auto-placing…" : "✦ Auto-place from brief"}
+          </button>
+        )}
+      </div>
+      {place && place.status === "done" && (
+        <div className="mt-3 rounded-[10px] bg-[#202020] px-4 py-3">
+          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <p className="text-[14px] text-white">
+              {place.placed > 0
+                ? `Auto-placed ${place.placed} fixture${place.placed === 1 ? "" : "s"} from “${brief?.style || "your brief"}${brief?.notes ? ` — ${brief.notes.slice(0, 60)}${brief.notes.length > 60 ? "…" : ""}` : ""}”`
+                : "Nothing in the catalogue fits this room + budget — canvas unchanged."}
+            </p>
+            {place.placed > 0 && (
+              <p className={`text-[14px] ${place.total > place.cap ? "text-[#ff8a8a]" : "text-[#9fdfae]"}`}>
+                ₹{place.total.toLocaleString("en-IN")} of ₹{place.cap.toLocaleString("en-IN")} budget
+                {place.total > place.cap ? ` — ₹${(place.total - place.cap).toLocaleString("en-IN")} over` : ""}
+              </p>
+            )}
+          </div>
+          {place.lines.length > 0 && (
+            <ul className="mt-2 grid gap-1 text-[13px] text-[#999] sm:grid-cols-2">
+              {place.lines.map((l, i) => (
+                <li key={i}>· {l}</li>
+              ))}
+            </ul>
+          )}
+          {place.warnings.length > 0 && (
+            <ul className="mt-2 grid gap-1 text-[13px] text-[#ffcf8a]">
+              {place.warnings.map((w, i) => (
+                <li key={i}>⚠ {w}</li>
+              ))}
+            </ul>
+          )}
+          {brief && (place.warnings.some((w) => w.includes("affordable")) || place.total > place.cap) && (
+            <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-[#333] pt-3">
+              <span className="text-[13px] text-[#999]">
+                {place.total > place.cap ? "Still short — raise the budget or carry on over it:" : `Budget blocked a pick at ₹${place.cap.toLocaleString("en-IN")} — options:`}
+              </span>
+              {BUDGET_RANGES.filter((b) => b.cap > place.cap).map((b) => (
+                <button
+                  key={b.id}
+                  onClick={() => void runAutoPlace(b.cap)}
+                  className="btn-ghost !px-3 !py-1 !text-[12px]"
+                >
+                  {b.label} · ₹{b.cap.toLocaleString("en-IN")}
+                </button>
+              ))}
+              <button
+                onClick={() => void runAutoPlace(Math.round(place.cap * 1.25))}
+                className="btn-ghost !px-3 !py-1 !text-[12px]"
+                title="Custom step above the current cap"
+              >
+                +25% · ₹{Math.round(place.cap * 1.25).toLocaleString("en-IN")}
+              </button>
+              {!place.warnings.some((w) => w.includes("over budget")) && place.warnings.some((w) => w.includes("affordable")) && (
+                <button
+                  onClick={() => void runAutoPlace(place.cap, true)}
+                  className="btn-ghost !px-3 !py-1 !text-[12px]"
+                  title="Place the skipped fixtures anyway — total goes over budget, flagged in red"
+                >
+                  ⚠ Include anyway (over budget)
+                </button>
+              )}
+            </div>
+          )}
+          <p className="mt-2 text-[12px] text-[#999]">
+            Drag, rotate or undo to adjust — geometry and budget re-check live, saved designs keep your final layout.
+          </p>
+        </div>
+      )}
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <span className="label-caps text-[#999]">Catalogue — places pre-fitted fixtures, swappable in 3D</span>
+        {SUBCAT_PALETTE.map((p) => (
+          <button key={p.label} onClick={() => addSubcat(p)} className="btn-ghost !py-2 !text-[14px]">+ {p.label}</button>
+        ))}
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <span className="label-caps text-[#999]">Decor — free placement, sits on top, not costed</span>
@@ -397,7 +597,7 @@ function PlannerInner() {
                 >
                   <rect x={20 + f.x - f.w / 2} y={20 + f.y - f.h / 2} width={f.w} height={f.h} rx={6}
                     fill={sel === f.id ? "#f5f5f0" : "#202020"} stroke={clash ? "#ff5c5c" : "#999"} strokeWidth={clash ? 2 : 1} />
-                  <text x={20 + f.x} y={20 + f.y + 4} textAnchor="middle" fontSize={11} fill={sel === f.id ? "#000" : "#fff"}>{f.kind}</text>
+                  <text x={20 + f.x} y={20 + f.y + 4} textAnchor="middle" fontSize={11} fill={sel === f.id ? "#000" : "#fff"}>{fixtureLabel(f)}</text>
                 </g>
               );
             })}

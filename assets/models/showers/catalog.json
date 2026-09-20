@@ -10,7 +10,8 @@
       "price_inr": 28000,
       "dims_m": [0.139, 0.135, 0.128],
       "glb": "/models/22170-plain.glb",
-      "thumb": "/images/products/head-22170.jpg"
+      "thumb": "/images/products/head-22170.jpg",
+      "sub": "Rainheads"
     },
     {
       "id": "trim-13696",
@@ -20,7 +21,8 @@
       "price_inr": 18000,
       "dims_m": [0.1, 0.028, 0.1],
       "glb": "/models/13696-G-plain.glb",
-      "thumb": "/images/products/trim-13696.jpg"
+      "thumb": "/images/products/trim-13696.jpg",
+      "sub": "Shower Valves & Trim"
     },
     {
       "id": "screen-707002",
@@ -30,7 +32,8 @@
       "price_inr": 85000,
       "dims_m": [1.514, 1.573, 0.127],
       "glb": "/models/707002-D3-plain.glb",
-      "thumb": "/images/products/door-707002.jpg"
+      "thumb": "/images/products/door-707002.jpg",
+      "sub": "Shower Doors"
     },
     {
       "id": "screen-706008",
@@ -50,7 +53,255 @@
       "price_inr": 120000,
       "dims_m": [0.9, 2.1, 0.9],
       "glb": "",
-      "thumb": ""
+      "thumb": "",
+      "sub": "Steam Showers"
+    },
+    {
+      "id": "head-contemporary-13688",
+      "name": "Contemporary Round Rainhead 8in K-13688",
+      "fit": "head",
+      "tags": ["modern", "minimal", "chrome"],
+      "price_inr": 0,
+      "dims_m": [0.203, 0.07, 0.203],
+      "glb": "/models/13688-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-13688-CP",
+        "product": "Contemporary Round 8\" single-function rainhead, 2.5 gpm",
+        "url": "https://www.studiokohler.com/products/bathroom/showers/rainheads/13688?sku=K-13688-CP",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/kohler_rainheads_contemporary-round-8in_K-13688-CP.obj"
+      },
+      "styleReason": "'Contemporary Round' in product name; flat 8in disc, unadorned; observed polished chrome finish (price Unknown → 0 placeholder)",
+      "sub": "Rainheads"
+    },
+    {
+      "id": "head-rain-13693",
+      "name": "Rainhead K-13693",
+      "fit": "head",
+      "tags": ["zen", "chrome"],
+      "price_inr": 0,
+      "dims_m": [0.265, 0.094, 0.265],
+      "glb": "/models/13693-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-13693",
+        "product": "Round rainhead",
+        "url": "https://www.studiokohler.com/search-results?value=K-13693",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/13693.obj"
+      },
+      "styleReason": "Flat round rainhead disc, same family as verified 13688 (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Rainheads"
+    },
+    {
+      "id": "head-shower-72774",
+      "name": "Shower Head K-72774-G",
+      "fit": "head",
+      "tags": ["modern", "chrome"],
+      "price_inr": 0,
+      "dims_m": [0.152, 0.126, 0.126],
+      "glb": "/models/72774-G-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-72774-G",
+        "product": "Shower head, brushed chrome",
+        "url": "https://www.studiokohler.com/search-results?value=K-72774",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/72774-G.obj"
+      },
+      "styleReason": "Compact shower head (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Shower Heads"
+    },
+    {
+      "id": "head-hand-22163",
+      "name": "Handshower K-22163",
+      "fit": "head",
+      "tags": ["modern", "minimal", "chrome"],
+      "price_inr": 0,
+      "dims_m": [0.132, 0.3, 0.108],
+      "glb": "/models/22163-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-22163",
+        "product": "Handshower wand",
+        "url": "https://www.studiokohler.com/search-results?value=K-22163",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/22163.obj"
+      },
+      "styleReason": "Wand-shaped handshower (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Handshowers"
+    },
+    {
+      "id": "spray-body-8013",
+      "name": "Body Spray K-8013-AK",
+      "fit": "head",
+      "tags": ["zen", "minimal", "chrome"],
+      "price_inr": 0,
+      "dims_m": [0.125, 0.006, 0.125],
+      "glb": "/models/8013-AK-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-8013-AK",
+        "product": "Body spray",
+        "url": "https://www.studiokohler.com/search-results?value=K-8013",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/8013-AK.obj"
+      },
+      "styleReason": "Flat round bodyspray disc; rides the head slot until the viewer places bodysprays (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Body Sprays"
+    },
+    {
+      "id": "screen-door-707506",
+      "name": "Shower Door K-707506-L",
+      "fit": "screen",
+      "tags": ["modern", "glass"],
+      "price_inr": 0,
+      "dims_m": [0.787, 1.889, 0.104],
+      "glb": "/models/707506-L-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-707506-L",
+        "product": "Shower door panel",
+        "url": "https://www.studiokohler.com/search-results?value=K-707506",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/707506-L.obj"
+      },
+      "styleReason": "Tall glass door panel, left-hand (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Shower Doors"
+    },
+    {
+      "id": "screen-panel-45210",
+      "name": "Shower Panel K-45210",
+      "fit": "screen",
+      "tags": ["modern", "minimal"],
+      "price_inr": 0,
+      "dims_m": [0.106, 0.862, 0.472],
+      "glb": "/models/45210-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-45210",
+        "product": "Shower column/panel",
+        "url": "https://www.studiokohler.com/search-results?value=K-45210",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/45210.obj"
+      },
+      "styleReason": "Narrow tall panel renders in the enclosure slot; eyeball placement in viewer (owner-confirmed Showers; price Unknown → 0 placeholder)",
+      "sub": "Shower Columns & Kits"
+    },
+    {
+      "id": "base-tresham-1979",
+      "name": "Tresham Shower Base K-1979",
+      "fit": "footprint",
+      "tags": ["heritage", "white"],
+      "price_inr": 0,
+      "dims_m": [1.525, 0.926, 0.538],
+      "glb": "/models/1979-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-1979-0",
+        "product": "Tresham 60\" x 36\" alcove shower base, left drain",
+        "url": "https://www.studiokohler.com/products/bathroom/bathing/1979?sku=K-1979-0",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/1979.obj"
+      },
+      "styleReason": "Alcove shower base pan, verified product title; renders as the shower floor (price Unknown → 0 placeholder)",
+      "sub": "Shower Bases"
+    },
+    {
+      "id": "part-trim-T14488",
+      "name": "Valve Trim K-T14488-3",
+      "fit": "part",
+      "tags": ["modern", "chrome"],
+      "price_inr": 0,
+      "dims_m": [0.162, 0.162, 0.106],
+      "glb": "/models/T14488-3-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-T14488-3",
+        "product": "Valve trim disc",
+        "url": "https://www.studiokohler.com/search-results?value=K-T14488",
+        "studioPath": "Bathroom → Bathtub & Shower Faucets",
+        "obj": "assets/models/Bathtub & Shower Faucets/T14488-3.obj"
+      },
+      "styleReason": "Small trim disc; parked as unplaced part until the viewer learns trim mounting (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Valves and Trims"
+    },
+    {
+      "id": "part-smart-28214",
+      "name": "Smart Shower Control K-28214",
+      "fit": "part",
+      "tags": ["modern", "minimal"],
+      "price_inr": 0,
+      "dims_m": [0.218, 0.069, 0.036],
+      "glb": "/models/28214-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-28214",
+        "product": "Digital shower control",
+        "url": "https://www.studiokohler.com/search-results?value=K-28214",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/28214.obj"
+      },
+      "styleReason": "Slim digital control bar; parked as unplaced part (owner-confirmed Smart Showers; price Unknown → 0 placeholder)",
+      "sub": "Smart Showers"
+    },
+    {
+      "id": "part-steam-5557",
+      "name": "Steam Control Kit K-5557",
+      "fit": "part",
+      "tags": ["zen", "minimal"],
+      "price_inr": 0,
+      "dims_m": [0.282, 0.101, 0.025],
+      "glb": "/models/5557-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-5557",
+        "product": "Steam generator control kit",
+        "url": "https://www.studiokohler.com/search-results?value=K-5557",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/5557.obj"
+      },
+      "styleReason": "Flat square steam control plate; parked as unplaced part (owner-confirmed Steam Showers; price Unknown → 0 placeholder)",
+      "sub": "Steam Showers"
+    },
+    {
+      "id": "part-fitting-9132",
+      "name": "Shower Fitting K-9132",
+      "fit": "part",
+      "tags": ["modern", "chrome"],
+      "price_inr": 0,
+      "dims_m": [0.114, 0.114, 0.049],
+      "glb": "/models/9132-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-9132",
+        "product": "Shower fitting",
+        "url": "https://www.studiokohler.com/search-results?value=K-9132",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/9132.obj"
+      },
+      "styleReason": "Tiny fitting; parked as unplaced part (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Shower Fittings"
+    },
+    {
+      "id": "part-fitting-76337",
+      "name": "Shower Fitting K-76337",
+      "fit": "part",
+      "tags": ["modern"],
+      "price_inr": 0,
+      "dims_m": [0.078, 0.193, 0.473],
+      "glb": "/models/76337-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-76337",
+        "product": "Shower fitting",
+        "url": "https://www.studiokohler.com/search-results?value=K-76337",
+        "studioPath": "Bathroom → Showers",
+        "obj": "assets/models/Bathroom Showers/76337.obj"
+      },
+      "styleReason": "Tall thin fitting; parked as unplaced part (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Shower Fittings"
     }
   ]
 }

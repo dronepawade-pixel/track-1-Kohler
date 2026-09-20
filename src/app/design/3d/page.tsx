@@ -59,6 +59,11 @@ function ViewInner() {
   // tag+budget matcher over the variant catalogue. Picks fill the per-fixture
   // model map (manual swaps always win); faucets mount on basins separately.
   const [faucetMap, setFaucetMap] = useState<Record<number, string>>({});
+  // Attached parts (bidet seat, shower enclosure) ride alongside the main
+  // model so joined planner fixtures stay separable in the tray. Seeded from
+  // the saved design; tray picks always win over the seed.
+  const [seatMap, setSeatMap] = useState<Record<number, string>>({});
+  const [screenMap, setScreenMap] = useState<Record<number, string>>({});
   type AiInfo = {
     status: "working" | "done" | "error";
     tags: string[];
@@ -70,6 +75,9 @@ function ViewInner() {
     lines: string[];
   };
   const [ai, setAi] = useState<AiInfo | null>(null);
+  // Raw tag readout stays hidden until requested — bundle lines and budget
+  // stay visible; tags are a debug detail, not the decision.
+  const [showTags, setShowTags] = useState(false);
   const aiRanFor = useRef<string | null>(null);
   useEffect(() => {
     if (!stored?.brief || aiRanFor.current === stored.id) return;
@@ -146,6 +154,13 @@ function ViewInner() {
         { id: 2, kind: "Toilet", x: room.w * s * 0.75, y: room.h * s * 0.28, w: 0.6 * s, h: 0.7 * s, rot: 0 },
       ];
     return px.map((f) => {
+      // Planner convention: rotate() swaps w/h AND increments rot, so stored
+      // w/h are the ROTATED extents. Un-swap back to the model's local frame
+      // here — the 3D group then applies rot once (2D and 3D agree).
+      const rot = ((f.rot ?? 0) % 360 + 360) % 360;
+      const swapped = rot === 90 || rot === 270;
+      const lw = (swapped ? f.h : f.w) / s;
+      const ld = (swapped ? f.w : f.h) / s;
       // Decor dropped over a fixture in 2D rests on that fixture's surface
       // in 3D (tray on basin rim, caddy on tub edge); otherwise it sits on
       // the floor. Same rule drives the WebGL view and the SVG fallback.
@@ -173,17 +188,19 @@ function ViewInner() {
         kind: f.kind,
         cx: f.x / s - room.w / 2,
         cz: f.y / s - room.h / 2,
-        w: f.w / s,
-        d: f.h / s,
+        w: lw,
+        d: ld,
         h: f.decorId ? decorById(f.decorId)?.tall ?? 0.5 : FIXTURE_H[f.kind] ?? 0.8,
         y0,
         glass: f.kind === "Shower",
         decorId: f.decorId,
         faucet: f.faucet ?? faucetMap[f.id],
-        rot: f.rot ?? 0,
+        seat: f.seat ?? seatMap[f.id],
+        screen: f.screen ?? screenMap[f.id],
+        rot,
       };
     });
-  }, [stored, room, s, faucetMap]);
+  }, [stored, room, s, faucetMap, seatMap, screenMap]);
 
   const openings: MetreOpening[] = useMemo(() => {
     if (stored) return stored.openings.map((o) => ({ ...o }));
@@ -229,6 +246,18 @@ function ViewInner() {
         if (f.model && f.model !== PROCEDURAL && !(f.id in next)) next[f.id] = f.model;
       return next;
     });
+    setSeatMap((prev) => {
+      const next = { ...prev };
+      for (const f of stored.items)
+        if (f.seat && !(f.id in next)) next[f.id] = f.seat;
+      return next;
+    });
+    setScreenMap((prev) => {
+      const next = { ...prev };
+      for (const f of stored.items)
+        if (f.screen && !(f.id in next)) next[f.id] = f.screen;
+      return next;
+    });
   }, [stored]);
   const [savedTick, setSavedTick] = useState(false);
   const saveSwaps = () => {
@@ -240,6 +269,8 @@ function ViewInner() {
         ...f,
         model: models[f.id] ?? f.model ?? PROCEDURAL,
         faucet: f.faucet ?? faucetMap[f.id],
+        seat: seatMap[f.id] ?? f.seat,
+        screen: screenMap[f.id] ?? f.screen,
       })),
     });
     setSavedTick(true);
@@ -267,6 +298,9 @@ function ViewInner() {
             openings={openings}
             models={models}
             onModelChange={(id, model) => setModels((m) => ({ ...m, [id]: model }))}
+            onFaucetChange={(id, faucet) => setFaucetMap((m) => ({ ...m, [id]: faucet }))}
+            onSeatChange={(id, seat) => setSeatMap((m) => ({ ...m, [id]: seat }))}
+            onScreenChange={(id, screen) => setScreenMap((m) => ({ ...m, [id]: screen }))}
           />
         ) : (
           <IsoRoom room={room} fixtures={fixtures} openings={openings} />
@@ -276,9 +310,18 @@ function ViewInner() {
         <div className="card mt-4 p-5">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <p className="label-caps text-[#999]">AI match — “{stored?.brief?.style} {stored?.brief?.notes}”</p>
+            <button
+              onClick={() => setShowTags((v) => !v)}
+              className="btn-ghost !px-3 !py-1 !text-[12px]"
+              aria-expanded={showTags}
+            >
+              {showTags ? "Hide tags" : "Show tags"}
+            </button>
+            {showTags && (
             <p className="text-[14px] text-[#999]">
               tags: <span className="text-white">{ai.tags.join(", ") || "—"}</span> · {ai.via}
             </p>
+            )}
             <p className={`text-[14px] ${ai.overBudget ? "text-[#ff8a8a]" : "text-[#9fdfae]"}`}>
               ₹{ai.totalKnown.toLocaleString("en-IN")} of ₹{ai.budgetCap.toLocaleString("en-IN")} cap
               {ai.overBudget ? " — over budget: cheapest matches shown" : ` · ₹${(ai.budgetCap - ai.totalKnown).toLocaleString("en-IN")} headroom`}

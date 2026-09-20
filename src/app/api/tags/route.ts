@@ -18,7 +18,7 @@ const GeminiReplySchema = z.object({
 async function geminiTags(text: string): Promise<{ tags: Tag[]; via: string } | null> {
   const key = process.env.GEMINI_API_KEY;
   if (!key) return null;
-  const model = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-3.6-flash";
   const prompt = `Map this bathroom style description to tags. Reply with ONLY compact JSON, no markdown, no explanation.
 Allowed tags (${ALL_TAGS.length}): ${ALL_TAGS.join(", ")}.
 Schema: {"tags":["<1-6 allowed tags, best match first>"]}
@@ -35,7 +35,7 @@ Description: ${text.slice(0, 1000)}`;
         signal: ctrl.signal,
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.2, maxOutputTokens: 128 },
+          generationConfig: { temperature: 0.2, maxOutputTokens: 512 },
         }),
       }
     );

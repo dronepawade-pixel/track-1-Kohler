@@ -11,6 +11,9 @@ function NewDesignInner() {
   // Step 1 of the single flow: dimensions + brief here, then the 2D planner
   // canvas. 3D opens only from the planner (saved design), never directly.
   const [form, setForm] = useState({ length: "3.6", width: "2.4", height: "2.7", budgetId: DEFAULT_BUDGET_ID, style: STYLES[0], doors: "1", windows: "1", notes: "" });
+  // Explicit style pills stay hidden until requested — the free-text brief
+  // below is the primary input; pills are a shortcut, not the flow.
+  const [showStyles, setShowStyles] = useState(false);
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
   const area = (parseFloat(form.length) || 0) * (parseFloat(form.width) || 0);
@@ -65,13 +68,25 @@ function NewDesignInner() {
           </div>
         </div>
         <div className="card p-8">
-          <p className="label-caps text-[#999]">Style & rituals</p>
+          <div className="flex items-center justify-between">
+            <p className="label-caps text-[#999]">Style & rituals</p>
+            <button
+              onClick={() => setShowStyles((v) => !v)}
+              className="btn-ghost !px-3 !py-1 !text-[12px]"
+              aria-expanded={showStyles}
+            >
+              {showStyles ? "Hide presets" : "Show presets"}
+            </button>
+          </div>
+          {showStyles && (
           <div className="mt-4 flex flex-wrap gap-2">
             {STYLES.map((s) => (
               <button key={s} onClick={() => setForm((f) => ({ ...f, style: s }))}
-                className={form.style === s ? "btn-cream !py-2 !text-[14px]" : "btn-ghost !py-2 !text-[14px]"}>{s}</button>
+                className={form.style === s ? "btn-cream !py-2 !text-[14px]" : "btn-ghost !py-2 !text-[14px]"}
+                aria-pressed={form.style === s}>{s}</button>
             ))}
           </div>
+          )}
           <label className="mt-6 block"><span className="label-caps text-[#999]">Tell the AI what you want</span>
             <textarea value={form.notes} onChange={set("notes")} rows={5} placeholder="e.g. Walk-in rainshower, wall-hung toilet, room for a freestanding tub, warm minimal finishes…" className="field mt-2" /></label>
           <p className="mt-3 text-[14px] text-[#999]">Photos & floor-plan upload unlock with Supabase storage (wired in this phase&apos;s migration).</p>

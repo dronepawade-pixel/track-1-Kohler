@@ -5,7 +5,7 @@
 // procedural mesh in that case (ModelPart is only used when glb is set).
 import { loadVariants, type Variant } from "./variants";
 
-export type ModelFit = "footprint" | "seat" | "head" | "screen" | "basinTop" | "faucet";
+export type ModelFit = "footprint" | "seat" | "head" | "screen" | "basinTop" | "faucet" | "part";
 
 export type ModelOption = {
   id: string;
@@ -27,6 +27,9 @@ const KIND_BY_FIT: Record<Variant["fit"], string[]> = {
   screen: ["Shower"],
   basinTop: ["Basin"],
   faucet: ["Basin"],
+  // "part" accessories (valve trims, controls, fittings) have no
+  // auto-placement yet — registry + admin only until the viewer learns them.
+  part: [],
 };
 
 // footprint variants render under their own fixture kind, not all three.

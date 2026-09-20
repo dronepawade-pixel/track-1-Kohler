@@ -1,0 +1,250 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Kohler home" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=e5]
+      - navigation [ref=e26]:
+        - link "Bathroom" [ref=e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=e33]: →
+  - main [ref=e34]:
+    - generic [ref=e138]:
+      - paragraph [ref=e139]: Design track — step 3 of 3 · 3D concept, drag to walk around it
+      - heading "Your bathroom, in bold." [level=1] [ref=e140]
+      - paragraph [ref=e141]: Room 3.6 × 2.4 m · 8.6 m² · height 2.7 m · 2 fixtures · “Bathroom 3.6 × 2.4 m”
+      - generic [ref=e143]:
+        - generic [ref=e145]:
+          - generic: Toilet
+          - generic: Basin
+        - generic [ref=e148]:
+          - button "⟲ 45°" [ref=e149]
+          - button "45° ⟳" [ref=e150]
+          - button "Reset view" [ref=e151]
+          - button "Cutaway on" [ref=e152]
+          - button "Labels on" [ref=e153]
+          - button "Turntable off" [ref=e154]
+        - paragraph [ref=e155]: Drag to orbit · scroll to zoom · front walls section at 1.1 m so you can see inside.
+        - generic [ref=e156]:
+          - paragraph [ref=e157]: Ambience — pendant light + decor
+          - generic [ref=e158]:
+            - button "Light off" [ref=e159]
+            - button "Warm Lamp" [ref=e160]
+            - button "Cool Daylight" [ref=e162]
+            - button "Spa Teal" [ref=e164]
+            - button "Sunset Amber" [ref=e166]
+            - button "Rose" [ref=e168]
+            - button "Violet Night" [ref=e170]
+            - button "Decor on" [ref=e172]
+          - paragraph [ref=e173]: Warm Lamp pendant on. No decor placed yet — add some on the 2D canvas.
+        - generic [ref=e174]:
+          - paragraph [ref=e175]: Swap models — catalogue variants (AI picks seeded)
+          - generic [ref=e176]:
+            - paragraph [ref=e177]: Toilet
+            - generic [ref=e178]:
+              - button "STUDIO Procedural Studio" [ref=e179]:
+                - generic [ref=e180]: STUDIO
+                - generic [ref=e181]:
+                  - generic [ref=e182]: Procedural
+                  - generic [ref=e183]: Studio
+              - button "black Noir Matte WC" [ref=e184]:
+                - generic [ref=e185]: black
+                - generic [ref=e186]: Noir Matte WC
+              - button "white Eir One-Piece Toilet K-77795 One-Piece Toilets" [ref=e189]:
+                - generic [ref=e190]: white
+                - generic [ref=e191]:
+                  - generic [ref=e192]: Eir One-Piece Toilet K-77795
+                  - generic [ref=e193]: One-Piece Toilets
+              - button "white Classic Close-Coupled WC Two-Piece Toilets" [ref=e194]:
+                - generic [ref=e195]: white
+                - generic [ref=e196]:
+                  - generic [ref=e197]: Classic Close-Coupled WC
+                  - generic [ref=e198]: Two-Piece Toilets
+              - button "white Highline Classic Two-Piece Toilet K-3493 Two-Piece Toilets" [ref=e199]:
+                - generic [ref=e200]: white
+                - generic [ref=e201]:
+                  - generic [ref=e202]: Highline Classic Two-Piece Toilet K-3493
+                  - generic [ref=e203]: Two-Piece Toilets
+              - button "Two-Piece Toilet 75790 Two-Piece Toilet 75790 Two-Piece Toilets" [ref=e204]:
+                - img "Two-Piece Toilet 75790" [ref=e205]
+                - generic [ref=e206]:
+                  - generic [ref=e207]: Two-Piece Toilet 75790
+                  - generic [ref=e208]: Two-Piece Toilets
+              - button "white Two-Piece Toilet K-5310 Two-Piece Toilets" [ref=e209]:
+                - generic [ref=e210]: white
+                - generic [ref=e211]:
+                  - generic [ref=e212]: Two-Piece Toilet K-5310
+                  - generic [ref=e213]: Two-Piece Toilets
+              - button "white Two-Piece Toilet K-6424 Two-Piece Toilets" [ref=e214]:
+                - generic [ref=e215]: white
+                - generic [ref=e216]:
+                  - generic [ref=e217]: Two-Piece Toilet K-6424
+                  - generic [ref=e218]: Two-Piece Toilets
+              - button "white Wall-Hung Minimal WC Wall-Hung Toilets" [ref=e219]:
+                - generic [ref=e220]: white
+                - generic [ref=e221]:
+                  - generic [ref=e222]: Wall-Hung Minimal WC
+                  - generic [ref=e223]: Wall-Hung Toilets
+              - button "white Wall-Hung Toilet K-76395 Wall-Hung Toilets" [ref=e224]:
+                - generic [ref=e225]: white
+                - generic [ref=e226]:
+                  - generic [ref=e227]: Wall-Hung Toilet K-76395
+                  - generic [ref=e228]: Wall-Hung Toilets
+            - paragraph [ref=e229]: Seat — swaps without changing the WC
+            - generic [ref=e230]:
+              - button "NONE No seat" [ref=e231]:
+                - generic [ref=e232]: NONE
+                - generic [ref=e233]: No seat
+              - button "white PureWash E525 Bidet Seat K-18751 Bidet Seats" [ref=e236]:
+                - generic [ref=e237]: white
+                - generic [ref=e238]:
+                  - generic [ref=e239]: PureWash E525 Bidet Seat K-18751
+                  - generic [ref=e240]: Bidet Seats
+              - button "Smart Seat 30754-PA Smart Seat 30754-PA Bidet Seats" [ref=e241]:
+                - img "Smart Seat 30754-PA" [ref=e242]
+                - generic [ref=e243]:
+                  - generic [ref=e244]: Smart Seat 30754-PA
+                  - generic [ref=e245]: Bidet Seats
+          - generic [ref=e246]:
+            - paragraph [ref=e247]: Basin
+            - generic [ref=e248]:
+              - button "STUDIO Procedural Studio" [ref=e249]:
+                - generic [ref=e250]: STUDIO
+                - generic [ref=e251]:
+                  - generic [ref=e252]: Procedural
+                  - generic [ref=e253]: Studio
+              - button "marble Monolith Marble Washbasin" [ref=e254]:
+                - generic [ref=e255]: marble
+                - generic [ref=e256]: Monolith Marble Washbasin
+              - button "black Noir Countertop Basin" [ref=e259]:
+                - generic [ref=e260]: black
+                - generic [ref=e261]: Noir Countertop Basin
+              - button "stone Stone Bowl — Spa" [ref=e264]:
+                - generic [ref=e265]: stone
+                - generic [ref=e266]: Stone Bowl — Spa
+              - button "Basin Artist Editions Basin K-14218-HD1 Artist Editions Sinks" [ref=e269]:
+                - generic [ref=e270]: Basin
+                - generic [ref=e271]:
+                  - generic [ref=e272]: Artist Editions Basin K-14218-HD1
+                  - generic [ref=e273]: Artist Editions Sinks
+              - button "white Pedestal Sink K-5265-4 Pedestal Sinks" [ref=e274]:
+                - generic [ref=e275]: white
+                - generic [ref=e276]:
+                  - generic [ref=e277]: Pedestal Sink K-5265-4
+                  - generic [ref=e278]: Pedestal Sinks
+              - button "white Classic Undermount Sink Undermount Sinks" [ref=e279]:
+                - generic [ref=e280]: white
+                - generic [ref=e281]:
+                  - generic [ref=e282]: Classic Undermount Sink
+                  - generic [ref=e283]: Undermount Sinks
+              - button "white Vessel Basin — White Ceramic Vessel Sinks" [ref=e284]:
+                - generic [ref=e285]: white
+                - generic [ref=e286]:
+                  - generic [ref=e287]: Vessel Basin — White Ceramic
+                  - generic [ref=e288]: Vessel Sinks
+              - button "white Vessel Basin K-20211 Vessel Sinks" [ref=e289]:
+                - generic [ref=e290]: white
+                - generic [ref=e291]:
+                  - generic [ref=e292]: Vessel Basin K-20211
+                  - generic [ref=e293]: Vessel Sinks
+              - button "black Vox Round Vessel Sink K-14800 Vessel Sinks" [ref=e294]:
+                - generic [ref=e295]: black
+                - generic [ref=e296]:
+                  - generic [ref=e297]: Vox Round Vessel Sink K-14800
+                  - generic [ref=e298]: Vessel Sinks
+              - button "white Wall-Mount Sink K-2035-4 Wall Mounted Sinks" [ref=e299]:
+                - generic [ref=e300]: white
+                - generic [ref=e301]:
+                  - generic [ref=e302]: Wall-Mount Sink K-2035-4
+                  - generic [ref=e303]: Wall Mounted Sinks
+            - paragraph [ref=e304]: Tap — swaps without changing the basin
+            - generic [ref=e305]:
+              - button "NONE No tap" [ref=e306]:
+                - generic [ref=e307]: NONE
+                - generic [ref=e308]: No tap
+              - button "brass Cross-Handle Faucet — Vintage Brass" [ref=e311]:
+                - generic [ref=e312]: brass
+                - generic [ref=e313]: Cross-Handle Faucet — Vintage Brass
+              - button "black Cube Faucet — Matte Black" [ref=e316]:
+                - generic [ref=e317]: black
+                - generic [ref=e318]: Cube Faucet — Matte Black
+              - button "nickel Soft-Touch Faucet — Brushed Nickel" [ref=e321]:
+                - generic [ref=e322]: nickel
+                - generic [ref=e323]: Soft-Touch Faucet — Brushed Nickel
+              - button "chrome Tall Bas Faucet — Polished Chrome" [ref=e326]:
+                - generic [ref=e327]: chrome
+                - generic [ref=e328]: Tall Bas Faucet — Polished Chrome
+              - button "Faucet Bathtub Faucet K-97070-4 Bathtub Faucets" [ref=e331]:
+                - generic [ref=e332]: Faucet
+                - generic [ref=e333]:
+                  - generic [ref=e334]: Bathtub Faucet K-97070-4
+                  - generic [ref=e335]: Bathtub Faucets
+              - button "Faucet Centerset Faucet K-15199-4NDRA Centerset Faucets" [ref=e336]:
+                - generic [ref=e337]: Faucet
+                - generic [ref=e338]:
+                  - generic [ref=e339]: Centerset Faucet K-15199-4NDRA
+                  - generic [ref=e340]: Centerset Faucets
+              - button "Faucet Single-Control Faucet K-24804-4N Single Control Faucets" [ref=e341]:
+                - generic [ref=e342]: Faucet
+                - generic [ref=e343]:
+                  - generic [ref=e344]: Single-Control Faucet K-24804-4N
+                  - generic [ref=e345]: Single Control Faucets
+              - button "Faucet Wall-Mount Faucet Trim K-T14414-3 Wall Mounted Faucets" [ref=e346]:
+                - generic [ref=e347]: Faucet
+                - generic [ref=e348]:
+                  - generic [ref=e349]: Wall-Mount Faucet Trim K-T14414-3
+                  - generic [ref=e350]: Wall Mounted Faucets
+              - button "gold Wall-Mount Spout — Brushed Gold Wall Mounted Faucets" [ref=e351]:
+                - generic [ref=e352]: gold
+                - generic [ref=e353]:
+                  - generic [ref=e354]: Wall-Mount Spout — Brushed Gold
+                  - generic [ref=e355]: Wall Mounted Faucets
+              - button "chrome Taut Widespread Faucet K-97100-4 Widespread Faucets" [ref=e356]:
+                - generic [ref=e357]: chrome
+                - generic [ref=e358]:
+                  - generic [ref=e359]: Taut Widespread Faucet K-97100-4
+                  - generic [ref=e360]: Widespread Faucets
+      - generic [ref=e361]:
+        - generic [ref=e362]:
+          - paragraph [ref=e363]: AI match — “Minimal basin and toilet”
+          - button "Show tags" [ref=e364]
+          - paragraph [ref=e365]: ₹0 of ₹7,00,000 cap · ₹7,00,000 headroom
+        - list [ref=e366]:
+          - listitem [ref=e367]: "· Toilet: Eir One-Piece Toilet K-77795 ₹0 (matches minimal, white)"
+          - listitem [ref=e368]: "· Basin: Wall-Mount Sink K-2035-4 ₹0 (matches minimal, white)"
+          - listitem [ref=e369]: "· Faucet →: Taut Widespread Faucet K-97100-4 ₹0 (matches minimal)"
+        - paragraph [ref=e370]: Swap any model below — then “Save model swaps” to keep the picks.
+      - generic [ref=e371]:
+        - link "← Details" [ref=e372] [cursor=pointer]:
+          - /url: /design/new
+        - link "Edit in 2D canvas →" [ref=e373] [cursor=pointer]:
+          - /url: /planner?design=66c41054-b17e-4cd8-a773-805a4131a856
+        - link "Saved designs" [ref=e374] [cursor=pointer]:
+          - /url: /saved
+        - link "Continue to budget →" [ref=e375] [cursor=pointer]:
+          - /url: /budget
+        - button "Save model swaps" [ref=e376]
+      - generic [ref=e377]:
+        - generic [ref=e378]: Fixtures
+        - generic [ref=e380]: Doors
+        - generic [ref=e382]: Windows
+  - contentinfo [ref=e105]:
+    - generic [ref=e106]:
+      - link "Resources" [ref=e107] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=e108] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=e109] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=e110]
+      - button "Catalogue data" [ref=e111]
+    - paragraph [ref=e112]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=e118] [cursor=pointer]
+  - alert [ref=e137]: Your bathroom, in bold.

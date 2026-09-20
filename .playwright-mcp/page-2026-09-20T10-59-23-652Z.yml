@@ -1,0 +1,49 @@
+- generic [active] [ref=f705e1]:
+  - banner [ref=f705e2]:
+    - generic [ref=f705e3]:
+      - link "Kohler home" [ref=f705e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=f705e5]
+      - navigation [ref=f705e26]:
+        - link "Bathroom" [ref=f705e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=f705e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=f705e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=f705e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=f705e33]: →
+  - main [ref=f705e34]:
+    - generic [ref=f705e35]:
+      - paragraph [ref=f705e36]: Design track — step 3 of 3 · 3D concept, drag to walk around it
+      - heading "Your bathroom, in bold." [level=1] [ref=f705e37]
+      - paragraph [ref=f705e38]: Room 3.6 × 2.4 m · 8.6 m² · height 2.7 m · 2 fixtures
+      - paragraph [ref=f705e40]: Loading 3D view…
+      - generic [ref=f705e41]:
+        - link "← Details" [ref=f705e42] [cursor=pointer]:
+          - /url: /design/new
+        - link "Edit in 2D canvas →" [ref=f705e43] [cursor=pointer]:
+          - /url: /planner?design=verify-27
+        - link "Saved designs" [ref=f705e44] [cursor=pointer]:
+          - /url: /saved
+        - link "Continue to budget →" [ref=f705e45] [cursor=pointer]:
+          - /url: /budget
+      - generic [ref=f705e46]:
+        - generic [ref=f705e47]: Fixtures
+        - generic [ref=f705e49]: Doors
+        - generic [ref=f705e51]: Windows
+  - contentinfo [ref=f705e53]:
+    - generic [ref=f705e54]:
+      - link "Resources" [ref=f705e55] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=f705e56] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=f705e57] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=f705e58]
+      - button "Catalogue data" [ref=f705e59]
+    - paragraph [ref=f705e60]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=f705e66] [cursor=pointer]
+  - alert [ref=f705e70]

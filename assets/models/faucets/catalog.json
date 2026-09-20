@@ -40,7 +40,8 @@
       "price_inr": 32000,
       "dims_m": [0.05, 0.05, 0.24],
       "glb": "",
-      "thumb": ""
+      "thumb": "",
+      "sub": "Wall Mounted Faucets"
     },
     {
       "id": "faucet-nickel-zen",
@@ -51,6 +52,101 @@
       "dims_m": [0.05, 0.24, 0.05],
       "glb": "",
       "thumb": ""
+    },
+    {
+      "id": "faucet-taut-97100",
+      "name": "Taut Widespread Faucet K-97100-4",
+      "fit": "faucet",
+      "tags": ["modern", "minimal", "chrome"],
+      "price_inr": 0,
+      "dims_m": [0.353, 0.115, 0.171],
+      "glb": "/models/97100-4-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-97100-4-CP",
+        "product": "Taut widespread bathroom sink faucet, 1.2 gpm",
+        "url": "https://www.studiokohler.com/products/bathroom/bathroom-sink-faucets/97100-4?sku=K-97100-4-CP",
+        "studioPath": "Bathroom → Bathroom Sink Faucets",
+        "obj": "assets/models/Bathroom Sink Faucets/97100-4.obj"
+      },
+      "styleReason": "Contemporary widespread form with unadorned lever handles; observed polished chrome finish (price Unknown → 0 placeholder)",
+      "sub": "Widespread Faucets"
+    },
+    {
+      "id": "faucet-single-24804",
+      "name": "Single-Control Faucet K-24804-4N",
+      "fit": "faucet",
+      "tags": ["modern", "minimal"],
+      "price_inr": 0,
+      "dims_m": [0.048, 0.116, 0.18],
+      "glb": "/models/24804-4N-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-24804-4N",
+        "product": "Single-control bathroom sink faucet",
+        "url": "https://www.studiokohler.com/search-results?value=K-24804",
+        "studioPath": "Bathroom → Bathroom Sink Faucets",
+        "obj": "assets/models/Bathroom Sink Faucets/24804-4N.obj"
+      },
+      "styleReason": "Compact single-hole form, unadorned (price Unknown → 0 placeholder)",
+      "sub": "Single Control Faucets"
+    },
+    {
+      "id": "faucet-centerset-15199",
+      "name": "Centerset Faucet K-15199-4NDRA",
+      "fit": "faucet",
+      "tags": ["modern", "minimal"],
+      "price_inr": 0,
+      "dims_m": [0.153, 0.165, 0.162],
+      "glb": "/models/15199-4NDRA-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-15199-4NDRA",
+        "product": "Centerset bathroom sink faucet",
+        "url": "https://www.studiokohler.com/search-results?value=K-15199",
+        "studioPath": "Bathroom → Bathroom Sink Faucets",
+        "obj": "assets/models/Bathroom Sink Faucets/15199-4NDRA.obj"
+      },
+      "styleReason": "Compact 4-inch centerset body, simple form (price Unknown → 0 placeholder)",
+      "sub": "Centerset Faucets"
+    },
+    {
+      "id": "faucet-wallmount-T14414",
+      "name": "Wall-Mount Faucet Trim K-T14414-3",
+      "fit": "faucet",
+      "tags": ["modern", "minimal"],
+      "price_inr": 0,
+      "dims_m": [0.279, 0.102, 0.242],
+      "glb": "/models/T14414-3-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-T14414-3",
+        "product": "Wall-mount bathroom sink faucet trim",
+        "url": "https://www.studiokohler.com/search-results?value=K-T14414",
+        "studioPath": "Bathroom → Bathroom Sink Faucets",
+        "obj": "assets/models/Bathroom Sink Faucets/T14414-3.obj"
+      },
+      "styleReason": "Flat wall-mount trim plate, minimal (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Wall Mounted Faucets"
+    },
+    {
+      "id": "faucet-bath-97070",
+      "name": "Bathtub Faucet K-97070-4",
+      "fit": "faucet",
+      "tags": ["modern", "minimal"],
+      "price_inr": 0,
+      "dims_m": [0.356, 0.251, 0.236],
+      "glb": "/models/97070-4-plain.glb",
+      "thumb": "",
+      "source": {
+        "sku": "K-97070-4",
+        "product": "Bathtub faucet",
+        "url": "https://www.studiokohler.com/search-results?value=K-97070",
+        "studioPath": "Bathroom → Bathtub & Shower Faucets",
+        "obj": "assets/models/Bathtub & Shower Faucets/97070-4.obj"
+      },
+      "styleReason": "Widespread-style bath filler; appears in basin Tap rows until the viewer mounts bath taps (owner-confirmed subcategory; price Unknown → 0 placeholder)",
+      "sub": "Bathtub Faucets"
     }
   ]
 }

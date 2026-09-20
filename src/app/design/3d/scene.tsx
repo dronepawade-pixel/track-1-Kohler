@@ -18,6 +18,8 @@ export type MetreFixture = {
   glass?: boolean;
   decorId?: string; // set for movable decor placed on the 2D canvas
   faucet?: string; // faucet variant id mounted on this basin (AI-matched)
+  seat?: string; // bidet-seat variant id riding on this toilet (attached part)
+  screen?: string; // shower-enclosure variant id on this shower (attached part)
   rot?: number; // yaw degrees from the 2D canvas Rotate (0/90/180/270)
 };
 export type MetreOpening = {

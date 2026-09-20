@@ -1,0 +1,32 @@
+- generic [active] [ref=f189e1]:
+  - banner [ref=f189e2]:
+    - generic [ref=f189e3]:
+      - link "Kohler home" [ref=f189e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=f189e5]
+      - navigation [ref=f189e26]:
+        - link "Bathroom" [ref=f189e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=f189e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=f189e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=f189e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=f189e33]: →
+  - main [ref=f189e34]:
+    - paragraph [ref=f189e36]: Arrange your room on the 2D canvas first — taking you there…
+  - contentinfo [ref=f189e37]:
+    - generic [ref=f189e38]:
+      - link "Resources" [ref=f189e39] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=f189e40] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=f189e41] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=f189e42]
+      - button "Catalogue data" [ref=f189e43]
+    - paragraph [ref=f189e44]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=f189e50] [cursor=pointer]
+  - alert [ref=f189e54]

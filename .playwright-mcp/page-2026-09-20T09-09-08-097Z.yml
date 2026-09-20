@@ -1,0 +1,49 @@
+- generic [active] [ref=f192e1]:
+  - banner [ref=f192e2]:
+    - generic [ref=f192e3]:
+      - link "Kohler home" [ref=f192e4] [cursor=pointer]:
+        - /url: /
+        - img "Kohler — The Bold Look of Kohler" [ref=f192e5]
+      - navigation [ref=f192e26]:
+        - link "Bathroom" [ref=f192e27] [cursor=pointer]:
+          - /url: /catalog
+        - link "Saved Designs" [ref=f192e28] [cursor=pointer]:
+          - /url: /saved
+        - link "Design" [ref=f192e29] [cursor=pointer]:
+          - /url: /design/new
+      - link "Start your design" [ref=f192e32] [cursor=pointer]:
+        - /url: /design/new
+        - text: Start your design
+        - generic [aria-hidden] [ref=f192e33]: →
+  - main [ref=f192e34]:
+    - generic [ref=f192e35]:
+      - paragraph [ref=f192e36]: Design track — step 3 of 3 · 3D concept, drag to walk around it
+      - heading "Your bathroom, in bold." [level=1] [ref=f192e37]
+      - paragraph [ref=f192e38]: Room 3.6 × 2.4 m · 8.6 m² · height 2.7 m · 2 fixtures
+      - paragraph [ref=f192e40]: Loading 3D view…
+      - generic [ref=f192e41]:
+        - link "← Details" [ref=f192e42] [cursor=pointer]:
+          - /url: /design/new
+        - link "Edit in 2D canvas →" [ref=f192e43] [cursor=pointer]:
+          - /url: /planner?design=pilot-3d-verify
+        - link "Saved designs" [ref=f192e44] [cursor=pointer]:
+          - /url: /saved
+        - link "Continue to budget →" [ref=f192e45] [cursor=pointer]:
+          - /url: /budget
+      - generic [ref=f192e46]:
+        - generic [ref=f192e47]: Fixtures
+        - generic [ref=f192e49]: Doors
+        - generic [ref=f192e51]: Windows
+  - contentinfo [ref=f192e53]:
+    - generic [ref=f192e54]:
+      - link "Resources" [ref=f192e55] [cursor=pointer]:
+        - /url: /catalog
+      - link "About Us" [ref=f192e56] [cursor=pointer]:
+        - /url: /about
+      - link "Saved Designs" [ref=f192e57] [cursor=pointer]:
+        - /url: /saved
+      - button "Help" [ref=f192e58]
+      - button "Catalogue data" [ref=f192e59]
+    - paragraph [ref=f192e60]: Gracious living since 1873
+  - button "Open Next.js Dev Tools" [ref=f192e66] [cursor=pointer]
+  - alert [ref=f192e70]

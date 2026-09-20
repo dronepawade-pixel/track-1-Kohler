@@ -7,13 +7,14 @@ import {
   Environment,
   Html,
   Lightformer,
+  MeshReflectorMaterial,
   OrbitControls,
   RoundedBox,
   useGLTF,
 } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import type { MetreFixture, MetreOpening, RoomDims } from "./scene";
-import { PROCEDURAL, optionById, optionsForKind, faucetForBasin, type ModelOption } from "@/lib/models";
+import { PROCEDURAL, modelOptions, optionById, optionsForKind, faucetForBasin, type ModelOption } from "@/lib/models";
 import { decorById } from "@/lib/decor";
 
 // Glossy monochrome dollhouse — three.js PBR. Same data as the SVG viewer:
@@ -24,7 +25,7 @@ import { decorById } from "@/lib/decor";
 const WALL_T = 0.12;
 const CUT_H = 1.1;
 const CREAM = "#f5f5f0";
-const CERAMIC = "#e9e7e1";
+const CERAMIC = "#f0eee8";
 
 type ClipEntry = { mats: THREE.Material[]; normal: THREE.Vector3 };
 type Registry = Map<string, ClipEntry>;
@@ -57,16 +58,16 @@ function std(color: string, roughness: number) {
 
 function ceramic(color = CERAMIC) {
   return new THREE.MeshPhysicalMaterial({
-    color, roughness: 0.1, metalness: 0.0,
-    clearcoat: 1, clearcoatRoughness: 0.06,
-    envMapIntensity: 1.25, specularIntensity: 1,
+    color, roughness: 0.07, metalness: 0.0,
+    clearcoat: 1, clearcoatRoughness: 0.04,
+    envMapIntensity: 1.7, specularIntensity: 1, sheen: 0.15, sheenColor: new THREE.Color("#ffffff"),
   });
 }
 
 function chrome() {
   // polished nickel tuned for a dark room: mostly dielectric so key/rim
   // lights model it directly, with enough metal for env streaks
-  return new THREE.MeshStandardMaterial({ color: "#e8e8e8", roughness: 0.3, metalness: 0.7, envMapIntensity: 1.5 });
+  return new THREE.MeshStandardMaterial({ color: "#e8e8e8", roughness: 0.18, metalness: 0.85, envMapIntensity: 1.8 });
 }
 
 function glassMat() {
@@ -382,14 +383,24 @@ function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; m
 
   const toilet = (() => {
     if (f.kind !== "Toilet") return null;
-    if (glbOpt?.fit === "footprint") return <ModelPart opt={glbOpt} f={f} />;
+    // Seat is an attached part: it rides on the WC whether the bowl is a
+    // footprint GLB or procedural (legacy saves kept the seat in `model`).
+    const seatOpt = (f.seat ? optionById(f.seat) : null) ?? (glbOpt?.fit === "seat" ? glbOpt : null);
+    const seatGlb = seatOpt && seatOpt.glb ? seatOpt : null;
+    if (glbOpt?.fit === "footprint")
+      return (
+        <>
+          <ModelPart opt={glbOpt} f={f} />
+          {seatGlb && <ModelPart opt={seatGlb} f={f} />}
+        </>
+      );
     return (
       <>
         <RoundedBox args={[f.w, 0.42, f.d]} radius={0.1} smoothness={4} position={[0, 0.28, 0.04]} material={body} castShadow receiveShadow />
         <mesh position={[0, 0.62, -f.d / 2 + 0.12]} material={body} castShadow>
           <boxGeometry args={[f.w * 0.9, 0.5, 0.18]} />
         </mesh>
-        {glbOpt?.fit === "seat" && <ModelPart opt={glbOpt} f={f} />}
+        {seatGlb && <ModelPart opt={seatGlb} f={f} />}
       </>
     );
   })();
@@ -398,17 +409,26 @@ function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; m
     (() => {
       const gh = f.h - 0.1;
       const headOpt = glbOpt?.fit === "head" ? glbOpt : null;
-      const screenOpt = glbOpt?.fit === "screen" ? glbOpt : null;
+      // A footprint-fit model on a shower is the base pan itself.
+      const baseOpt = glbOpt?.fit === "footprint" ? glbOpt : null;
+      // Enclosure is an attached part with its own id (legacy saves kept a
+      // screen/door in `model`, which still resolves as fallback).
+      const screenOpt = (f.screen ? optionById(f.screen) : null) ?? (glbOpt?.fit === "screen" ? glbOpt : null);
+      const screenGlb = screenOpt && screenOpt.glb ? screenOpt : null;
       return (
         <>
-          <mesh position={[0, 0.05, 0]} material={body} castShadow receiveShadow>
-            <boxGeometry args={[f.w, 0.1, f.d]} />
-          </mesh>
+          {baseOpt ? (
+            <ModelPart opt={baseOpt} f={f} />
+          ) : (
+            <mesh position={[0, 0.05, 0]} material={body} castShadow receiveShadow>
+              <boxGeometry args={[f.w, 0.1, f.d]} />
+            </mesh>
+          )}
           <mesh position={[0, 0.1 + gh / 2, -f.d / 2 + 0.02]} material={glass}>
             <boxGeometry args={[f.w, gh, 0.02]} />
           </mesh>
-          {screenOpt ? (
-            <ModelPart opt={screenOpt} f={f} />
+          {screenGlb ? (
+            <ModelPart opt={screenGlb} f={f} />
           ) : (
             <mesh position={[f.w / 2 - 0.02, 0.1 + gh / 2, 0]} material={glass}>
               <boxGeometry args={[0.02, gh, f.d]} />
@@ -486,7 +506,7 @@ function FixtureMesh({ f, labels, model }: { f: MetreFixture; labels: boolean; m
     <group position={[f.cx, 0, f.cz]} rotation={[0, THREE.MathUtils.degToRad(f.rot ?? 0), 0]}>
       {/* soft grounding shadow, re-baked whenever the model swaps */}
       <ContactShadows
-        key={`${model}|${f.faucet ?? ""}`}
+        key={`${model}|${f.faucet ?? ""}|${f.seat ?? ""}|${f.screen ?? ""}`}
         position={[0, 0.008, 0]}
         scale={[f.w + 1.2, f.d + 1.2]}
         far={1.4}
@@ -617,7 +637,7 @@ function Scene({
 
   return (
     <>
-      <ambientLight intensity={0.55} />
+      <ambientLight intensity={0.5} />
       <directionalLight
         position={[5, 7, 4]}
         intensity={3.2}
@@ -633,6 +653,9 @@ function Scene({
         shadow-normalBias={0.02}
       />
       <directionalLight position={[-4, 3, -5]} intensity={0.8} color="#cfd8ff" />
+      {/* rim from behind (default cam faces +z): brightens silhouette edges
+          so porcelain reads as a shape, not a grey blob, on the black void */}
+      <directionalLight position={[1, 3.2, -8]} intensity={1.6} color="#eef2ff" />
       <Environment resolution={256}>
         <Lightformer intensity={3.2} position={[0, 5, 0]} rotation-x={Math.PI / 2} scale={[9, 9, 1]} color="#ffffff" />
         <Lightformer intensity={1.1} position={[-5, 1, -1]} rotation-y={Math.PI / 2} scale={[6, 2, 1]} color={CREAM} />
@@ -646,7 +669,26 @@ function Scene({
       {/* floor slab + tile inlay border */}
       <mesh position={[0, -0.05, 0]} receiveShadow>
         <boxGeometry args={[room.w + 0.5, 0.1, room.h + 0.5]} />
-        <meshStandardMaterial map={tile} roughness={0.85} />
+        <meshStandardMaterial color="#0a0a0a" roughness={0.9} />
+      </mesh>
+      {/* wet-look floor: tile grid + soft mirror reflections (the single
+          biggest step away from the flat grey render — fixtures touch down) */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.003, 0]} receiveShadow>
+        <planeGeometry args={[room.w, room.h]} />
+        <MeshReflectorMaterial
+          resolution={512}
+          mixBlur={6}
+          mixStrength={2.6}
+          blur={[320, 90]}
+          mirror={0.35}
+          map={tile}
+          roughness={0.7}
+          metalness={0.1}
+          color="#ffffff"
+          depthScale={0}
+          minDepthThreshold={0.4}
+          maxDepthThreshold={1.2}
+        />
       </mesh>
       {[
         { p: [0, 0.004, -room.h / 2 + 0.15], a: [room.w - 0.3, 0.004, 0.02] },
@@ -698,49 +740,126 @@ export function webglAvailable() {
   }
 }
 
+function TrayButton({ selected, title, onPick, thumb, thumbLabel, label, sub }: {
+  selected: boolean; title: string; onPick: () => void; thumb?: string; thumbLabel: string; label: string; sub?: string;
+}) {
+  return (
+    <button
+      onClick={onPick}
+      title={sub ? `${title} — ${sub}` : title}
+      className={`overflow-hidden rounded-[10px] border text-left transition-colors ${selected ? "border-[#f5f5f0]" : "border-[#333] hover:border-[#666]"}`}
+    >
+      {thumb ? (
+        <img src={thumb} alt={label} width={96} height={72} className="block h-[72px] w-[96px] object-cover" loading="lazy" />
+      ) : (
+        <span className="flex h-[72px] w-[96px] items-center justify-center bg-gradient-to-br from-[#262626] to-[#0c0c0c] text-[11px] uppercase tracking-[0.08em] text-[#999]">
+          {thumbLabel}
+        </span>
+      )}
+      <span className="block max-w-[96px] px-2 pt-1 text-[11px] leading-tight">
+        <span className="block truncate text-[#999]">{label}</span>
+        {sub && (
+          <span className="block truncate pb-1 text-[9px] uppercase tracking-[0.08em] text-[#666]">{sub}</span>
+        )}
+        {!sub && <span className="block pb-1" />}
+      </span>
+    </button>
+  );
+}
+
+const variantTitle = (m: ModelOption) =>
+  `${m.variant.tags.join(" · ")} — ₹${m.variant.price_inr.toLocaleString("en-IN")}${m.glb ? "" : " (procedural until GLB lands)"}`;
+
+// Single consolidated grid per fit-group. Subtypes (Rainheads vs
+// Handshowers…) render as a small label on each card instead of their own
+// full-width header row, so singleton subs don't sprawl vertically.
+function OptionButtons({ items, selectedId, onPick }: {
+  items: ModelOption[]; selectedId: string; onPick: (id: string) => void;
+}) {
+  const tagFallback = (m: ModelOption) =>
+    m.variant.tags.find((t) => !["minimal", "modern", "zen", "classic", "luxury", "heritage", "bold"].includes(t)) ?? m.variant.kind;
+  const sorted = [...items].sort(
+    (a, b) => (a.variant.sub ?? "").localeCompare(b.variant.sub ?? "") || a.label.localeCompare(b.label)
+  );
+  return (
+    <>
+      {sorted.map((m) => (
+        <TrayButton key={m.id} selected={selectedId === m.id} title={variantTitle(m)} onPick={() => onPick(m.id)}
+          thumb={m.thumb || undefined} thumbLabel={tagFallback(m)} label={m.label} sub={m.variant.sub} />
+      ))}
+    </>
+  );
+}
+
 function SwapTray({
-  fixtures, models, onModelChange,
+  fixtures, models, onModelChange, onFaucetChange, onSeatChange, onScreenChange,
 }: {
   fixtures: MetreFixture[];
   models: Record<number, string>;
   onModelChange: (id: number, model: string) => void;
+  onFaucetChange: (id: number, faucet: string) => void;
+  onSeatChange: (id: number, seat: string) => void;
+  onScreenChange: (id: number, screen: string) => void;
 }) {
   const swappable = fixtures.filter((f) => optionsForKind(f.kind).length > 0);
   if (swappable.length === 0) return null;
+  const taps = modelOptions().filter((m) => m.variant.kind === "Faucet");
   return (
     <div className="mt-6 border-t border-[#333] pt-6">
       <p className="label-caps text-[#999]">Swap models — catalogue variants (AI picks seeded)</p>
       {swappable.map((f) => {
         const sel = models[f.id] ?? PROCEDURAL;
+        const kindOpts = optionsForKind(f.kind);
         return (
           <div key={f.id} className="mt-4">
             <p className="text-[14px] text-white/80">{f.kind}</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              <button
-                onClick={() => onModelChange(f.id, PROCEDURAL)}
-                className={`overflow-hidden rounded-[10px] border text-left transition-colors ${sel === PROCEDURAL ? "border-[#f5f5f0]" : "border-[#333] hover:border-[#666]"}`}
-              >
-                <span className="flex h-[72px] w-[96px] items-center justify-center bg-gradient-to-br from-[#262626] to-[#0c0c0c] text-[11px] uppercase tracking-[0.08em] text-[#999]">Studio</span>
-                <span className="block px-2 py-1 text-[11px] text-[#999]">Procedural</span>
-              </button>
-              {optionsForKind(f.kind).map((m) => (
-                <button
-                  key={m.id}
-                  onClick={() => onModelChange(f.id, m.id)}
-                  className={`overflow-hidden rounded-[10px] border text-left transition-colors ${sel === m.id ? "border-[#f5f5f0]" : "border-[#333] hover:border-[#666]"}`}
-                  title={`${m.variant.tags.join(" · ")} — ₹${m.variant.price_inr.toLocaleString("en-IN")}${m.glb ? "" : " (procedural until GLB lands)"}`}
-                >
-                  {m.thumb ? (
-                    <img src={m.thumb} alt={m.label} width={96} height={72} className="block h-[72px] w-[96px] object-cover" loading="lazy" />
-                  ) : (
-                    <span className="flex h-[72px] w-[96px] items-center justify-center bg-gradient-to-br from-[#262626] to-[#0c0c0c] text-[11px] uppercase tracking-[0.08em] text-[#999]">
-                      {m.variant.tags.find((t) => !["minimal", "modern", "zen", "classic", "luxury", "heritage", "bold"].includes(t)) ?? m.variant.kind}
-                    </span>
-                  )}
-                  <span className="block max-w-[96px] truncate px-2 py-1 text-[11px] text-[#999]">{m.label}</span>
-                </button>
-              ))}
-            </div>
+            {f.kind === "Basin" ? (
+              <>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <TrayButton selected={sel === PROCEDURAL} title="Studio procedural basin" onPick={() => onModelChange(f.id, PROCEDURAL)} thumbLabel="STUDIO" label="Procedural" sub="Studio" />
+                  <OptionButtons items={kindOpts} selectedId={sel} onPick={(id) => onModelChange(f.id, id)} />
+                </div>
+                <p className="mt-2 text-[12px] text-[#999]">Tap — swaps without changing the basin</p>
+                <div className="mt-1 flex flex-wrap gap-2">
+                  <TrayButton selected={!f.faucet} title="No tap" onPick={() => onFaucetChange(f.id, "")} thumbLabel="NONE" label="No tap" />
+                  <OptionButtons items={taps} selectedId={f.faucet ?? ""} onPick={(id) => onFaucetChange(f.id, id)} />
+                </div>
+              </>
+            ) : f.kind === "Shower" ? (
+              <>
+                <p className="mt-2 text-[12px] uppercase tracking-[0.08em] text-[#666]">
+                  Head — {kindOpts.filter((m) => m.variant.fit === "head").length + 1} options
+                </p>
+                <div className="mt-1 flex flex-wrap gap-2">
+                  <TrayButton selected={sel === PROCEDURAL} title="Studio procedural head" onPick={() => onModelChange(f.id, PROCEDURAL)} thumbLabel="STUDIO" label="Procedural" sub="Studio" />
+                  <OptionButtons items={kindOpts.filter((m) => m.variant.fit === "head")} selectedId={sel} onPick={(id) => onModelChange(f.id, id)} />
+                </div>
+                <p className="mt-3 text-[12px] uppercase tracking-[0.08em] text-[#666]">
+                  Enclosure — swaps without changing the head · {kindOpts.filter((m) => m.variant.fit === "screen").length + 1} options
+                </p>
+                <div className="mt-1 flex flex-wrap gap-2">
+                  <TrayButton selected={!f.screen} title="Studio procedural glass" onPick={() => onScreenChange(f.id, "")} thumbLabel="GLASS" label="Procedural" sub="Studio" />
+                  <OptionButtons items={kindOpts.filter((m) => m.variant.fit === "screen")} selectedId={f.screen ?? ""} onPick={(id) => onScreenChange(f.id, id)} />
+                </div>
+              </>
+            ) : f.kind === "Toilet" ? (
+              <>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <TrayButton selected={sel === PROCEDURAL} title="Studio procedural WC" onPick={() => onModelChange(f.id, PROCEDURAL)} thumbLabel="STUDIO" label="Procedural" sub="Studio" />
+                  <OptionButtons items={kindOpts.filter((m) => m.variant.fit === "footprint")} selectedId={sel} onPick={(id) => onModelChange(f.id, id)} />
+                </div>
+                <p className="mt-2 text-[12px] text-[#999]">Seat — swaps without changing the WC</p>
+                <div className="mt-1 flex flex-wrap gap-2">
+                  <TrayButton selected={!f.seat} title="No bidet seat" onPick={() => onSeatChange(f.id, "")} thumbLabel="NONE" label="No seat" />
+                  <OptionButtons items={kindOpts.filter((m) => m.variant.fit === "seat")} selectedId={f.seat ?? ""} onPick={(id) => onSeatChange(f.id, id)} />
+                </div>
+              </>
+            ) : (
+              <div className="mt-2 flex flex-wrap gap-2">
+                <TrayButton selected={sel === PROCEDURAL} title="Studio procedural" onPick={() => onModelChange(f.id, PROCEDURAL)} thumbLabel="STUDIO" label="Procedural" sub="Studio" />
+                <OptionButtons items={kindOpts} selectedId={sel} onPick={(id) => onModelChange(f.id, id)} />
+              </div>
+            )}
           </div>
         );
       })}
@@ -749,13 +868,16 @@ function SwapTray({
 }
 
 export default function RoomCanvas({
-  room, fixtures, openings, models, onModelChange,
+  room, fixtures, openings, models, onModelChange, onFaucetChange, onSeatChange, onScreenChange,
 }: {
   room: RoomDims;
   fixtures: MetreFixture[];
   openings: MetreOpening[];
   models: Record<number, string>;
   onModelChange: (id: number, model: string) => void;
+  onFaucetChange: (id: number, faucet: string) => void;
+  onSeatChange: (id: number, seat: string) => void;
+  onScreenChange: (id: number, screen: string) => void;
 }) {
   const [cutaway, setCutaway] = useState(true);
   const [labels, setLabels] = useState(true);
@@ -776,13 +898,15 @@ export default function RoomCanvas({
 
   return (
     <div>
-      <div style={{ height: 560, borderRadius: 10, overflow: "hidden", background: "#000" }}>
+      <div style={{ height: 560, borderRadius: 10, overflow: "hidden", background: "#000", position: "relative" }}>
+        {/* PCFSoft (native): wide filtered edges without drei's PCSS patch,
+            which assumed RGBA-packed shadow maps removed in three ≥ r165. */}
         <Canvas
-          shadows="percentage"
+          shadows="soft"
           dpr={[1, 2]}
           camera={{ position: [4.6, 3.8, 6.2], fov: 42 }}
           gl={{ antialias: true, localClippingEnabled: true }}
-          onCreated={({ gl }) => { gl.toneMappingExposure = 1.15; }}
+          onCreated={({ gl }) => { gl.toneMappingExposure = 1.28; }}
         >
           <color attach="background" args={["#000000"]} />
           <Suspense fallback={null}>
@@ -801,6 +925,15 @@ export default function RoomCanvas({
             />
           </Suspense>
         </Canvas>
+        {/* cinematic vignette — pulls the eye to the lit centre, darkens the
+            flat horizon where walls meet void */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute", inset: 0, pointerEvents: "none",
+            background: "radial-gradient(120% 95% at 50% 42%, transparent 55%, rgba(0,0,0,0.55) 100%)",
+          }}
+        />
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
         <button onClick={() => nudge(-Math.PI / 4)} className="btn-ghost !px-3 !py-2 !text-[13px]">⟲ 45°</button>
@@ -851,7 +984,7 @@ export default function RoomCanvas({
             : `No decor placed yet — add some on the 2D canvas.`}
         </p>
       </div>
-      <SwapTray fixtures={fixtures} models={models} onModelChange={onModelChange} />
+      <SwapTray fixtures={fixtures} models={models} onModelChange={onModelChange} onFaucetChange={onFaucetChange} onSeatChange={onSeatChange} onScreenChange={onScreenChange} />
     </div>
   );
 }
@@ -865,6 +998,12 @@ useGLTF.preload("/models/22170-plain.glb");
 useGLTF.preload("/models/13696-G-plain.glb");
 useGLTF.preload("/models/707002-D3-plain.glb");
 useGLTF.preload("/models/706008-L-plain.glb");
+useGLTF.preload("/models/14800-plain.glb");
+useGLTF.preload("/models/97100-4-plain.glb");
+useGLTF.preload("/models/6366-plain.glb");
+useGLTF.preload("/models/13688-plain.glb");
+useGLTF.preload("/models/3493-plain.glb");
+useGLTF.preload("/models/18751-plain.glb");
 useGLTF.preload("/models/decor-plant-plain.glb");
 useGLTF.preload("/models/decor-plant-pot-plain.glb");
 useGLTF.preload("/models/decor-stool-plain.glb");
