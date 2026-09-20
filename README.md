@@ -193,7 +193,7 @@ exact error text + the step above that failed.
 - **Working model:** this repo + live at https://track-1-kohler.vercel.app
 - **Presentation deck:** `docs/PITCH_DECK.html` (landscape PDF after review)
 - **Prompts documentation:** `docs/PROMPTS_DOCUMENTATION.pdf` (14 pages, source: `docs/prompts-documentation.html`) — every feature told through the prompts that built it, plus guardrail matrix and prompt-craft conventions; engineering detail in `docs/AI_IMPLEMENTATION.md` (+ `docs/MANUAL_GUIDE.md`)
-- **Video walkthrough:** Drive link to be added before sending
+- **Video walkthrough:** https://drive.google.com/drive/folders/1B7iiUjZkrj_AxfqA4D65gCmeM2WhWakV?usp=sharing
 
 [ai-impl]: ./docs/AI_IMPLEMENTATION.md
 [demo]: https://track-1-kohler.vercel.app
